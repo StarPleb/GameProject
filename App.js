@@ -15,5 +15,21 @@ export default function App() {
   )
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F0E3",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  halfContainer: {
+    flex: 0.5,
+    backgroundColor: "#F8F0E3",
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
+
 AppRegistry.registerComponent("App", () => App);
 
