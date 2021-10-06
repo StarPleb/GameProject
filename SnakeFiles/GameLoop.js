@@ -103,8 +103,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
 
             tail.elements = [[head.position[0], head.position[1]]].concat(tail.elements);
             ticker.tailSlicing = false
-            food.position[0] = randomBetween(2, Constants.GRID_SIZE - 3);
-            food.position[1] = randomBetween(2, Constants.GRID_SIZE - 3);
+            food.position[0] = randomBetween(3, Constants.GRID_SIZE - 3);
+            food.position[1] = randomBetween(3, Constants.GRID_SIZE - 3);
         }
     }
     return entities;
