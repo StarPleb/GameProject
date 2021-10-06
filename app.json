@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "GameProject",
-    "slug": "GameProject",
+    "name": "SnekAndMore",
+    "slug": "snakegame",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "the \"URL SLUG\" says it all."
   }
 }

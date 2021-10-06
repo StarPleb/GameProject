@@ -1,7 +1,7 @@
 import Constants from './Constants';
 
 function randomBetween (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 
@@ -49,14 +49,7 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     } else {
         //The player hasn't died
         ticker.tickCount += 1
-        head.position[0] += head.xspeed;
-        head.position[1] += head.yspeed;
 
-        for(let i =0; i < tail.elements.length; i++){ //Checks for collision with tail
-            if(head.position[0] === tail.elements[i][0] && head.position[1] === tail.elements[i][1]){
-                dispatch({type: "game-over"})
-            }
-        }
 
         if (ticker.tickCount == ticksToWait) { //Moves on correct 'tick'
             ticker.tailSlicing = true,
@@ -79,10 +72,24 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
                 head.xspeed = Constants.SNAKE_SPEED;
                 head.yspeed = 0;
                 head.hasMoved = true
+
+
             }
+   
         } else { //In between ticks
             head.hasMoved = false
         }
+
+        head.position[0] += head.xspeed;
+        head.position[1] += head.yspeed;
+        
+
+        for(let i =0; i < tail.elements.length; i++){ //Checks for collision with tail
+            if(head.position[0] === tail.elements[i][0] && head.position[1] === tail.elements[i][1]){
+                dispatch({type: "game-over"})
+            }
+        }
+
 
 
         if (ticker.tailSlicing) {
@@ -103,8 +110,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
 
             tail.elements = [[head.position[0], head.position[1]]].concat(tail.elements);
             ticker.tailSlicing = false
-            food.position[0] = randomBetween(3, Constants.GRID_SIZE - 3);
-            food.position[1] = randomBetween(3, Constants.GRID_SIZE - 3);
+            food.position[0] = randomBetween(2, Constants.GRID_SIZE - 2);
+            food.position[1] = randomBetween(2, Constants.GRID_SIZE - 2);
         }
     }
     return entities;
