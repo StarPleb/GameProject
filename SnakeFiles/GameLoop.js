@@ -12,8 +12,6 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     let tail = entities.tail;
     let ticker = entities.ticker;
     let ticksToWait = 1 / Constants.SNAKE_SPEED; //The ticks it takes for the snake to move one unit on grid
-    console.log(`ticks to wait is ${ticksToWait}`);
-
 
 
     if (events.length) { //Sets move for next 'tick'
