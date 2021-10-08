@@ -1,11 +1,15 @@
 import Constants from './Constants';
+import Grid from './Grid';
 
 function randomBetween (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+var GridThing = new Grid
+GridThing.initializeArray()
 
 const GameLoop = (entities, { touches, dispatch, events }) => {
+
 
     let head = entities.head;
     let food = entities.food;
@@ -28,6 +32,9 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
             } else if (events[i].type === "move-right") {
                 console.log('Going right!"')
                 head.currentMove = "move-right"
+            } else if (events[i].type === "change-shit"){
+                GridThing.changeValues()
+                GridThing.printStuff()
             }
         }
     }
@@ -47,6 +54,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     } else {
         //The player hasn't died
         ticker.tickCount += 1
+
+        GridThing.checkForPlayer(head.position[0], head.position[1])
 
 
         if (ticker.tickCount == ticksToWait) { //Moves on correct 'tick'
@@ -110,6 +119,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
             ticker.tailSlicing = false
             food.position[0] = randomBetween(2, Constants.GRID_SIZE - 2);
             food.position[1] = randomBetween(2, Constants.GRID_SIZE - 2);
+            GridThing.printStuff()
+
         }
     }
     return entities;
