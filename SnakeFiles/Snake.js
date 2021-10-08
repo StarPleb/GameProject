@@ -9,12 +9,14 @@ import Food from './Food';
 import Tail from './Tail';
 import { GameLoop } from './GameLoop.js'
 import { Audio } from 'expo-av';
+import Grid from './Grid.js';
 
 
 
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
+
 
 
 function randomBetween(min, max) {
@@ -33,7 +35,8 @@ export default class Snake extends Component {
     this.state = {
       running: true,
       score: 0,
-      myArr: []
+      myArr: [],
+      showGrid: false
     }
 
   }
@@ -144,6 +147,7 @@ export default class Snake extends Component {
   onPressUp = () => { this.engine.dispatch({ type: "move-up" }) }
   onPressDown = () => { this.engine.dispatch({ type: "move-down" }) }
   onPressTryAgain = () => { this.reset() }
+  onPressGrid = () => { this.setState({ showGrid: !this.state.showGrid }) }
 
 
   render() {
@@ -159,10 +163,11 @@ export default class Snake extends Component {
 
     return (
       <View style={styles.container}>
+        {this.state.showGrid && <Grid/>}
         <View style={styles.halfContainer}>
           <GameEngine
             ref={(ref) => { this.engine = ref }}
-            style={{ width: this.boardSize, height: this.boardSize, flex: null, position: 'absolute', backgroundColor: this.state.running ? "#5ba81d" : "gray"}}
+            style={{ width: this.boardSize, height: this.boardSize, flex: null, position: 'absolute', backgroundColor: this.state.running ? "#5ba81d" : "gray" }}
             entities={{
               head: { position: [0, 0], xspeed: Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, currentMove: "move-right", hasMoved: "false", renderer: <Head /> },
               food: {
@@ -199,7 +204,9 @@ export default class Snake extends Component {
                 <View style={styles.control} />
               </TouchableOpacity>
 
-              <View style={[styles.control, { backgroundColor: "#454545" }]} />
+              <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onPressGrid}>
+                <View style={[styles.control, { backgroundColor: "#454545" }]} />
+              </TouchableOpacity>
 
               <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onPressRight}>
                 <View style={styles.control} />
