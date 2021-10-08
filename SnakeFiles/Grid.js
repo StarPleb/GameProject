@@ -8,58 +8,60 @@ function randomBetween (min, max) {
 }
 
 
-export default class Grid extends Component {
 
+export default class Grid {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        this.x_length = Constants.GRID_SIZE
+        this.y_length = Constants.GRID_SIZE
         this.boardSize = Constants.GRID_SIZE * Constants.CELL_SIZE;
-        this.state={
-            gridArray: [[]]
-        }
+        this.gridArray = []
+
     }
 
-
-    render() {
-
-        const x_length = Constants.GRID_SIZE
-        const y_length = Constants.GRID_SIZE
-
-        for (let i = 0; i < x_length; i++) {
-            for (let j = 0; j < y_length; j++) {
-
-                let a1 = randomBetween(0, 255)
-                let a2 = randomBetween(0, 255)
-                let a3 = randomBetween(0, 255)
-                
-                let a = (<GridNode xValue = {i} yValue = {j} color = {`rgb(${a1},${a2},${a3})`}
-            />)
-                this.state.gridArray.push(a)
+    initializeArray(){
+        for (let i = 0; i <= this.x_length; i++) {
+            var tempArray = []
+            for (let j = 0; j <= this.y_length; j++) {
+                let a = new GridNode(i, j)
+                tempArray.push(a)
                 console.log('[' + i + ',' + j + ']');
             }
+            this.gridArray.push(tempArray)
         }
-
-        let gridList = this.state.gridArray.map((el, idx) => {
-            return(
-                <View key ={idx}>
-                {el}
-                </View>
-            )
-        })
-
-
-
-        return (
-            <View style = {styles.container, {zIndex: 1, position: 'absolute', justifyContent: 'flex-start', top: 371}}>
-                <View style = {styles.halfContainer}>
-                    <View style={{ zIndex: 1, width: this.boardSize, height: this.boardSize, position: 'absolute'}}>
-                        {gridList}
-                    </View>
-                </View>
-            </View>
-        )
     }
-}
+
+    printStuff(){
+
+        console.log("Grid printStuff() method")
+        this.gridArray.forEach((row) => {
+            row.forEach((item) => { //Column
+                console.log(item.xValue, item.yValue);
+            });
+        });
+
+    }
+
+    changeValues(){
+
+        this.gridArray.forEach((row) => {
+            row.forEach((item) => { //Column
+                item.xValue = item.xValue + 10
+                item.yValue = item.yValue + 10
+            });
+        });
+    }
+
+    checkForPlayer(headX, headY){
+        let i = Math.round(headX)
+        let j = Math.round(headY)
+        this.gridArray[i][j].hasPlayer = true
+        console.log(`Position ${[i, j]} has player is ${this.gridArray[i][j].hasPlayer}`)
+    }
+
+    }
+
+    
 
 const styles = StyleSheet.create({
     container: {

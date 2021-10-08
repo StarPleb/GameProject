@@ -4,30 +4,16 @@ import { AppRegistry, StyleSheet, Pressable, TouchableHighlight, TouchableOpacit
 
 
 
-export default class GridNode extends PureComponent{
+export default class GridNode {
 
-
-    constructor(props){
-        super(props);
-        this.hasPlayer = false
-        this.size = Constants.CELL_SIZE
+    constructor(xInput, yInput){
+        this.hasPlayer = false,
+        this.size = Constants.CELL_SIZE,
+        this.xValue = xInput,
+        this.yValue = yInput
     }
 
-    render() {
 
-        const x_length = Constants.GRID_SIZE * Constants.CELL_SIZE
-        const y_length = Constants.GRID_SIZE * Constants.CELL_SIZE
-
-
-        return(
-            <View style = {{zIndex: 1, width: this.size,
-                height: this.size,
-                backgroundColor: this.props.color, 
-                position: 'absolute', 
-                left: this.props.xValue * this.size, 
-                top: this.props.yValue * this.size}}/>
-        )
-    }
 }
 
 const styles = StyleSheet.create({

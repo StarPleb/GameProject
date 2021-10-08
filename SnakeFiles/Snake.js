@@ -17,7 +17,7 @@ import Grid from './Grid.js';
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 
-
+var GridThing = new Grid
 
 function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -97,7 +97,7 @@ export default class Snake extends Component {
       this.setState({
         running: true,
       })
-      console.log("Running!")
+      console.log(GridThing.state.gridArray[0][0])
 
     } else if (e.type === "collision") {
       this.eatSound.playFromPositionAsync(0);
@@ -148,6 +148,8 @@ export default class Snake extends Component {
   onPressDown = () => { this.engine.dispatch({ type: "move-down" }) }
   onPressTryAgain = () => { this.reset() }
   onPressGrid = () => { this.setState({ showGrid: !this.state.showGrid }) }
+  onChangeShit = () => { this.engine.dispatch({ type: "change-shit" }) }
+
 
 
   render() {
@@ -204,7 +206,7 @@ export default class Snake extends Component {
                 <View style={styles.control} />
               </TouchableOpacity>
 
-              <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onPressGrid}>
+              <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onChangeShit}>
                 <View style={[styles.control, { backgroundColor: "#454545" }]} />
               </TouchableOpacity>
 
