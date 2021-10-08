@@ -130,7 +130,7 @@ export default class Snake extends Component {
 
   showDeathScreen() {
     let temp = (
-      <Text key={null} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
+      <Text style={{ flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
         Tap to try again.
       </Text>
     )
@@ -140,17 +140,20 @@ export default class Snake extends Component {
     })
   }
 
+  onPressLeft = () => { this.engine.dispatch({ type: "move-left" }) }
+  onPressRight = () => { this.engine.dispatch({ type: "move-right" }) }
+  onPressUp = () => { this.engine.dispatch({ type: "move-up" }) }
+  onPressDown = () => { this.engine.dispatch({ type: "move-down" }) }
+  onPressTryAgain = () => {this.reset()}
+
+
   render() {
 
     let Arr = this.state.myArr.map((a, i) => {
       return (
-        <View style={styles.container, { flex: 1, position: 'absolute', flexDirection: 'column', justifyContent: 'center' }} key={i}>
-          <TouchableOpacity style={{ zIndex: 1 }} onPress={this.reset}>
-            <View>
+          <TouchableOpacity key = {i} style={{ zIndex: 0.5}} onPress={this.onPressTryAgain}>
               {a}
-            </View>
-          </TouchableOpacity>
-        </View>)
+          </TouchableOpacity>)
     })
 
 
@@ -175,33 +178,36 @@ export default class Snake extends Component {
             running={this.state.running}
 
           />
-          <Text style={{ justifyContent: 'center', position: 'absolute', top: 1.2 * this.boardSize, flexDirection: 'row', fontSize: 20 }}>
+        </View>
+
+        <View style = {styles.container, {zIndex: 1, position: 'absolute'}}>
+        <Text style={{ zIndex: 1, alignSelf: 'center', fontSize: 20 }}>
             Score: {this.state.score}
           </Text>
-        </View>
         {Arr}
+        </View>
 
         <View style={styles.halfContainer}>
 
           <View style={styles.controls}>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{ zIndex: 1 }} onPress={() => { this.engine.dispatch({ type: "move-up" }) }}>
+              <TouchableOpacity style={{zIndex: 0.5, backgroundColor: 'pink'}} onPress={this.onPressUp}>
                 <View style={styles.control} />
               </TouchableOpacity>
             </View>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{ zIndex: 1 }} onPress={() => { this.engine.dispatch({ type: "move-left" }) }}>
+              <TouchableOpacity style={{ zIndex: 0.5}} onPress={this.onPressLeft}>
                 <View style={styles.control} />
               </TouchableOpacity>
 
               <View style={[styles.control, { backgroundColor: "#454545" }]} />
 
-              <TouchableOpacity style={{ zIndex: 1 }} onPress={() => { this.engine.dispatch({ type: "move-right" }) }}>
+              <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onPressRight}>
                 <View style={styles.control} />
               </TouchableOpacity>
             </View>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{ zIndex: 1 }} onPress={() => { this.engine.dispatch({ type: "move-down" }) }}>
+              <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink'}} onPress={this.onPressDown}>
                 <View style={styles.control} />
               </TouchableOpacity>
             </View>
@@ -238,9 +244,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute'
+    // position: 'absolute'
+
   },
   controlRow: {
+    flex: 1,
     width: 300,
     height: 100,
     flexDirection: 'row',
@@ -252,8 +260,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: '#454545',
-    alignItems: 'center',
-    justifyContent: 'center'
 
   },
   text: {
