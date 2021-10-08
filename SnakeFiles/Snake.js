@@ -55,13 +55,23 @@ export default class Snake extends Component {
     });
     this.eatSound = new Audio.Sound()
     this.dieSound = new Audio.Sound()
+    this.gameMusic = new Audio.Sound()
 
     const status = {
-      shouldPlay: false
+      shouldPlay: false,
+      volume: 0.6
+    }
+
+    const status2 = {
+      shouldPlay: true,
+      volume: 0.7,
+      isLooping: true
     }
 
     await this.eatSound.loadAsync(require('./sounds/collectApple.wav'), status)
     await this.dieSound.loadAsync(require('./sounds/explosion_03.wav'), status)
+    await this.gameMusic.loadAsync(require('./sounds/game_music.mp3'), status2)
+
 
   }
 

@@ -40,15 +40,15 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     }
 
     if (
-        head.position[0] + head.xspeed < 0 ||
-        head.position[0] + head.xspeed >= Constants.GRID_SIZE - 1 ||
-        head.position[1] + head.yspeed < 0 ||
-        head.position[1] + head.yspeed >= Constants.GRID_SIZE - 1
+        head.position[0] < -0.2 ||
+        head.position[0] >= Constants.GRID_SIZE - 0.8 ||
+        head.position[1] < -0.2 ||
+        head.position[1] >= Constants.GRID_SIZE - 0.8
     ) {
         //Game Over
         console.log(`Game Over!`)
         console.log(`${Constants.GRID_SIZE}`)
-        console.log(`location is ${head.position[0]}`)
+        console.log(`location is ${head.position[0]} and ${head.position[1]}`)
         dispatch({ type: 'game-over' })
 
     } else {
