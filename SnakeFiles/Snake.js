@@ -66,26 +66,25 @@ export default class Snake extends Component {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async playEatSound() {
-    this.eatSound.playAsync();
-    await this.sleep(1100)
-    this.eatSound.setPositionAsync(0)
+  // async playEatSound() {
+  //   this.eatSound.playAsync()
+  //   await this.sleep(1200)
+  //   this.eatSound.setPositionAsync(0)
 
-  }
+  // }
 
-  async playDieSound() {
-    this.dieSound.playAsync();
-    await this.sleep(1500)
-    this.dieSound.setPositionAsync(0)
-  }
+  // async playDieSound() {
+  //   this.dieSound.playAsync()
+  //   await this.sleep(1200)
+  //   this.dieSound.setPositionAsync(0)
+  // }
 
 
   onEvent = (e) => { //Event handler for the <GameEngine/>
     if (e.type === "game-over") {
       if (this.state.running) {
-        this.playDieSound()
+        this.dieSound.playFromPositionAsync(0)
         this.showDeathScreen()
-        alert("Game Over");
       }
       this.setState({
         running: false
@@ -98,7 +97,7 @@ export default class Snake extends Component {
       console.log("Running!")
 
     } else if (e.type === "collision") {
-      this.playEatSound()
+      this.eatSound.playFromPositionAsync(0);
       this.setState({
         score: this.state.score + 1
       })
@@ -144,16 +143,16 @@ export default class Snake extends Component {
   onPressRight = () => { this.engine.dispatch({ type: "move-right" }) }
   onPressUp = () => { this.engine.dispatch({ type: "move-up" }) }
   onPressDown = () => { this.engine.dispatch({ type: "move-down" }) }
-  onPressTryAgain = () => {this.reset()}
+  onPressTryAgain = () => { this.reset() }
 
 
   render() {
 
     let Arr = this.state.myArr.map((a, i) => {
       return (
-          <TouchableOpacity key = {i} style={{ zIndex: 0.5}} onPress={this.onPressTryAgain}>
-              {a}
-          </TouchableOpacity>)
+        <TouchableOpacity key={i} style={{ zIndex: 0.5 }} onPress={this.onPressTryAgain}>
+          {a}
+        </TouchableOpacity>)
     })
 
 
@@ -163,7 +162,7 @@ export default class Snake extends Component {
         <View style={styles.halfContainer}>
           <GameEngine
             ref={(ref) => { this.engine = ref }}
-            style={{ width: this.boardSize, height: this.boardSize, flex: null, position: 'absolute', backgroundColor: "#5ba81d" }}
+            style={{ width: this.boardSize, height: this.boardSize, flex: null, position: 'absolute', backgroundColor: this.state.running ? "#5ba81d" : "gray"}}
             entities={{
               head: { position: [0, 0], xspeed: Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, currentMove: "move-right", hasMoved: "false", renderer: <Head /> },
               food: {
@@ -180,23 +179,23 @@ export default class Snake extends Component {
           />
         </View>
 
-        <View style = {styles.container, {zIndex: 1, position: 'absolute'}}>
-        <Text style={{ zIndex: 1, alignSelf: 'center', fontSize: 20 }}>
+        <View style={styles.container, { zIndex: 1, position: 'absolute' }}>
+          <Text style={{ zIndex: 1, alignSelf: 'center', fontSize: 20 }}>
             Score: {this.state.score}
           </Text>
-        {Arr}
+          {Arr}
         </View>
 
         <View style={styles.halfContainer}>
 
           <View style={styles.controls}>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{zIndex: 0.5, backgroundColor: 'pink'}} onPress={this.onPressUp}>
+              <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={this.onPressUp}>
                 <View style={styles.control} />
               </TouchableOpacity>
             </View>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{ zIndex: 0.5}} onPress={this.onPressLeft}>
+              <TouchableOpacity style={{ zIndex: 0.5 }} onPress={this.onPressLeft}>
                 <View style={styles.control} />
               </TouchableOpacity>
 
@@ -207,7 +206,7 @@ export default class Snake extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.controlRow}>
-              <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink'}} onPress={this.onPressDown}>
+              <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={this.onPressDown}>
                 <View style={styles.control} />
               </TouchableOpacity>
             </View>
