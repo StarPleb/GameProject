@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Constants from './Constants';
 import GridNode from './GridNode';
-import { AppRegistry, StyleSheet, Pressable, TouchableHighlight, TouchableOpacity, Text, View, Dimensions, Alert } from 'react-native';
 
 function randomBetween (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -60,59 +59,3 @@ export default class Grid {
     }
 
     }
-
-    
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#F8F0E3",
-      justifyContent: 'center',
-      flexDirection: 'column'
-    },
-    halfContainer: {
-      flex: 0.5,
-      backgroundColor: "#F8F0E3",
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-      flexDirection: 'column'
-    },
-    dividingContainer: {
-      flex: 0.1,
-      backgroundColor: "#F8F0E3",
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    controls: {
-      width: 300,
-      height: 300,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      // position: 'absolute'
-  
-    },
-    controlRow: {
-      flex: 1,
-      width: 300,
-      height: 100,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      backgroundColor: null
-    },
-    control: {
-      width: 100,
-      height: 100,
-      backgroundColor: '#454545',
-  
-    },
-    text: {
-      fontSize: 15,
-      flex: 1,
-      alignSelf:
-        'center',
-      color: 'black',
-      textAlign: 'center'
-    },
-  });
