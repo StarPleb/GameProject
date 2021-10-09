@@ -7,6 +7,8 @@ import Constants from './Constants.js';
 import Head from './Head';
 import Food from './Food';
 import Tail from './Tail';
+import EnemyHead from './EnemyHead'
+import EnemyTail from './EnemyTail'
 import { GameLoop } from './GameLoop.js'
 import { Audio } from 'expo-av';
 import Grid from './Grid.js';
@@ -119,13 +121,16 @@ export default class Snake extends Component {
 
   reset = () => { //Resets game to initial state
     this.engine.swap({
-      head: { position: [0, 0], xspeed: Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, renderer: <Head /> },
+      head: { position: [0, 0], xspeed: Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, currentMove: "move-right", hasMoved: "false", renderer: <Head /> },
       food: {
         position: [randomBetween(0, Constants.GRID_SIZE - 1), randomBetween(0, Constants.GRID_SIZE - 1)],
         size: Constants.CELL_SIZE, renderer: <Food />
       },
       tail: { size: Constants.CELL_SIZE, elements: [], renderer: <Tail /> },
       ticker: { tickCount: 0, tickerRunning: false, tailSlicing: true },
+      enemyHead: { justSpawned: true, position: [randomBetween(6, Constants.GRID_SIZE - 1), randomBetween(6, Constants.GRID_SIZE - 1)], xspeed: -Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, renderer: <EnemyHead /> },
+      enemyTail: { size: Constants.CELL_SIZE, elements: [], renderer: <EnemyTail /> },
+      enemyTicker: { tickCount: 0, tickerRunning: false },
     })
     this.setState({
       running: true,
@@ -188,6 +193,10 @@ export default class Snake extends Component {
               },
               tail: { size: Constants.CELL_SIZE, elements: [], renderer: <Tail /> },
               ticker: { tickCount: 0, tickerRunning: false, tailSlicing: true },
+              enemyHead: { justSpawned: true, position: [randomBetween(6, Constants.GRID_SIZE - 1), randomBetween(6, Constants.GRID_SIZE - 1)], xspeed: -Constants.SNAKE_SPEED, yspeed: 0, size: Constants.CELL_SIZE, renderer: <EnemyHead /> },
+              enemyTail: { size: Constants.CELL_SIZE, elements: [], renderer: <EnemyTail /> },
+              enemyTicker: { tickCount: 0, tickerRunning: false },
+
             }}
             systems={[GameLoop]}
             onEvent={this.onEvent}
