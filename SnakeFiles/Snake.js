@@ -25,6 +25,26 @@ function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+const DeadText = (props) => {
+
+  return(
+    <TouchableOpacity style={{ zIndex: 0.5, alignSelf: 'center' }} onPress={props.eventThing}>
+    <Text style={{ flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
+    Tap to try again.
+  </Text>
+  </TouchableOpacity>
+  )
+}
+
+const NotDeadText = () => {
+
+  return(
+    <Text style={{ flexDirection: 'row', color: '#F8F0E3', justifyContent: 'center', fontSize: 20 }}>
+    Tap to try again.
+  </Text>
+  )
+}
+
 
 
 export default class Snake extends Component {
@@ -38,7 +58,8 @@ export default class Snake extends Component {
       running: true,
       score: 0,
       myArr: [],
-      showGrid: false
+      showGrid: false,
+      pauseCounter: 2
     }
 
   }
@@ -58,6 +79,12 @@ export default class Snake extends Component {
     this.eatSound = new Audio.Sound()
     this.dieSound = new Audio.Sound()
     this.gameMusic = new Audio.Sound()
+    this.pauseSound = new Audio.Sound()
+    this.resumeSound = new Audio.Sound()
+
+
+
+
 
     const status = {
       shouldPlay: false,
@@ -70,14 +97,22 @@ export default class Snake extends Component {
       isLooping: true
     }
 
-    await this.eatSound.loadAsync(require('./sounds/collectApple.wav'), status)
-    await this.dieSound.loadAsync(require('./sounds/explosion_03.wav'), status)
+
     await this.gameMusic.loadAsync(require('./sounds/game_music.mp3'), status2)
+    await this.dieSound.loadAsync(require('./sounds/explosion_03.wav'), status)
+    await this.eatSound.loadAsync(require('./sounds/collectApple.wav'), status)
+    await this.pauseSound.loadAsync(require('./sounds/pause.wav'), status)
+    await this.resumeSound.loadAsync(require('./sounds/resume.wav'), status)
+
+
+    let callForGameMusic = await this.gameMusic.getStatusAsync()
+
+
 
 
   }
 
-  sleep(ms) { //Useful for resetting a sound AFTER it has been played. 
+  sleep(ms) { //Useful for async functions 
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
@@ -99,7 +134,6 @@ export default class Snake extends Component {
     if (e.type === "game-over") {
       if (this.state.running) {
         this.dieSound.playFromPositionAsync(0)
-        this.showDeathScreen()
       }
       this.setState({
         running: false
@@ -115,6 +149,18 @@ export default class Snake extends Component {
       this.eatSound.playFromPositionAsync(0);
       this.setState({
         score: this.state.score + 1
+      })
+    } else if (e.type === "paused"){
+      if(this.state.pauseCounter%2===0){
+        this.pauseSound.playFromPositionAsync(0)
+        this.engine.stop()
+      } else{
+        this.engine.start()
+        this.resumeSound.playFromPositionAsync(0)
+      }
+      
+      this.setState({
+        pauseCounter: this.state.pauseCounter + 1
       })
     }
   }
@@ -144,43 +190,23 @@ export default class Snake extends Component {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-
-  showDeathScreen() {
-    let temp = (
-      <Text style={{ flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
-        Tap to try again.
-      </Text>
-    )
-    this.state.myArr.push(temp)
-    this.setState({
-      myArr: this.state.myArr
-    })
-  }
-
   onPressLeft = () => { this.engine.dispatch({ type: "move-left" }) }
   onPressRight = () => { this.engine.dispatch({ type: "move-right" }) }
   onPressUp = () => { this.engine.dispatch({ type: "move-up" }) }
   onPressDown = () => { this.engine.dispatch({ type: "move-down" }) }
   onPressTryAgain = () => { this.reset() }
   onPressGrid = () => { this.setState({ showGrid: !this.state.showGrid }) }
+  onPressStart = () => { this.engine.dispatch({ type: "paused" }) }
   onChangeShit = () => { this.engine.dispatch({ type: "change-shit" }) }
 
 
 
   render() {
 
-    let Arr = this.state.myArr.map((a, i) => {
-      return (
-        <TouchableOpacity key={i} style={{ zIndex: 0.5 }} onPress={this.onPressTryAgain}>
-          {a}
-        </TouchableOpacity>)
-    })
-
-
 
     return (
       <View style={styles.container}>
-        {this.state.showGrid && <Grid/>}
+        {this.state.showGrid && <Grid />}
         <View style={styles.halfContainer}>
           <GameEngine
             ref={(ref) => { this.engine = ref }}
@@ -203,13 +229,17 @@ export default class Snake extends Component {
             running={this.state.running}
 
           />
+          
         </View>
 
-        <View style={styles.container, { zIndex: 1, position: 'absolute' }}>
+        <View style={styles.container, { width: 0.75 * window.width, position: 'absolute', flex: 1, alignContent: 'flex-start', zIndex: 1}}>
           <Text style={{ zIndex: 1, alignSelf: 'center', fontSize: 20 }}>
             Score: {this.state.score}
           </Text>
-          {Arr}
+          {this.state.running && <NotDeadText/>}
+          {!this.state.running && <DeadText eventThing = {this.onPressTryAgain}/>}
+          <OptionsButton style = {{zIndex: 1, position: 'absolute'}} startButton ={this.onPressStart}/>
+
         </View>
 
         <View style={styles.halfContainer}>
@@ -243,7 +273,32 @@ export default class Snake extends Component {
       </View>
     )
   }
-}
+} //End of Snake class
+
+const OptionsButton = (props) => {
+  return (
+      <View style={{ width: 0.75 * window.width, flexDirection: 'row', justifyContent: 'space-between', zIndex: 0.5, position: 'absolute', alignItems: 'center' }}>
+        <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
+        <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={console.log("YUHH")}>
+          <View style={styles.oval} />
+          </TouchableOpacity>
+          <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
+            Options
+          </Text>
+        </View>
+
+        <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
+        <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={props.startButton}>
+          <View style={styles.oval} />
+          </TouchableOpacity>
+          <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
+            Start
+          </Text>
+        </View>
+      </View>
+
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -258,6 +313,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F0E3",
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 0
   },
   dividingContainer: {
     flex: 0.1,
@@ -296,6 +352,13 @@ const styles = StyleSheet.create({
       'center',
     color: 'black',
     textAlign: 'center'
+  },
+  oval: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    backgroundColor: "#BA180E",
+    transform: [{ scaleX: 2 }],
   },
 });
 
