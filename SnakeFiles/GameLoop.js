@@ -28,16 +28,16 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     if (events.length) { //Sets move for next 'tick'
         for (let i = 0; i < events.length; i++) {
             if (events[i].type === "move-up") {
-                console.log('Going up!"');
+                console.log('Going up!');
                 head.currentMove = "move-up"
             } else if (events[i].type === "move-down") {
-                console.log('Going down!"');
+                console.log('Going down!');
                 head.currentMove = "move-down"
             } else if (events[i].type === "move-left") {
-                console.log('Going left!"')
+                console.log('Going left!')
                 head.currentMove = "move-left"
             } else if (events[i].type === "move-right") {
-                console.log('Going right!"')
+                console.log('Going right!')
                 head.currentMove = "move-right"
             } else if (events[i].type === "change-shit") {
                 GridThing.changeValues()
@@ -54,8 +54,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
     ) {
         //Game Over
         console.log(`Game Over!`)
-        console.log(`${Constants.GRID_SIZE}`)
-        console.log(`location is ${head.position[0]} and ${head.position[1]}`)
+        console.log(`Grid size is: ${Constants.GRID_SIZE}`)
+        console.log(`Death location is x:${head.position[0]}, y:${head.position[1]}`)
         dispatch({ type: 'game-over' })
 
     } else {
@@ -149,12 +149,8 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
             enemyTail.elements = [[enemyHead.position[0], enemyHead.position[1]]].concat(enemyTail.elements);
 
         } else{
-            console.log(`${enemyTicker.tickCount}`)
             if(enemyTicker.tickCount % 2 === 0){
                 enemyTail.elements = [[enemyHead.position[0], enemyHead.position[1]]].concat(enemyTail.elements).slice(0, -1);
-                console.log("in enemy justSpawned else")
-                console.log(`${enemyTicker.tickCount}`)
-
             }
 
         }
@@ -203,8 +199,6 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
                 enemyHead.yspeed = 0;
                 enemyHead.lastMove = "move-right"
             }
-
-            console.log(`${currentX} and ${currentY}`)
 
         }
 

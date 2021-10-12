@@ -12,6 +12,8 @@ import EnemyTail from './EnemyTail'
 import { GameLoop } from './GameLoop.js'
 import { Audio } from 'expo-av';
 import Grid from './Grid.js';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -27,21 +29,23 @@ function randomBetween(min, max) {
 
 const DeadText = (props) => {
 
-  return(
+  return (
     <TouchableOpacity style={{ zIndex: 0.5, alignSelf: 'center' }} onPress={props.eventThing}>
-    <Text style={{ flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
-    Tap to try again.
-  </Text>
-  </TouchableOpacity>
+      <Text style={{ flexDirection: 'row', justifyContent: 'center', fontSize: 20 }}>
+        Tap to try again.
+      </Text>
+    </TouchableOpacity>
   )
 }
 
+
+
 const NotDeadText = () => {
 
-  return(
+  return (
     <Text style={{ flexDirection: 'row', color: '#F8F0E3', justifyContent: 'center', fontSize: 20 }}>
-    Tap to try again.
-  </Text>
+      Tap to try again.
+    </Text>
   )
 }
 
@@ -63,6 +67,7 @@ export default class Snake extends Component {
     }
 
   }
+
 
   async componentDidMount() {
     //For setting up audio playback and loading all sound files.
@@ -112,6 +117,16 @@ export default class Snake extends Component {
 
   }
 
+  async componentWillUnmount() {
+    await this.gameMusic.stopAsync()
+    await this.gameMusic.unloadAsync()
+    await this.dieSound.unloadAsync()
+    await this.eatSound.unloadAsync()
+    await this.pauseSound.unloadAsync()
+    await this.resumeSound.unloadAsync()
+
+  }
+
   sleep(ms) { //Useful for async functions 
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -150,15 +165,15 @@ export default class Snake extends Component {
       this.setState({
         score: this.state.score + 1
       })
-    } else if (e.type === "paused"){
-      if(this.state.pauseCounter%2===0){
+    } else if (e.type === "paused") {
+      if (this.state.pauseCounter % 2 === 0) {
         this.pauseSound.playFromPositionAsync(0)
         this.engine.stop()
-      } else{
+      } else {
         this.engine.start()
         this.resumeSound.playFromPositionAsync(0)
       }
-      
+
       this.setState({
         pauseCounter: this.state.pauseCounter + 1
       })
@@ -203,6 +218,9 @@ export default class Snake extends Component {
 
   render() {
 
+    const { navigation } = this.props.navigation
+
+
 
     return (
       <View style={styles.container}>
@@ -229,16 +247,16 @@ export default class Snake extends Component {
             running={this.state.running}
 
           />
-          
+
         </View>
 
-        <View style={styles.container, { width: 0.75 * window.width, position: 'absolute', flex: 1, alignContent: 'flex-start', zIndex: 1}}>
+        <View style={styles.container, { width: 0.75 * window.width, position: 'absolute', flex: 1, alignContent: 'flex-start', zIndex: 1 }}>
           <Text style={{ zIndex: 1, alignSelf: 'center', fontSize: 20 }}>
             Score: {this.state.score}
           </Text>
-          {this.state.running && <NotDeadText/>}
-          {!this.state.running && <DeadText eventThing = {this.onPressTryAgain}/>}
-          <OptionsButton style = {{zIndex: 1, position: 'absolute'}} startButton ={this.onPressStart}/>
+          {this.state.running && <NotDeadText />}
+          {!this.state.running && <DeadText eventThing={this.onPressTryAgain} />}
+          <OptionsButton style={{ zIndex: 1, position: 'absolute' }} startButton={this.onPressStart} />
 
         </View>
 
@@ -277,25 +295,25 @@ export default class Snake extends Component {
 
 const OptionsButton = (props) => {
   return (
-      <View style={{ width: 0.75 * window.width, flexDirection: 'row', justifyContent: 'space-between', zIndex: 0.5, position: 'absolute', alignItems: 'center' }}>
-        <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
+    <View style={{ width: 0.75 * window.width, flexDirection: 'row', justifyContent: 'space-between', zIndex: 0.5, position: 'absolute', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
         <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={console.log("YUHH")}>
           <View style={styles.oval} />
-          </TouchableOpacity>
-          <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
-            Options
-          </Text>
-        </View>
+        </TouchableOpacity>
+        <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
+          Options
+        </Text>
+      </View>
 
-        <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
+      <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
         <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={props.startButton}>
           <View style={styles.oval} />
-          </TouchableOpacity>
-          <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
-            Start
-          </Text>
-        </View>
+        </TouchableOpacity>
+        <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
+          Start
+        </Text>
       </View>
+    </View>
 
   );
 };

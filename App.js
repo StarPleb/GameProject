@@ -5,47 +5,68 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppRegistry, StyleSheet, Text, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable } from 'react-native';
 import Snake from './SnakeFiles/Snake.js'
+import { useNavigation } from '@react-navigation/native';
 
+
+
+const Stack = createNativeStackNavigator();
 
 
 
 export default function App() {
   return (
-    //<WhoKnows/>
-    <Snake />
+    <StackedScreen />
   )
 }
 
+const StackedScreen = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Welcome' }}
+        />
+        <Stack.Screen name="Snake" component={Snek} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-class WhoKnows extends Component {
-
-  //Testing how touchable opacity is rendered on Android
-  constructor(props) {
-    super(props);
-    this.state = {
-      count : 0
-    }
-  }
-  onPressHello = () => {this.setState({count: this.state.count + 1})}
-
-
-  render() {
-
-
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity style={{backgroundColor: 'pink'}} onPress={this.onPressHello}>
-        <Text>
-          Wow {this.state.count}
-        </Text>
-          </TouchableOpacity>
+const HomeScreen = ({ navigation }) => {
 
 
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <Button
+        title="Play Snake"
+        onPress={() =>
+          navigation.navigate('Snake', { Something: 'icup' })
+        }
+      />
+      <Button
+        title="Whatever your heart desires"
+        onPress={() =>
+          console.log("Unless its money")
+        }
+      />
 
+    </View>
+
+  );
+};
+
+
+
+
+const Snek = () => {
+  const navigation = useNavigation();
+
+  return <Snake navigation={navigation} />
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
