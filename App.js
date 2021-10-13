@@ -28,7 +28,10 @@ const StackedScreen = () => {
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name="Snake" component={Snek} />
+        <Stack.Screen name="Snake" 
+        component={Snek}
+        options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -46,9 +49,9 @@ const HomeScreen = ({ navigation }) => {
         }
       />
       <Button
-        title="Whatever your heart desires"
+        title="Blank text"
         onPress={() =>
-          console.log("Unless its money")
+          console.log("Not really tho")
         }
       />
 

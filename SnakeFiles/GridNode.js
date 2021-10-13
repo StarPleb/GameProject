@@ -1,7 +1,4 @@
-import React, {Component, PureComponent} from 'react';
 import Constants from './Constants';
-import { AppRegistry, StyleSheet, Pressable, TouchableHighlight, TouchableOpacity, Text, View, Dimensions, Alert } from 'react-native';
-
 
 
 export default class GridNode {

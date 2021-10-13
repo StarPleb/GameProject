@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Pressable, TouchableHighlight, TouchableOpacity, Text, View, Dimensions, Alert } from 'react-native';
 import { GameEngine } from "react-native-game-engine";
-import { useState, Component } from 'react';
+import { Component } from 'react';
 import Constants from './Constants.js';
 import Head from './Head';
 import Food from './Food';
@@ -13,6 +13,7 @@ import { GameLoop } from './GameLoop.js'
 import { Audio } from 'expo-av';
 import Grid from './Grid.js';
 import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -56,6 +57,7 @@ export default class Snake extends Component {
     super(props);
     this.boardSize = Constants.GRID_SIZE * Constants.CELL_SIZE;
     this.engine = null;
+    this.navigation = props.navigation
 
 
     this.state = {
@@ -212,13 +214,12 @@ export default class Snake extends Component {
   onPressTryAgain = () => { this.reset() }
   onPressGrid = () => { this.setState({ showGrid: !this.state.showGrid }) }
   onPressStart = () => { this.engine.dispatch({ type: "paused" }) }
+  onPressOptions = () => { this.navigation.goBack() }
   onChangeShit = () => { this.engine.dispatch({ type: "change-shit" }) }
 
 
 
   render() {
-
-    const { navigation } = this.props.navigation
 
 
 
@@ -256,7 +257,7 @@ export default class Snake extends Component {
           </Text>
           {this.state.running && <NotDeadText />}
           {!this.state.running && <DeadText eventThing={this.onPressTryAgain} />}
-          <OptionsButton style={{ zIndex: 1, position: 'absolute' }} startButton={this.onPressStart} />
+          <OptionsButton style={{ zIndex: 1, position: 'absolute' }} startButton={this.onPressStart} optionsButton={this.onPressOptions}/>
 
         </View>
 
@@ -297,7 +298,7 @@ const OptionsButton = (props) => {
   return (
     <View style={{ width: 0.75 * window.width, flexDirection: 'row', justifyContent: 'space-between', zIndex: 0.5, position: 'absolute', alignItems: 'center' }}>
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 0.5 }}>
-        <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={console.log("YUHH")}>
+        <TouchableOpacity style={{ zIndex: 0.5, backgroundColor: 'pink' }} onPress={props.optionsButton}>
           <View style={styles.oval} />
         </TouchableOpacity>
         <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
