@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { PureComponent } from 'react';
-import { AppRegistry, StyleSheet, Pressable, TouchableHighlight, TouchableOpacity, Text, View, Dimensions, Alert } from 'react-native';
+import React, { PureComponent, useState } from 'react';
+import { AppRegistry, StyleSheet, TouchableOpacity, Text, ScrollView, SafeAreaView, View, Switch, Dimensions, Button, Alert } from 'react-native';
 import { GameEngine } from "react-native-game-engine";
 import { Component } from 'react';
 import Constants from './Constants.js';
@@ -23,6 +23,54 @@ const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 
 var GridThing = new Grid
+
+const soundFiles = [
+  {
+    id: '001',
+    sound: require('./sounds/game_music.mp3'),
+  },
+  {
+    id: '002',
+    sound: require('./sounds/explosion_03.wav'),
+  },
+  {
+    id: '003',
+    sound: require('./sounds/collectApple.wav'),
+  },
+  {
+    id: '004',
+    sound: require('./sounds/pause.wav'),
+  },
+  {
+    id: '005',
+    sound: require('./sounds/resume.wav'),
+  },
+]
+
+const getImageSource = (serviceName) => {
+  if (serviceName === "AC") {
+    return img[0].image
+  } else if (serviceName === "Doctors") {
+    return img[1].image
+  } else if (serviceName === "Sales") {
+    return img[2].image
+  } else if (serviceName === "Beauty") {
+    return img[3].image
+  } else if (serviceName === "Loans") {
+    return img[4].image
+  } else if (serviceName === "Repair") {
+    return img[5].image
+  } else if (serviceName === "Contractors") {
+    return img[6].image
+  } else if (serviceName === "Fitness") {
+    return img[7].image
+  } else if (serviceName === "Hotels") {
+    return img[8].image
+  } else {
+    return img[0].image
+  }
+
+}
 
 function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -65,10 +113,20 @@ export default class Snake extends Component {
       score: 0,
       myArr: [],
       showGrid: false,
-      pauseCounter: 2
+      pauseCounter: 2,
+      bgMusic: true,
+      soundEffects: true
     }
 
   }
+
+  toggleBGMusic = () => { this.setState({
+    bgMusic: !this.state.bgMusic
+  }) }
+
+  toggleSoundEffects = () => { this.setState({
+    soundEffects: !this.state.soundEffects
+  }) }
 
 
   async componentDidMount() {
@@ -105,11 +163,11 @@ export default class Snake extends Component {
     }
 
 
-    await this.gameMusic.loadAsync(require('./sounds/game_music.mp3'), status2)
-    await this.dieSound.loadAsync(require('./sounds/explosion_03.wav'), status)
-    await this.eatSound.loadAsync(require('./sounds/collectApple.wav'), status)
-    await this.pauseSound.loadAsync(require('./sounds/pause.wav'), status)
-    await this.resumeSound.loadAsync(require('./sounds/resume.wav'), status)
+    await this.gameMusic.loadAsync(soundFiles[0].sound, status2)
+    await this.dieSound.loadAsync(soundFiles[1].sound, status)
+    await this.eatSound.loadAsync(soundFiles[2].sound, status)
+    await this.pauseSound.loadAsync(soundFiles[3].sound, status)
+    await this.resumeSound.loadAsync(soundFiles[4].sound, status)
 
 
     let callForGameMusic = await this.gameMusic.getStatusAsync()
@@ -319,6 +377,65 @@ const OptionsButton = (props) => {
   );
 };
 
+const OptionsScreen = ({ navigation, route }) => {
+  const [isEnabled, setIsEnabled] = useState(true);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const bgMusicValue = route.params.bgMusicValue
+  const bgMusicSwitch = route.params.bgMusicSwitch
+  const soundEffectsValue = route.params.soundEffectsValue
+  const soundEffectsSwitch = route.params.soundEffectsSwitch
+
+
+
+
+
+  return (
+    <SafeAreaView style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignContent: 'flex-start' }}>
+      <Text style={{ fontSize: 25, flex: 0.2, alignSelf: 'center', color: 'black', textAlign: 'center', fontWeight: 'bold' }}>
+        Game Settings
+      </Text>
+
+      <ScrollView style={styles.scrollView}>
+        <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+
+        <View style ={{width: window.width/2, flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
+          <Text style ={{ fontSize: 15, alignSelf: 'center', color: 'black' }}>
+            Background Music
+          </Text>
+          <Switch
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+        </View>
+      </ScrollView>
+
+      <Button
+        title="Play Snake"
+        onPress={() =>
+          navigation.navigate('Snake', { Something: 'icup' })
+        }
+      />
+      <Button
+        title="Blank text"
+        onPress={() =>
+          console.log("Not really tho")
+        }
+      />
+    </SafeAreaView>
+
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -339,6 +456,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F0E3",
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  scrollView: {
+    backgroundColor: null,
+    marginHorizontal: 20,
+    flex: 1
   },
   controls: {
     width: 300,
@@ -370,7 +492,6 @@ const styles = StyleSheet.create({
     alignSelf:
       'center',
     color: 'black',
-    textAlign: 'center'
   },
   oval: {
     width: 20,

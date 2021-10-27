@@ -3,12 +3,14 @@ import React from 'react';
 import { useState, Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AppRegistry, StyleSheet, Text, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable } from 'react-native';
+import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable } from 'react-native';
 import Snake from './SnakeFiles/Snake.js'
+import OptionsScreen from './SnakeFiles/Snake.js'
 import { useNavigation } from '@react-navigation/native';
 
 
 
+const windowWidth = Dimensions.get('window').width;
 const Stack = createNativeStackNavigator();
 
 
@@ -28,9 +30,13 @@ const StackedScreen = () => {
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name="Snake" 
-        component={Snek}
-        options={{headerShown: false}}
+        <Stack.Screen name="Snake"
+          component={Snek}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="OptionsScreen"
+          component={OptionsScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -41,21 +47,56 @@ const HomeScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="Play Snake"
-        onPress={() =>
-          navigation.navigate('Snake', { Something: 'icup' })
-        }
-      />
-      <Button
-        title="Blank text"
-        onPress={() =>
-          console.log("Not really tho")
-        }
-      />
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView horizontal={true} style={styles.scrollView}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth }}>
+          <TouchableOpacity onPress={() =>
+            navigation.navigate('Snake', { Something: 'icup' })}>
+            <Image source={require('./assets/snektrans.png')}
+              style={{ resizeMode: 'contain', width: 400, height: 200 }} />
+          </TouchableOpacity>
 
-    </View>
+
+          <Text style={{ alignSelf: 'center', fontSize: 30, color: 'red' }}>
+            Tap the snake to play... Snake!
+          </Text>
+        </View>
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'red', width: windowWidth }}>
+
+          <Button
+            title="Blank text"
+            onPress={() =>
+              console.log("Not really tho")
+            }
+          />
+        </View>
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'green', width: windowWidth }}>
+
+          <Button
+            title="Blank text"
+            onPress={() =>
+              console.log("Not really tho")
+            }
+          />
+        </View>
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth }}>
+
+          <Button
+            title="Blank text"
+            onPress={() =>
+              console.log("Not really tho")
+            }
+          />
+
+
+        </View>
+
+      </ScrollView>
+    </SafeAreaView>
+
 
   );
 };
@@ -76,14 +117,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F0E3",
     justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column'
   },
   halfContainer: {
-    flex: 0.5,
+    flex: 1,
     backgroundColor: "#F8F0E3",
     justifyContent: 'center',
     alignItems: 'center',
+    alignContent: 'center',
+    flexDirection: 'column',
+  },
+  scrollView: {
+    backgroundColor: 'black',
+    marginHorizontal: 0,
   },
 })
 
