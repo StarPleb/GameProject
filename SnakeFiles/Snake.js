@@ -176,10 +176,6 @@ export default class Snake extends Component {
     }
 
 
-    let callForGameMusic = await this.gameMusic.getStatusAsync()
-
-
-
 
   }
 

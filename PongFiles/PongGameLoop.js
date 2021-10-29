@@ -18,6 +18,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     let AIPaddle = entities.AI
     let ball = entities.ball
 
+    const xBoundary = paddle.gridWidth
+    const yBoundary = paddle.gridHeight
+
 
     if (events.length) { //Sets move for next 'tick'
         for (let i = 0; i < events.length; i++) {
@@ -124,7 +127,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         }
     }
 
-    if(ball.position[0] >= 35 || ball.position[0] <= 0){
+    if(ball.position[0] >= xBoundary || ball.position[0] <= 0){
         ball.xspeed = -ball.xspeed
         dispatch({ type: "collision" })
     }
@@ -138,7 +141,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     }
 
     //Ball passes Player 1's defense
-    if(ball.position[1] >= 49){
+    if(ball.position[1] >= yBoundary){
         ball.yspeed = -ball.yspeed
         dispatch({ type: "collision" })
         dispatch({ type: "p2score"})
@@ -146,13 +149,13 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
 
 
     //Player1 movement
-    if(paddle.position[0] + paddle.xspeed > 0 && paddle.position[0] + paddle.xspeed < 35 - 2 ){
+    if(paddle.position[0] + paddle.xspeed > 0 && paddle.position[0] + paddle.xspeed < xBoundary - 2){
         paddle.position[0] += paddle.xspeed
 
     }
 
     //Player2 movement
-    if(enemyPaddle.position[0] + enemyPaddle.xspeed > 0 && enemyPaddle.position[0] + enemyPaddle.xspeed < 35 - 2 ){
+    if(enemyPaddle.position[0] + enemyPaddle.xspeed > 0 && enemyPaddle.position[0] + enemyPaddle.xspeed < xBoundary - 2 ){
         enemyPaddle.position[0] += enemyPaddle.xspeed
     }
 
@@ -203,7 +206,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         }
 
         if(Math.abs(AIPaddle.position[1] - ball.position[1]) < 10 && !AIPaddle.isServing){
-            AIPaddle.position[0] += AIPaddle.xspeed
+            if(ball.yspeed < 0){
+                AIPaddle.position[0] += AIPaddle.xspeed
+            }
         }
 
         if(Math.abs((AIPaddle.position[0] + 1) - ball.position[0]) < 2){

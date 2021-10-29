@@ -50,6 +50,8 @@ export default class Pong extends Component {
     super(props);
     this.boardSize = 36 * ballSize;
     this.boardWidth = 36 * ballSize
+    this.gridWidth = window.width/ballSize
+    this.gridHeight = (0.75 * window.height)/ballSize
     this.boardheight = 50 * ballSize
     this.engine = null;
     this.navigation = props.navigation
@@ -60,8 +62,7 @@ export default class Pong extends Component {
       running: true,
       p1score: 0,
       p2score: 0,
-      myArr: [],
-      pauseCounter: 2,
+      AIStatus: "Off",
       bgMusic: true,
       soundEffects: true
     }
@@ -100,6 +101,8 @@ export default class Pong extends Component {
     this.blipSound4 = new Audio.Sound()
     this.pauseSound = new Audio.Sound()
     this.resumeSound = new Audio.Sound()
+
+    console.log(`${this.cellWidth} and ${this.cellHeight}`)
 
 
 
@@ -191,15 +194,25 @@ export default class Pong extends Component {
       playAI: !this.state.playAI
     })
 
+    if(this.state.AIStatus === "Off"){
+      this.setState({
+        AIStatus: "On"
+      })
+    } else{
+      this.setState({
+        AIStatus: "Off"
+      })
+    }
+
     await this.sleep(200)
 
     this.engine.swap({
-      player1: { position: [18, 47], xspeed: 0.0, isServing: false, yspeed: 0.0, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle /> },
-      player2: { position: [18, 2], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+      player1: { position: [this.gridWidth/2, this.gridHeight - 8], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
+      player2: { position: [this.gridWidth/2, 8], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
       ball: {
         position: [3, 1], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
       },
-      AI: { position: [18, 2], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+      AI: { position: [this.gridWidth/2, 8], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
     })
     this.setState({
       running: true,
@@ -243,44 +256,24 @@ export default class Pong extends Component {
           Player 2 Score: {this.state.p2score}
         </Text>
 
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', alignItems: 'flex-start', bottom: "89%" }}>
+        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', alignItems: 'flex-start', bottom: "88%" }}>
           <Pressable style={{ zIndex: 0.1}} onPress={this.onGoBack}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+            <View style={{ width: 75, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
               <Text style={{ color: 'black' }}>Go Back</Text>
             </View>
           </Pressable>
         </View>
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', bottom: window.height - window.height / 6 }}>
-          <Pressable style={{ zIndex: 0.1 }} onPressIn={this.onEnemyPressLeft} onPressOut={this.onEnemyLetGo}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-              <Text style={{ color: 'black' }}>Go Left!</Text>
-            </View>
-          </Pressable>
-
-          <Pressable style={{ zIndex: 0.1 }} onPress={this.onPlayer2Serve}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-              <Text style={{ color: 'black' }}>Serve!</Text>
-            </View>
-          </Pressable>
-
-          <Pressable onPressIn={this.onEnemyPressRight} onPressOut={this.onEnemyLetGo}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-              <Text style={{ color: 'black' }}>Go Right!</Text>
-            </View>
-          </Pressable>
-
-        </View>
 
         <GameEngine
           ref={(ref) => { this.engine = ref }}
-          style={{ width: this.boardWidth, height: this.boardheight, flex: null, position: 'absolute', backgroundColor: this.state.running ? "black" : "gray" }}
+          style={{ zIndex: 0, width: window.width, height: 0.75 * window.height, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
           entities={{
-            player1: { position: [18, 47], xspeed: 0.0, isServing: false, yspeed: 0.0, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle /> },
-            player2: { position: [18, 2], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+            player1: { position: [this.gridWidth/2, this.gridHeight - 8], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
+            player2: { position: [this.gridWidth/2, 8], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
             ball: {
               position: [3, 1], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
-            AI: { position: [18, 2], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+            AI: { position: [this.gridWidth/2, 8], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
           }}
           systems={[PongGameLoop]}
           onEvent={this.onEvent}
@@ -288,30 +281,33 @@ export default class Pong extends Component {
 
         />
 
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: window.height - window.height / 6 }}>
+{!this.state.playAI && <Player2Controls onPlayer2Serve = {this.onPlayer2Serve} onEnemyPressLeft={this.onEnemyPressLeft} onEnemyLetGo={this.onEnemyLetGo} onEnemyPressRight={this.onEnemyPressRight}/>}
+
+
+        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: "81.2%" }}>
           <Pressable style={{ zIndex: 0.1 }} onPressIn={this.onPressLeft} onPressOut={this.onLetGo}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
               <Text style={{ color: 'black' }}>Go Left!</Text>
             </View>
           </Pressable>
 
           <Pressable style={{ zIndex: 0.1 }} onPress={this.onPlayerServe}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
               <Text style={{ color: 'black' }}>Serve!</Text>
             </View>
           </Pressable>
 
           <Pressable onPressIn={this.onPressRight} onPressOut={this.onLetGo}>
-            <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
               <Text style={{ color: 'black' }}>Go Right!</Text>
             </View>
           </Pressable>
 
         </View>
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: '89.2%' }}>
+        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: '90%' }}>
           <Pressable style={{ zIndex: 0.1 }} onPress={this.onPressToggleAI}>
             <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-              <Text style={{ color: 'black' }}>Toggle AI Player</Text>
+              <Text style={{ color: 'black' }}>Toggle AI Player {this.state.AIStatus}</Text>
             </View>
           </Pressable>
         </View>
@@ -323,10 +319,41 @@ export default class Pong extends Component {
 } //End of Pong class
 
 
+
+const Player2Controls = (props) => {
+  return(
+
+    <View style = {styles.container}>
+        
+        <View style={{position: 'absolute', flexDirection: 'row', bottom: "80%" }}>
+          <Pressable onPressIn={props.onEnemyPressLeft} onPressOut={props.onEnemyLetGo}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
+              <Text style={{ color: 'black' }}>Go Left!</Text>
+            </View>
+          </Pressable>
+
+          <Pressable onPress={props.onPlayer2Serve}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
+              <Text style={{ color: 'black' }}>Serve!</Text>
+            </View>
+          </Pressable>
+
+          <Pressable onPressIn={props.onEnemyPressRight} onPressOut={props.onEnemyLetGo}>
+            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
+              <Text style={{ color: 'black' }}>Go Right!</Text>
+            </View>
+          </Pressable>
+
+        </View>
+        </View>
+  )
+}
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#0a0527",
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column'
