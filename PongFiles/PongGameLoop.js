@@ -20,8 +20,11 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
 
     const xBoundary = paddle.gridWidth
     const yBoundary = paddle.gridHeight
+    const easyDistance = yBoundary/10
+    const mediumDistance = yBoundary/9
+    const impossibleDistance = yBoundary/6
 
-    console.log(`${ball.position[0]} and speed ${ball.xspeed} yspeed: ${ball.yspeed}`)
+    var ballOut = ball.position[1] > 0.85 * yBoundary || ball.position[1] < 0.15 * yBoundary
 
 
     if (events.length) { //Sets move for next 'tick'
@@ -127,7 +130,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
                 ball.xspeed = PongConstants.BALL_SPEED
                 ball.yspeed = -PongConstants.BALL_SPEED
                 paddle.isServing = false
-            }  else if (events[i].type === "p2serve" && enemyPaddle.isServing || events[i].type === "p2serve" && AIPaddle.isServing ) {
+            }  else if (events[i].type === "p2serve") {
                 console.log(`p2 serve`)
 
                 ball.xspeed = PongConstants.BALL_SPEED
@@ -145,7 +148,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         }
     }
 
-    if(ball.position[0] >= xBoundary || ball.position[0] <= 0){
+    if((ball.position[0] >= xBoundary || ball.position[0] <= 0) && ball.position[0] ){
         ball.xspeed = -ball.xspeed
         dispatch({ type: "collision" })
     }
@@ -181,7 +184,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     //Ball collided with player1
     if(Math.abs((paddle.position[0] + 1) - ball.position[0]) < 2){
         if(Math.abs(ball.position[1] - paddle.position[1]) < 1){
-            ball.yspeed = -ball.yspeed
+            if(!ballOut){
+                ball.yspeed = -ball.yspeed
+            }
             paddle.lastHit = true
             enemyPaddle.lastHit = false
             dispatch({ type: "collision" })
@@ -191,7 +196,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     //Ball collided with player 2
     if(Math.abs((enemyPaddle.position[0] + 1) - ball.position[0]) < 2){
         if(Math.abs(ball.position[1] - enemyPaddle.position[1]) < 1){
-            ball.yspeed = -ball.yspeed
+            if(!ballOut){
+                ball.yspeed = -ball.yspeed
+            }
             enemyPaddle.lastHit = true
             paddle.lastHit = false
             dispatch({ type: "collision" })
@@ -224,15 +231,21 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
             AIPaddle.xspeed = -PongConstants.PLAYER_SPEED
         }
 
-        if(Math.abs(AIPaddle.position[1] - ball.position[1]) < yBoundary/5 && !AIPaddle.isServing){
+
+
+        //Only moves if ball is in range
+        if(Math.abs(AIPaddle.position[1] - ball.position[1]) < mediumDistance && !AIPaddle.isServing){
             if(ball.yspeed < 0 && (AIPaddle.position[0] + AIPaddle.xspeed > 0 && AIPaddle.position[0] + AIPaddle.xspeed < xBoundary - 2)){
                 AIPaddle.position[0] += AIPaddle.xspeed
             }
         }
 
+        //Collision with ball
         if(Math.abs((AIPaddle.position[0] + 1) - ball.position[0]) < 2){
             if(Math.abs(ball.position[1] - AIPaddle.position[1]) < 1){
-                ball.yspeed = -ball.yspeed
+                if(!ballOut){
+                    ball.yspeed = -ball.yspeed
+                }
                 AIPaddle.lastHit = true
                 paddle.lastHit = false
                 dispatch({ type: "collision" })
@@ -246,11 +259,13 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
 
                 if(AIPaddle.position[0] + PongConstants.PLAYER_SPEED < xBoundary - 2){
                     AIPaddle.position[0] += PongConstants.PLAYER_SPEED
+                    ball.position[0] += PongConstants.PLAYER_SPEED
                 }
             } else {
 
                 if(AIPaddle.position[0] - PongConstants.PLAYER_SPEED > 0){
                     AIPaddle.position[0] += -PongConstants.PLAYER_SPEED
+                    ball.position[0] += -PongConstants.PLAYER_SPEED
                 }
             }
             AIPaddle.tick += 1

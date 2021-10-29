@@ -207,12 +207,12 @@ export default class Pong extends Component {
     await this.sleep(200)
 
     this.engine.swap({
-      player1: { position: [this.gridWidth/2, this.gridHeight - 8], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
-      player2: { position: [this.gridWidth/2, 8], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
+      player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
       ball: {
-        position: [3, 1], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
+        position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
       },
-      AI: { position: [this.gridWidth/2, 8], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+      AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
     })
     this.setState({
       running: true,
@@ -268,12 +268,12 @@ export default class Pong extends Component {
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: window.width, height: 0.75 * window.height, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
           entities={{
-            player1: { position: [this.gridWidth/2, this.gridHeight - 8], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
-            player2: { position: [this.gridWidth/2, 8], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+            player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: 30, height: 10, renderer: <Paddle /> },
+            player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
             ball: {
-              position: [3, 1], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
+              position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED, yspeed: PongConstants.BALL_SPEED, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
-            AI: { position: [this.gridWidth/2, 8], tick: 0, tickCount: 10, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+            AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
           }}
           systems={[PongGameLoop]}
           onEvent={this.onEvent}
