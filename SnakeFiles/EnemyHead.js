@@ -24,5 +24,6 @@ export default class EnemyHead extends Component{
                 left: x * this.props.size, 
                 top: y*this.props.size}}/>
         )
+        
     }
 }

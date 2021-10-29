@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SnekAndMore",
-    "slug": "snakegame",
+    "name": "Random Game Collection",
+    "slug": "gamecollection",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "the \"URL SLUG\" says it all."
+    "description": "Random games (NOT FINISHED, publishing for testing)"
   }
 }

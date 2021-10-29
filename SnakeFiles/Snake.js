@@ -163,11 +163,17 @@ export default class Snake extends Component {
     }
 
 
-    await this.gameMusic.loadAsync(soundFiles[0].sound, status2)
-    await this.dieSound.loadAsync(soundFiles[1].sound, status)
-    await this.eatSound.loadAsync(soundFiles[2].sound, status)
-    await this.pauseSound.loadAsync(soundFiles[3].sound, status)
-    await this.resumeSound.loadAsync(soundFiles[4].sound, status)
+    try {
+      await this.gameMusic.loadAsync(soundFiles[0].sound, status2)
+      await this.dieSound.loadAsync(soundFiles[1].sound, status)
+      await this.eatSound.loadAsync(soundFiles[2].sound, status)
+      await this.pauseSound.loadAsync(soundFiles[3].sound, status)
+      await this.resumeSound.loadAsync(soundFiles[4].sound, status)
+  
+  
+    } catch (error) {
+      console.log("Error loading sounds")
+    }
 
 
     let callForGameMusic = await this.gameMusic.getStatusAsync()

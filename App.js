@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable } from 'react-native';
 import Snake from './SnakeFiles/Snake.js'
+import Pong from './PongFiles/Pong.js'
 import OptionsScreen from './SnakeFiles/Snake.js'
 import { useNavigation } from '@react-navigation/native';
 
@@ -34,6 +35,11 @@ const StackedScreen = () => {
           component={Snek}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Pong"
+          component={PongGame}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="OptionsScreen"
           component={OptionsScreen}
           options={{ headerShown: false }}
@@ -57,22 +63,24 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
 
 
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'lightgreen' }}>
+            Tap if you like snakes
+          </Text>
+        </View>
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth }}>
+
+        <TouchableOpacity onPress={() =>
+            navigation.navigate('Pong')}>
+            <Image source={require('./assets/readyforpong.jpeg')}
+              style={{ resizeMode: 'contain', width: windowWidth, height: 320 }} />
+          </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 30, color: 'red' }}>
-            Tap the snake to play... Snake!
+            Ready or pong... here I come
           </Text>
         </View>
 
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'red', width: windowWidth }}>
-
-          <Button
-            title="Blank text"
-            onPress={() =>
-              console.log("Not really tho")
-            }
-          />
-        </View>
-
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'green', width: windowWidth }}>
 
           <Button
             title="Blank text"
@@ -108,6 +116,12 @@ const Snek = () => {
   const navigation = useNavigation();
 
   return <Snake navigation={navigation} />
+}
+
+const PongGame = () => {
+  const navigation = useNavigation();
+
+  return <Pong navigation={navigation} />
 }
 
 
