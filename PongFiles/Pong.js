@@ -119,7 +119,7 @@ export default class Pong extends Component {
 
 
     try {
-      
+
       await this.blipSound1.loadAsync(soundFiles[0].sound, status)
       await this.blipSound2.loadAsync(soundFiles[1].sound, status)
       await this.blipSound3.loadAsync(soundFiles[2].sound, status)
@@ -185,7 +185,14 @@ export default class Pong extends Component {
 
   }
 
-  reset = () => { //Resets game to initial state
+  async reset() { //Resets game to initial state
+
+    this.setState({
+      playAI: !this.state.playAI
+    })
+
+    await this.sleep(200)
+
     this.engine.swap({
       player1: { position: [18, 47], xspeed: 0.0, isServing: false, yspeed: 0.0, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle /> },
       player2: { position: [18, 2], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
@@ -217,12 +224,7 @@ export default class Pong extends Component {
   onEnemyLetGo = () => { this.engine.dispatch({ type: "enemy-stop-moving" }) }
   onPlayer2Serve = () => { this.engine.dispatch({ type: "p2serve" }) }
   onPressToggleAI = () => {
-  this.setState({
-    playAI: !this.state.playAI
-  })
   this.reset()
-
-
 }
 
 
@@ -241,8 +243,8 @@ export default class Pong extends Component {
           Player 2 Score: {this.state.p2score}
         </Text>
 
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', bottom: window.height - window.height / 9 }}>
-          <Pressable style={{ zIndex: 0.1 }} onPress={this.onGoBack}>
+        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', alignItems: 'flex-start', bottom: "89%" }}>
+          <Pressable style={{ zIndex: 0.1}} onPress={this.onGoBack}>
             <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
               <Text style={{ color: 'black' }}>Go Back</Text>
             </View>
@@ -306,7 +308,7 @@ export default class Pong extends Component {
           </Pressable>
 
         </View>
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: window.height - window.height / 10 }}>
+        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: '89.2%' }}>
           <Pressable style={{ zIndex: 0.1 }} onPress={this.onPressToggleAI}>
             <View style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
               <Text style={{ color: 'black' }}>Toggle AI Player</Text>
