@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const windowWidth = Dimensions.get('window').width;
+const window = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
 
 
@@ -59,12 +60,12 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity onPress={() =>
             navigation.navigate('Snake', { Something: 'icup' })}>
             <Image source={require('./assets/snektrans.png')}
-              style={{ resizeMode: 'contain', width: 400, height: 200 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height/4 }} />
           </TouchableOpacity>
 
 
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'lightgreen' }}>
-            Tap if you like snakes
+            Hisssssss, hssssss, ssssss
           </Text>
         </View>
 
@@ -73,10 +74,10 @@ const HomeScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() =>
             navigation.navigate('Pong')}>
             <Image source={require('./assets/readyforpong.jpeg')}
-              style={{ resizeMode: 'contain', width: windowWidth, height: 320 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height/2 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 30, color: 'red' }}>
-            Ready or pong... here I come
+            Ready or pong... here I come.
           </Text>
         </View>
 
