@@ -22,7 +22,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     const xLowerBoundary = paddle.lowerBound
     const yBoundary = paddle.gridHeight
     const easyDistance = yBoundary/10
-    const mediumDistance = yBoundary/5
+    const mediumDistance = yBoundary/4
     const impossibleDistance = yBoundary/6
     // console.log(`${PongConstants.BALL_SPEED2} and ${PongConstants.PLAYER_SPEED2}`)
 
@@ -133,7 +133,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
                 ball.xspeed = PongConstants.BALL_SPEED2
                 ball.yspeed = -PongConstants.BALL_SPEED2
                 paddle.isServing = false
-            }  else if (events[i].type === "p2serve") {
+            }  else if (events[i].type === "p2serve" && (enemyPaddle.isServing || AIPaddle.isServing)) {
                 console.log(`p2 serve`)
 
                 ball.xspeed = PongConstants.BALL_SPEED2
