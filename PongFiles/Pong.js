@@ -5,6 +5,7 @@ import { GameEngine } from "react-native-game-engine";
 import { Component } from 'react';
 import Paddle from './Paddle.js'
 import Ball from './Ball.js'
+import MyTimer from './MyTimer.js'
 import { PongGameLoop } from './PongGameLoop.js'
 import { Audio } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
@@ -275,6 +276,7 @@ export default class Pong extends Component {
               position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
             AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
+            timer: { position: [0, 0], tick: 0, tickCount: 60, width: ballSize * 10, height: ballSize * 2, renderer: <MyTimer/>},
           }}
           systems={[PongGameLoop]}
           onEvent={this.onEvent}

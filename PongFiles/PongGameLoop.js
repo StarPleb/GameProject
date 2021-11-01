@@ -17,6 +17,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     let enemyPaddle = entities.player2
     let AIPaddle = entities.AI
     let ball = entities.ball
+    let timer = entities.timer
 
     const xBoundary = paddle.gridWidth - 1
     const xLowerBoundary = 0
@@ -25,6 +26,33 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     const mediumDistance = yBoundary/4
     const impossibleDistance = yBoundary/6
     // console.log(`${PongConstants.BALL_SPEED2} and ${PongConstants.PLAYER_SPEED2}`)
+
+    if(timer.tick < timer.tickCount){
+        timer.tick += 1
+    } else if(timer.tick2 < timer.tickCount){
+        timer.tick2 += 1
+    } else if(timer.tick3 <= timer.tickCount + 1){
+        timer.tick3 += 1
+    }
+
+    if(timer.tick === timer.tickCount){
+        if(!timer.tick2){
+            timer.tick2 = 0
+        }
+    }
+
+    if (timer.tick2 === timer.tickCount){
+        if(!timer.tick3){
+            timer.tick3 = 0
+        }
+    }
+
+    if(timer.tick3 === timer.tickCount){
+        timer.tick = 0
+        timer.tick2 = null
+        timer.tick3 = null
+    }
+
     
 
 
