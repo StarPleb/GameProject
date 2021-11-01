@@ -14,7 +14,15 @@ import PongConstants from './PongConstants.js';
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
-const ballSize = 10
+const gameWidth =  0.8 * window.width
+var gameHeight = gameWidth*1.75
+const ballSize = gameWidth/30
+const paddleWidth = ballSize * 3
+const paddleHeight = ballSize
+
+if(gameHeight > 0.75*window.height){
+  gameHeight = gameWidth*1.5
+}
 
 
 
@@ -48,12 +56,10 @@ function randomBetween(min, max) {
 export default class Pong extends Component {
   constructor(props) {
     super(props);
-    this.boardSize = 36 * ballSize;
-    this.boardWidth = 36 * ballSize
-    this.gridWidth = 0.9 * window.width/ballSize
-    this.lowerBound = 0.1 * window.width/ballSize
-    this.gridHeight = (0.75 * window.height)/ballSize
-    this.boardheight = 50 * ballSize
+    this.gridWidth = gameWidth/ballSize
+    this.gridHeight = gameHeight/ballSize
+    this.lowerBound = 0
+    this.arrowWidth = (2 * window.width)/9
     this.engine = null;
     this.navigation = props.navigation
 
@@ -208,12 +214,12 @@ export default class Pong extends Component {
     await this.sleep(200)
 
     this.engine.swap({
-      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, lowerBound: this.lowerBound, width: 30, height: 10, renderer: <Paddle /> },
+      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
       player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
       ball: {
         position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
       },
-      AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+      AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
     })
     this.setState({
       running: true,
@@ -252,21 +258,21 @@ export default class Pong extends Component {
     return (
       <View style={styles.container}>
 
-        <Text style={{ zIndex: 1, alignSelf: 'flex-start', fontSize: 15, opacity: 0.3, left: 20, position: 'absolute', color: 'white' }}>
+        <Text style={{ zIndex: 1, alignSelf: 'flex-start', fontSize: 15, opacity: 0.3, left: 0.1*window.width + 10, position: 'absolute', color: 'white' }}>
           Player 1 Score: {this.state.p1score} {'\n'}
           Player 2 Score: {this.state.p2score}
         </Text>
 
         <GameEngine
           ref={(ref) => { this.engine = ref }}
-          style={{ zIndex: 0, width: window.width, height: 0.75 * window.height, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
+          style={{ zIndex: 0, borderColor: 'white', borderWidth: 2, width: gameWidth, height: gameHeight, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
           entities={{
-            player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, lowerBound: this.lowerBound, width: 30, height: 10, renderer: <Paddle /> },
+            player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
             player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
             ball: {
               position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
-            AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'red'} /> },
+            AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
           }}
           systems={[PongGameLoop]}
           onEvent={this.onEvent}
@@ -274,39 +280,33 @@ export default class Pong extends Component {
 
         />
 
-{!this.state.playAI && <Player2Controls onPlayer2Serve = {this.onPlayer2Serve} onEnemyPressLeft={this.onEnemyPressLeft} onEnemyLetGo={this.onEnemyLetGo} onEnemyPressRight={this.onEnemyPressRight}/>}
+{!this.state.playAI && <Player2Controls style={{zIndex: 1}} arrowWidth ={this.arrowWidth}onPlayer2Serve = {this.onPlayer2Serve} onEnemyPressLeft={this.onEnemyPressLeft} onEnemyLetGo={this.onEnemyLetGo} onEnemyPressRight={this.onEnemyPressRight}/>}
 
 
-        <View style={{ zIndex: 0.1, position: 'absolute', flexDirection: 'row', top: "81.2%" }}>
-          <Pressable style={{ zIndex: 0.1 }} onPressIn={this.onPressLeft} onPressOut={this.onLetGo}>
-            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: null }}>
-            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: 100, height: 75, transform: [{ scaleX: -1 }]}} />
-            </View>
+        <View style={{ flex: 1, zIndex: 1, position: 'absolute', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', top: "81.2%", alignSelf: 'center', width: 2* window.width/3, height: 75 }}>
+          <Pressable style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', 
+          alignItems: 'center', backgroundColor: null, width: this.arrowWidth, height: 75 }} onPressIn={this.onPressLeft} onPressOut={this.onLetGo}>
+            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: this.arrowWidth, height: this.arrowWidth, transform: [{ scaleX: -1 }]}} />
           </Pressable>
 
-          <Pressable style={{ zIndex: 0.1 }} onPress={this.onPlayerServe}>
-            <View style={{ width: 70, height: 70, borderRadius: 70/2, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+          <Pressable style={{ flex: 1, width: this.arrowWidth, borderRadius: this.arrowWidth/2, flexDirection: 'column', justifyContent: 'center', 
+          alignItems: 'center', backgroundColor: 'lightblue', height: 75 }} onPress={this.onPlayerServe}>
               <Text style={{ color: 'black' }}>Serve!</Text>
-            </View>
           </Pressable>
 
-          <Pressable onPressIn={this.onPressRight} onPressOut={this.onLetGo}>
-            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: null }}>
-            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: 100, height: 75}} />
-            </View>
+          <Pressable style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: 'green', 
+          alignItems: 'center', backgroundColor: null, width: this.arrowWidth, height: 75 }} onPressIn={this.onPressRight} onPressOut={this.onLetGo}>
+            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: this.arrowWidth, height: this.arrowWidth}} />
           </Pressable>
 
         </View>
-        <View style={{ zIndex: 0.1, position: 'absolute', width: window.width, flexDirection: 'row', top: '90%', justifyContent: 'space-evenly' }}>
-          <Pressable style={{ zIndex: 0.1 }} onPress={this.onPressToggleAI}>
-            <View style={{ width: 100, height: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+
+        <View style={{ zIndex: 1, position: 'absolute', width: window.width, flexDirection: 'row', top: '90%', justifyContent: 'space-evenly' }}>
+          <Pressable style={{ width: this.arrowWidth, height: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }} onPress={this.onPressToggleAI}>
               <Text style={{ color: 'black', fontSize: 10 }}>Toggle AI Player {this.state.AIStatus}</Text>
-            </View>
           </Pressable>
-          <Pressable style={{ zIndex: 0.1}} onPress={this.onGoBack}>
-            <View style={{ width: 100, height: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+          <Pressable style={{ width: this.arrowWidth, height: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }} onPress={this.onGoBack}>
               <Text style={{ color: 'black' }}>Go Back</Text>
-            </View>
           </Pressable>
         </View>
 
@@ -321,28 +321,21 @@ export default class Pong extends Component {
 const Player2Controls = (props) => {
   return(
 
-    <View style = {styles.container}>
-        
-        <View style={{position: 'absolute', flexDirection: 'row', bottom: "80%" }}>
-          <Pressable onPressIn={props.onEnemyPressLeft} onPressOut={props.onEnemyLetGo}>
-            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: null }}>
-            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: 100, height: 75, transform: [{ scaleX: -1 }]}} />
-            </View>
+        <View style={{flex: 1, position: 'absolute', alignSelf: 'center', width: 2*window.width/3, flexDirection: 'row', bottom: "81.2%" }}>
+        <Pressable style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', 
+          alignItems: 'center', backgroundColor: null, height: 75 }} onPressIn={props.onEnemyPressLeft} onPressOut={props.onEnemyLetGo}>
+            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: props.arrowWidth, height: props.arrowWidth, transform: [{ scaleX: -1 }]}} />
           </Pressable>
 
-          <Pressable onPress={props.onPlayer2Serve}>
-          <View style={{ width: 70, height: 70, borderRadius: 70/2, transform: [{rotateX: '180deg'}, {rotateY: '180deg'}], flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }}>
+          <Pressable style={{ flex: 1, width: props.arrowWidth, height: 75, borderRadius: props.arrowWidth/2, transform: [{rotateX: '180deg'}, {rotateY: '180deg'}], flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }} onPress={props.onPlayer2Serve}>
               <Text style={{ color: 'black' }}>Serve!</Text>
-            </View>
           </Pressable>
 
-          <Pressable onPressIn={props.onEnemyPressRight} onPressOut={props.onEnemyLetGo}>
-            <View style={{ width: 100, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: null }}>
-            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: 100, height: 75}} />
-            </View>
+          <Pressable style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: 'green', 
+          alignItems: 'center', backgroundColor: null, height: 75 }} onPressIn={props.onEnemyPressRight} onPressOut={props.onEnemyLetGo}>
+            <Image source={require('../assets/red-arrow.png')} style={{ resizeMode: 'contain', width: props.arrowWidth, height: props.arrowWidth}} />
           </Pressable>
 
-        </View>
         </View>
   )
 }

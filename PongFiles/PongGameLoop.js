@@ -18,91 +18,60 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     let AIPaddle = entities.AI
     let ball = entities.ball
 
-    const xBoundary = paddle.gridWidth
-    const xLowerBoundary = paddle.lowerBound
-    const yBoundary = paddle.gridHeight
+    const xBoundary = paddle.gridWidth - 1
+    const xLowerBoundary = 0
+    const yBoundary = paddle.gridHeight - 1
     const easyDistance = yBoundary/10
     const mediumDistance = yBoundary/4
     const impossibleDistance = yBoundary/6
     // console.log(`${PongConstants.BALL_SPEED2} and ${PongConstants.PLAYER_SPEED2}`)
+    
 
 
-    var ballOut = ball.position[1] > 0.85 * yBoundary || ball.position[1] < 0.15 * yBoundary
+    var ballOut;
+
+    if(ball.position[1] > paddle.position[1]){
+        ballOut = true
+    } else if(AIPaddle.isPlaying && ball.position[1] < AIPaddle.position[1]){
+        ballOut = true
+    } else if(!AIPaddle.isPlaying && ball.position[1] < enemyPaddle.position[1]){
+        ballOut = true
+    } else{
+        ballOut = false
+    }
 
 
     if (events.length) { //Sets move for next 'tick'
         for (let i = 0; i < events.length; i++) {
             if (events[i].type === "move-right") {
                 paddle.xspeed = PongConstants.PLAYER_SPEED2
-                if(paddle.isServing){
-                    ball.xspeed = paddle.xspeed
-                }
             } else if (events[i].type === "move-left") {
                 paddle.xspeed = -PongConstants.PLAYER_SPEED2
-                if(paddle.isServing){
-                    ball.xspeed = paddle.xspeed
-                }
             } else if (events[i].type === "stop-moving") {
                 paddle.xspeed = 0
-                if(paddle.isServing){
-                    ball.xspeed = paddle.xspeed
-                }
             } else if (events[i].type === "enemy-stop-moving") {
-
                 console.log(`enemy stop moving`)
-
                 if(AIPaddle.isPlaying){
-
                     AIPaddle.xspeed = 0
-                    if(AIPaddle.isServing){
-                        ball.xspeed = AIPaddle.xspeed
-                    }
-
                 } else{
                     enemyPaddle.xspeed = 0
-                    if(enemyPaddle.isServing){
-                        ball.xspeed = enemyPaddle.xspeed
-                    }
                 }
-                
             } else if (events[i].type === "enemy-move-left") {
                 console.log(`enemy move left`)
-
                 if(AIPaddle.isPlaying){
-
                     AIPaddle.xspeed = -PongConstants.PLAYER_SPEED2
-                    if(AIPaddle.isServing){
-                        ball.xspeed = AIPaddle.xspeed
-                    }
-
                 } else{
                     enemyPaddle.xspeed = -PongConstants.PLAYER_SPEED2
-                    if(enemyPaddle.isServing){
-                        ball.xspeed = enemyPaddle.xspeed
-                    }
                 }
-
             } else if (events[i].type === "enemy-move-right") {
-
                 console.log(`enemy move right`)
-
                 if(AIPaddle.isPlaying){
-
                     AIPaddle.xspeed = PongConstants.PLAYER_SPEED2
-                    if(AIPaddle.isServing){
-                        ball.xspeed = AIPaddle.xspeed
-                    }
-
                 } else{
                     enemyPaddle.xspeed = PongConstants.PLAYER_SPEED2
-                    if(enemyPaddle.isServing){
-                        ball.xspeed = enemyPaddle.xspeed
-                    }
                 }
-                
             } else if (events[i].type === "p1score") {
                 console.log(`p1 score event`)
-
                 ball.xspeed = 0
                 ball.yspeed = 0
                 paddle.isServing = true
@@ -113,7 +82,6 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
                 console.log(`p2score event`)
                 ball.xspeed = 0
                 ball.yspeed = 0
-                enemyPaddle.isServing = true
                 if(AIPaddle.isPlaying){
                     AIPaddle.isServing = true
                     ball.position[0] = AIPaddle.position[0] + 2
@@ -126,24 +94,19 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
                     ball.position[1] = enemyPaddle.position[1] + 1
     
                 }
-
             }  else if (events[i].type === "p1serve" && paddle.isServing) {
                 console.log(`p1 serve`)
-
                 ball.xspeed = PongConstants.BALL_SPEED2
                 ball.yspeed = -PongConstants.BALL_SPEED2
                 paddle.isServing = false
             }  else if (events[i].type === "p2serve" && (enemyPaddle.isServing || AIPaddle.isServing)) {
                 console.log(`p2 serve`)
-
                 ball.xspeed = PongConstants.BALL_SPEED2
                 ball.yspeed = PongConstants.BALL_SPEED2
-
                 if(AIPaddle.isPlaying){
                     AIPaddle.isServing = false
                 } else{
                     enemyPaddle.isServing = false
-
                 }
             }  else if (events[i].type === "collision") {
                 AIPaddle.rando = randomBetween(0, 100)
@@ -154,6 +117,18 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     if((ball.position[0] >= xBoundary || ball.position[0] <= xLowerBoundary) ){
         ball.xspeed = -ball.xspeed
         dispatch({ type: "collision" })
+    }
+
+
+    if(paddle.isServing){
+        ball.position[0] = paddle.position[0] + 2
+        ball.position[1] = paddle.position[1] - 1
+    } else if(enemyPaddle.isServing){
+        ball.position[0] = enemyPaddle.position[0] + 2
+        ball.position[1] = enemyPaddle.position[1] + 1
+    } else if(AIPaddle.isServing){
+        ball.position[0] = AIPaddle.position[0] + 2
+        ball.position[1] = AIPaddle.position[1] + 1
     }
 
 
@@ -190,6 +165,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
             ball.position[1] -= ball.yspeed
 
             ball.yspeed = -ball.yspeed
+            console.log(`COLLISION`)
             
             paddle.lastHit = true
             enemyPaddle.lastHit = false
