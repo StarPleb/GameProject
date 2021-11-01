@@ -14,15 +14,17 @@ import PongConstants from './PongConstants.js';
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
-const gameWidth =  0.8 * window.width
-var gameHeight = gameWidth*1.75
+// const gameWidth =  0.8 * window.width
+const gameHeight = 0.6*window.height
+const gameWidth = gameHeight/2
+// var gameHeight = gameWidth*1.75
 const ballSize = gameWidth/30
 const paddleWidth = ballSize * 3
 const paddleHeight = ballSize
 
-if(gameHeight > 0.75*window.height){
-  gameHeight = gameWidth*1.5
-}
+// if(gameHeight > 0.75*window.height){
+//   gameHeight = gameWidth*1.5
+// }
 
 
 
@@ -215,7 +217,7 @@ export default class Pong extends Component {
 
     this.engine.swap({
       player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
-      player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+      player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
       ball: {
         position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
       },
@@ -258,7 +260,7 @@ export default class Pong extends Component {
     return (
       <View style={styles.container}>
 
-        <Text style={{ zIndex: 1, alignSelf: 'flex-start', fontSize: 15, opacity: 0.3, left: 0.1*window.width + 10, position: 'absolute', color: 'white' }}>
+        <Text style={{ zIndex: 1, alignSelf: 'flex-start', fontSize: 15, opacity: 0.3, left: (window.width - gameWidth)/2 + 10, position: 'absolute', color: 'white' }}>
           Player 1 Score: {this.state.p1score} {'\n'}
           Player 2 Score: {this.state.p2score}
         </Text>
@@ -268,7 +270,7 @@ export default class Pong extends Component {
           style={{ zIndex: 0, borderColor: 'white', borderWidth: 2, width: gameWidth, height: gameHeight, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
           entities={{
             player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
-            player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: 30, height: 10, renderer: <Paddle color={'black'} /> },
+            player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
             ball: {
               position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
