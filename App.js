@@ -30,7 +30,7 @@ const StackedScreen = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Welcome' }}
+          options={{ title: 'Welcome', headerShown: false }}
         />
         <Stack.Screen name="Snake"
           component={Snek}
@@ -54,34 +54,40 @@ const HomeScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
+      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic' }}>
+        Wacky Game Collection
+      </Text>
+      <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black' }}>
+        Game Selection
+      </Text>
       <ScrollView horizontal={true} style={styles.scrollView}>
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth, height: window.height / 2 }}>
           <TouchableOpacity onPress={() =>
             navigation.navigate('Snake', { Something: 'icup' })}>
             <Image source={require('./assets/snektrans.png')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height/4 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
 
 
-          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'lightgreen' }}>
-            Hisssssss, hssssss, ssssss
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
+            Eat apples and not yourself...
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth, height: window.height / 2 }}>
 
-        <TouchableOpacity onPress={() =>
+          <TouchableOpacity onPress={() =>
             navigation.navigate('Pong')}>
             <Image source={require('./assets/readyforpong.jpeg')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height/2 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
-          <Text style={{ alignSelf: 'center', fontSize: 30, color: 'red' }}>
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             Ready or pong... here I come.
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'red', width: windowWidth }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'red', width: windowWidth, height: window.height / 2 }}>
 
           <Button
             title="Blank text"
@@ -91,7 +97,7 @@ const HomeScreen = ({ navigation }) => {
           />
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2 }}>
 
           <Button
             title="Blank text"
@@ -104,6 +110,9 @@ const HomeScreen = ({ navigation }) => {
         </View>
 
       </ScrollView>
+      <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black' }}>
+        Bottom Text
+      </Text>
     </SafeAreaView>
 
 
@@ -132,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8F0E3",
     justifyContent: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   halfContainer: {
     flex: 1,
@@ -145,6 +154,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'black',
     marginHorizontal: 0,
+    maxHeight: window.height / 2
   },
 })
 

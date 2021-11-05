@@ -14,11 +14,8 @@ import PongConstants from './PongConstants.js';
 
 
 const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
-// const gameWidth =  0.8 * window.width
 const gameHeight = 0.6*window.height
 const gameWidth = gameHeight/2
-// var gameHeight = gameWidth*1.75
 const ballSize = gameWidth/30
 const paddleWidth = ballSize * 3
 const paddleHeight = ballSize
@@ -217,10 +214,40 @@ export default class Pong extends Component {
     await this.sleep(200)
 
     this.engine.swap({
-      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
+      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, playerSpeed: PongConstants.PLAYER_SPEED2, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
       player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
       ball: {
-        position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
+        position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, ballSpeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
+      },
+      AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
+      timer: { position: [0, 0], tick: 0, tickCount: 60, width: ballSize * 10, height: ballSize * 2, renderer: <MyTimer/>},
+    })
+    this.setState({
+      running: true,
+      p1score: 0,
+      p2score: 0,
+    })
+  }
+
+  async gameTooFast() { //Resets game to initial state
+
+    if(this.state.AIStatus === "Off"){
+      this.setState({
+        AIStatus: "On"
+      })
+    } else{
+      this.setState({
+        AIStatus: "Off"
+      })
+    }
+
+    await this.sleep(200)
+
+    this.engine.swap({
+      player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, playerSpeed: PongConstants.PLAYER_SPEED3, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
+      player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
+      ball: {
+        position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED3, ballSpeed: PongConstants.BALL_SPEED3, yspeed: PongConstants.BALL_SPEED3, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
       },
       AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
       timer: { position: [0, 0], tick: 0, tickCount: 60, width: ballSize * 10, height: ballSize * 2, renderer: <MyTimer/>},
@@ -271,10 +298,10 @@ export default class Pong extends Component {
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, borderColor: 'white', borderWidth: 2, width: gameWidth, height: gameHeight, flex: null, position: 'absolute', backgroundColor: "#0a0527" }}
           entities={{
-            player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
+            player1: { position: [this.gridWidth/2, 0.85 * this.gridHeight], xspeed: 0.0, playerSpeed: PongConstants.PLAYER_SPEED2, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
             player2: { position: [this.gridWidth/2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
             ball: {
-              position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
+              position: [this.gridWidth/4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, ballSpeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
             },
             AI: { position: [this.gridWidth/2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
             timer: { position: [0, 0], tick: 0, tickCount: 60, width: ballSize * 10, height: ballSize * 2, renderer: <MyTimer/>},

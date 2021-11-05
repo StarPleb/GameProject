@@ -1,3 +1,4 @@
+import { getNativeSourceFromSource } from 'expo-av/build/AV';
 import {Pressable} from 'react-native'
 import Constants from '../SnakeFiles/Constants.js';
 import PongConstants from './PongConstants.js';
@@ -7,6 +8,10 @@ import PongConstants from './PongConstants.js';
 function randomBetween(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
+
+function sleep(ms) { //Useful for async functions 
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 
 const PongGameLoop = (entities, { touches, dispatch, events }) => {
@@ -25,6 +30,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     const easyDistance = yBoundary/10
     const mediumDistance = yBoundary/4
     const impossibleDistance = yBoundary/6
+    const playerSpeed = paddle.playerSpeed
     // console.log(`${PongConstants.BALL_SPEED2} and ${PongConstants.PLAYER_SPEED2}`)
 
     if(timer.tick < timer.tickCount){
@@ -53,6 +59,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         timer.tick3 = null
     }
 
+
     
 
 
@@ -72,9 +79,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     if (events.length) { //Sets move for next 'tick'
         for (let i = 0; i < events.length; i++) {
             if (events[i].type === "move-right") {
-                paddle.xspeed = PongConstants.PLAYER_SPEED2
+                paddle.xspeed = playerSpeed
             } else if (events[i].type === "move-left") {
-                paddle.xspeed = -PongConstants.PLAYER_SPEED2
+                paddle.xspeed = -playerSpeed
             } else if (events[i].type === "stop-moving") {
                 paddle.xspeed = 0
             } else if (events[i].type === "enemy-stop-moving") {
@@ -87,16 +94,16 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
             } else if (events[i].type === "enemy-move-left") {
                 console.log(`enemy move left`)
                 if(AIPaddle.isPlaying){
-                    AIPaddle.xspeed = -PongConstants.PLAYER_SPEED2
+                    AIPaddle.xspeed = -playerSpeed
                 } else{
-                    enemyPaddle.xspeed = -PongConstants.PLAYER_SPEED2
+                    enemyPaddle.xspeed = -playerSpeed
                 }
             } else if (events[i].type === "enemy-move-right") {
                 console.log(`enemy move right`)
                 if(AIPaddle.isPlaying){
-                    AIPaddle.xspeed = PongConstants.PLAYER_SPEED2
+                    AIPaddle.xspeed = playerSpeed
                 } else{
-                    enemyPaddle.xspeed = PongConstants.PLAYER_SPEED2
+                    enemyPaddle.xspeed = playerSpeed
                 }
             } else if (events[i].type === "p1score") {
                 console.log(`p1 score event`)
@@ -124,13 +131,13 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
                 }
             }  else if (events[i].type === "p1serve" && paddle.isServing) {
                 console.log(`p1 serve`)
-                ball.xspeed = PongConstants.BALL_SPEED2
-                ball.yspeed = -PongConstants.BALL_SPEED2
+                ball.xspeed = playerSpeed
+                ball.yspeed = -playerSpeed
                 paddle.isServing = false
             }  else if (events[i].type === "p2serve" && (enemyPaddle.isServing || AIPaddle.isServing)) {
                 console.log(`p2 serve`)
-                ball.xspeed = PongConstants.BALL_SPEED2
-                ball.yspeed = PongConstants.BALL_SPEED2
+                ball.xspeed = playerSpeed
+                ball.yspeed = playerSpeed
                 if(AIPaddle.isPlaying){
                     AIPaddle.isServing = false
                 } else{
@@ -233,9 +240,9 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         enemyPaddle.position[0] = 100 //TO THE
         enemyPaddle.position[1] = 200 //SHADOW REALM
         if(AIPaddle.position[0] < ball.position[0]){
-            AIPaddle.xspeed = PongConstants.PLAYER_SPEED2
+            AIPaddle.xspeed = playerSpeed
         } else if(AIPaddle.position[0] > ball.position[0]){
-            AIPaddle.xspeed = -PongConstants.PLAYER_SPEED2
+            AIPaddle.xspeed = -playerSpeed
         }
 
 
@@ -263,15 +270,15 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
 
             if(AIPaddle.rando <= 50){
 
-                if(AIPaddle.position[0] + PongConstants.PLAYER_SPEED2 < xBoundary - 2){
-                    AIPaddle.position[0] += PongConstants.PLAYER_SPEED2
-                    ball.position[0] += PongConstants.PLAYER_SPEED2
+                if(AIPaddle.position[0] + playerSpeed < xBoundary - 2){
+                    AIPaddle.position[0] += playerSpeed
+                    ball.position[0] += playerSpeed
                 }
             } else {
 
-                if(AIPaddle.position[0] - PongConstants.PLAYER_SPEED2 > xLowerBoundary){
-                    AIPaddle.position[0] += -PongConstants.PLAYER_SPEED2
-                    ball.position[0] += -PongConstants.PLAYER_SPEED2
+                if(AIPaddle.position[0] - playerSpeed > xLowerBoundary){
+                    AIPaddle.position[0] += -playerSpeed
+                    ball.position[0] += -playerSpeed
                 }
             }
             AIPaddle.tick += 1

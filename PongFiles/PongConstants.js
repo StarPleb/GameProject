@@ -6,6 +6,8 @@ export default PongConstants = {
     SPEED_SCALE: 0.01025641,
     PLAYER_SPEED: 0.4,
     PLAYER_SPEED2: 1/2,
+    PLAYER_SPEED3: 1/4,
     BALL_SPEED: 0.4,
-    BALL_SPEED2: 1/2
+    BALL_SPEED2: 1/2,
+    BALL_SPEED3: 1/4
 }

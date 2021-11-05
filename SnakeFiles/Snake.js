@@ -362,7 +362,7 @@ const OptionsButton = (props) => {
           <View style={styles.oval} />
         </TouchableOpacity>
         <Text style={{ zIndex: 1, fontSize: 10, color: 'gray' }}>
-          Options
+          Go Back
         </Text>
       </View>
 
