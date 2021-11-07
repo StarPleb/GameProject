@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
       <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic' }}>
         Wacky Game Collection
       </Text>
-      <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black' }}>
+      <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
         Game Selection
       </Text>
       <ScrollView horizontal={true} style={styles.scrollView}>

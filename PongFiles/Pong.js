@@ -154,21 +154,28 @@ export default class Pong extends Component {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  async playSound(sound) {
+    await sound.playFromPositionAsync(0); 
+  }
+
 
   onEvent = (e) => { //Event handler for the <GameEngine/>
     if (e.type === "collision") {
       console.log('collision')
-      const randomNumber = randomBetween(0, 100)
+      const randomNumber = Math.floor(
+        Math.random() * 101
+      )
 
       try {
         if (randomNumber > 0 && randomNumber < 25) {
-          this.blipSound1.playFromPositionAsync(0)
+          this.playSound(this.blipSound1)
         } else if (randomNumber > 25 && randomNumber < 50) {
-          this.blipSound2.playFromPositionAsync(0)
+          this.playSound(this.blipSound2)
         } else if (randomNumber > 50 && randomNumber < 75) {
-          this.blipSound3.playFromPositionAsync(0)
+          this.playSound(this.blipSound3)
         } else {
-          this.blipSound4.playFromPositionAsync(0)
+          this.playSound(this.blipSound4)
+
         }
       } catch (error) {
         console.log("error playing sound")

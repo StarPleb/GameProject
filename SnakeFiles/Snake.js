@@ -193,24 +193,16 @@ export default class Snake extends Component {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // async playEatSound() {
-  //   this.eatSound.playAsync()
-  //   await this.sleep(1200)
-  //   this.eatSound.setPositionAsync(0)
 
-  // }
-
-  // async playDieSound() {
-  //   this.dieSound.playAsync()
-  //   await this.sleep(1200)
-  //   this.dieSound.setPositionAsync(0)
-  // }
+  async playSound(sound) {
+    await sound.playFromPositionAsync(0); 
+  }
 
 
   onEvent = (e) => { //Event handler for the <GameEngine/>
     if (e.type === "game-over") {
       if (this.state.running) {
-        this.dieSound.playFromPositionAsync(0)
+        this.playSound(this.dieSound)
       }
       this.setState({
         running: false
@@ -223,17 +215,17 @@ export default class Snake extends Component {
       console.log(GridThing.state.gridArray[0][0])
 
     } else if (e.type === "collision") {
-      this.eatSound.playFromPositionAsync(0);
+      this.playSound(this.eatSound)
       this.setState({
         score: this.state.score + 1
       })
     } else if (e.type === "paused") {
       if (this.state.pauseCounter % 2 === 0) {
-        this.pauseSound.playFromPositionAsync(0)
+        this.playSound(this.pauseSound)
         this.engine.stop()
       } else {
         this.engine.start()
-        this.resumeSound.playFromPositionAsync(0)
+        this.playSound(this.resumeSound)
       }
 
       this.setState({

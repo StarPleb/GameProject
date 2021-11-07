@@ -76,7 +76,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     }
 
 
-    if (events.length) { //Sets move for next 'tick'
+    if (events.length) { //Event handler for entities
         for (let i = 0; i < events.length; i++) {
             if (events[i].type === "move-right") {
                 paddle.xspeed = playerSpeed
