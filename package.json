@@ -10,7 +10,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
-    "expo": "~42.0.1",
+    "expo": "^1.0.0",
     "expo-av": "~9.2.3",
     "expo-status-bar": "~1.0.4",
     "howler": "^2.2.3",
@@ -21,7 +21,7 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-sound-player": "^0.11.1",
-    "react-native-web": "~0.13.12",
+    "react-native-web": "^0.17.5",
     "render-if": "^0.1.1"
   },
   "devDependencies": {
