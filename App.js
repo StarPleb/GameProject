@@ -7,14 +7,14 @@ import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, Touchab
 import Snake from './SnakeFiles/Snake.js'
 import Pong from './PongFiles/Pong.js'
 import OptionsScreen from './SnakeFiles/Snake.js'
+import tttmain from './TicTacToeFiles/index.html'
 import { useNavigation } from '@react-navigation/native';
-
+//import { WebView } from 'react-native-webview';
 
 
 const windowWidth = Dimensions.get('window').width;
 const window = Dimensions.get("window");
 const Stack = createNativeStackNavigator();
-
 
 
 export default function App() {
@@ -41,6 +41,11 @@ const StackedScreen = () => {
           component={PongGame}
           options={{ headerShown: false }}
         />
+        <Stack.Screen 
+          name="TicTacToe"
+          component={TTTGame}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="OptionsScreen"
           component={OptionsScreen}
           options={{ headerShown: false }}
@@ -55,8 +60,8 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic' }}>
-        Wacky Game Collection
+      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic', marginBottom: 5}}>
+        Classic Collection
       </Text>
       <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
         Game Selection
@@ -87,14 +92,16 @@ const HomeScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'red', width: windowWidth, height: window.height / 2 }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 2 }}>
 
-          <Button
-            title="Blank text"
-            onPress={() =>
-              console.log("Not really tho")
-            }
-          />
+        <TouchableOpacity onPress={() =>
+            navigation.navigate('tttmain')}>
+            <Image source={require('./assets/Tictactoescreenshot.png')}
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+          </TouchableOpacity>
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
+            X's and O's
+          </Text>
         </View>
 
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2 }}>
@@ -134,7 +141,14 @@ const PongGame = () => {
   return <Pong navigation={navigation} />
 }
 
-
+const TTTGame = () => {
+  const navigation = useNavigation();
+  <WebView
+    originWhitelist={['*']}
+    source={{ html: 'tttmain' }}
+/>
+  return <tttmain navigation={navigation} />
+}
 
 const styles = StyleSheet.create({
   container: {
