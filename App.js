@@ -7,7 +7,7 @@ import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, Touchab
 import Snake from './SnakeFiles/Snake.js'
 import Pong from './PongFiles/Pong.js'
 import OptionsScreen from './SnakeFiles/Snake.js'
-import tttmain from './TicTacToeFiles/index.html'
+import TicTacToe from './TicTacToeFiles/tictactoe.js'
 import { useNavigation } from '@react-navigation/native';
 //import { WebView } from 'react-native-webview';
 
@@ -95,7 +95,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 2 }}>
 
         <TouchableOpacity onPress={() =>
-            navigation.navigate('tttmain')}>
+            navigation.navigate('TicTacToe')}>
             <Image source={require('./assets/Tictactoescreenshot.png')}
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
@@ -127,8 +127,6 @@ const HomeScreen = ({ navigation }) => {
 };
 
 
-
-
 const Snek = () => {
   const navigation = useNavigation();
 
@@ -143,11 +141,8 @@ const PongGame = () => {
 
 const TTTGame = () => {
   const navigation = useNavigation();
-  <WebView
-    originWhitelist={['*']}
-    source={{ html: 'tttmain' }}
-/>
-  return <tttmain navigation={navigation} />
+  
+  return <TicTacToe navigation={navigation} />
 }
 
 const styles = StyleSheet.create({
