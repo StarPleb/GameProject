@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable } from 'react-native';
 import Snake from './SnakeFiles/Snake.js'
 import Pong from './PongFiles/Pong.js'
+import Chess from './ChessFiles/Chess.js'
 import OptionsScreen from './SnakeFiles/Snake.js'
 import TicTacToe from './TicTacToeFiles/tictactoe.js'
 import { useNavigation } from '@react-navigation/native';
@@ -48,6 +49,11 @@ const StackedScreen = () => {
         />
         <Stack.Screen name="OptionsScreen"
           component={OptionsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Chess"
+          component={Chezz}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
@@ -101,19 +107,20 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
             X's and O's
-          </Text>
+</Text>
+
         </View>
 
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2 }}>
 
-          <Button
-            title="Blank text"
-            onPress={() =>
-              console.log("Not really tho")
-            }
-          />
-
-
+        <TouchableOpacity onPress={() =>
+            navigation.navigate('Chess')}>
+            <Image source={require('./assets/humanchess.jpeg')}
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+          </TouchableOpacity>
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
+            Check please, mate.
+          </Text>
         </View>
 
       </ScrollView>
@@ -144,6 +151,13 @@ const TTTGame = () => {
   
   return <TicTacToe navigation={navigation} />
 }
+const Chezz = () => {
+  const navigation = useNavigation();
+
+  return <Chess navigation={navigation} />
+}
+
+
 
 const styles = StyleSheet.create({
   container: {

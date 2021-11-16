@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { PureComponent, useState } from 'react';
 import { AppRegistry, StyleSheet, TouchableOpacity, Text, Image, ScrollView, SafeAreaView, View, Switch, Dimensions, Button, Alert, Pressable } from 'react-native';
-import { GameEngine } from "react-native-game-engine";
+import { DefaultTimer, GameEngine } from "react-native-game-engine";
 import { Component } from 'react';
 import Paddle from './Paddle.js'
 import Ball from './Ball.js'
@@ -19,6 +19,7 @@ const gameWidth = gameHeight/2
 const ballSize = gameWidth/30
 const paddleWidth = ballSize * 3
 const paddleHeight = ballSize
+
 
 // if(gameHeight > 0.75*window.height){
 //   gameHeight = gameWidth*1.5
@@ -316,6 +317,7 @@ export default class Pong extends Component {
           systems={[PongGameLoop]}
           onEvent={this.onEvent}
           running={this.state.running}
+          timer={new customTimer}
 
         />
 
@@ -445,6 +447,51 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: 2 }],
   },
 });
+
+class customTimer {
+  constructor() {
+    this.subscribers = [];
+    this.loopId = null;
+    this.stopOnNextFrame = false;
+  }
+
+  loop = time => {
+    if (this.stopOnNextFrame ) {
+      this.stopOnNextFrame = false;
+      return;
+    }
+
+    if (this.loopId) {
+      this.subscribers.forEach(callback => {
+        callback(time);
+      });
+    }
+
+    this.loopId = requestAnimationFrame(this.loop);
+  };
+
+  start() {
+    if (!this.loopId) {
+      this.loop();
+    }
+  }
+
+  stop() {
+    if (this.loopId) {
+      this.stopOnNextFrame = true;
+      cancelAnimationFrame(this.loopId);
+    }
+  }
+
+  subscribe(callback) {
+    if (this.subscribers.indexOf(callback) === -1)
+      this.subscribers.push(callback);
+  }
+
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter(s => s !== callback)
+  }
+}
 
 AppRegistry.registerComponent("PongGame", () => Pong);
 
