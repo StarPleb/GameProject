@@ -119,7 +119,7 @@ const HomeScreen = ({ navigation }) => {
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
-            Check please, mate.
+            Check me out, mate.
           </Text>
         </View>
 
