@@ -6,6 +6,7 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
+        this.navigation = props.navigation
 
         this.state = {
             gameState: [
@@ -78,6 +79,8 @@ export default class App extends React.Component {
     onNewGamePress = () => {
         this.initializeGame();
     }
+    onGoBack = () => {this.navigation.goBack()}
+
 
     onTilePress = (row, col) => {
         // Don't allow tiles to change...
@@ -160,6 +163,8 @@ export default class App extends React.Component {
 
                 <View style={{paddingTop:50}} />
                 <Button title="New Game" onPress={this.onNewGamePress} />
+                <Button title="Go Back" onPress={this.onGoBack} />
+
 
             </View>
         );

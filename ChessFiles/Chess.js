@@ -4,6 +4,14 @@ import { AppRegistry, StyleSheet, TouchableOpacity, Text, Image, ScrollView, Saf
 import { DefaultTimer, GameEngine } from "react-native-game-engine";
 import { Component } from 'react';
 import Board from './Board.js'
+import Pawn from './Pawn.js'
+import Rook from './Rook.js'
+import Knight from './Knight.js'
+import Bishop from './Bishop.js'
+import Queen from './Queen.js'
+import King from './King.js'
+import BoardArray from './BoardArray.js';
+
 import { ChessGameLoop } from './ChessGameLoop.js'
 import { Audio } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +23,7 @@ const maximumWidth = Math.min(window.width, window.height)
 const boardLength = 0.8 * maximumWidth
 const cellSize = boardLength / 8
 
+var boardArray = new BoardArray
 
 
 
@@ -29,16 +38,13 @@ export default class Chess extends Component {
     super(props);
     this.engine = null;
     this.navigation = props.navigation
-
+    this.onSelect = this.onSelect.bind(this)
 
     this.state = {
       playAI: true,
       running: true,
-      p1score: 0,
-      p2score: 0,
-      AIStatus: "Off",
-      bgMusic: true,
-      soundEffects: true
+      selectedPiece: "",
+      boardArray: boardArray
     }
 
   }
@@ -88,6 +94,11 @@ export default class Chess extends Component {
   onEvent = (e) => { //Event handler for the <GameEngine/>
     if (e.type === "something") {
       console.log('something')
+      console.log(`${e.selection[0][0]}, ${e.selection[0][1]} piece`)
+
+    }
+    else if(e.type === "selection"){
+      console.log(`${e.selection[0]}, ${e.selection[1]} piece selected`)
     }
 
   }
@@ -121,7 +132,7 @@ export default class Chess extends Component {
     })
     this.setState({
       running: true,
-      p1score: 0,
+      selectedPiece: "",
       p2score: 0,
     })
   }
@@ -130,8 +141,10 @@ export default class Chess extends Component {
 
 
   onGoBack = () => { this.navigation.goBack() }
-  onSomething = () => { this.engine.dispatch({ type: "something" }) }
+  onSelection = () => { this.engine.dispatch({ type: "selection", selection: [0, 0] }) }
   onReset = () => { this.reset() }
+  onSelect = (i, j) => { this.engine.dispatch({ type: "selection", selection: [i, j] }) }
+
 
 
 
@@ -148,7 +161,44 @@ export default class Chess extends Component {
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: boardLength, height: boardLength, flex: null, position: 'absolute', backgroundColor: null }}
           entities={{
-            board: { position: [0, 0], gridArray: [[]], pieceArray: [[]], selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, boardSize: boardLength, engine: this.engine, initialized: false, renderer: <Board /> },
+            board: { position: [0, 0], gridArray: [[]], pieceArray: [[]], isBlacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+            a2pawn: {position: [0, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            b2pawn: {position: [1, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            c2pawn: {position: [2, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            d2pawn: {position: [3, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            e2pawn: {position: [4, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            f2pawn: {position: [5, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            g2pawn: {position: [6, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            h2pawn: {position: [7, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+
+            a1rook: {position: [0, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Rook/>},
+            b1knight: {position: [1, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Knight/>},
+            c1bishop: {position: [2, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Bishop/>},
+            d1queen: {position: [3, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Queen/>},
+            e1king: {position: [4, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <King/>},
+            f1bishop: {position: [5, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Bishop/>},
+            g1knight: {position: [6, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Knight/>},
+            h1rook: {position: [7, 7], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Rook/>},
+
+            a7pawn: {position: [0, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            b7pawn: {position: [1, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            c7pawn: {position: [2, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            d7pawn: {position: [3, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            e7pawn: {position: [4, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            f7pawn: {position: [5, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            g7pawn: {position: [6, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            h7pawn: {position: [7, 1], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+
+            a8rook: {position: [0, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Rook/>},
+            b8knight: {position: [1, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Knight/>},
+            c8bishop: {position: [2, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Bishop/>},
+            d8queen: {position: [3, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Queen/>},
+            e8king: {position: [4, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <King/>},
+            f8bishop: {position: [5, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Bishop/>},
+            g8knight: {position: [6, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Knight/>},
+            h8rook: {position: [7, 0], isBlack: true, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Rook/>},
+
+
           }}
           systems={[ChessGameLoop]}
           onEvent={this.onEvent}
@@ -162,6 +212,202 @@ export default class Chess extends Component {
               <Text style={{ color: 'black' }}>Go Back</Text>
           </Pressable>
         </View>
+
+        <View style={{ zIndex: 1, width: boardLength, height: boardLength, flex: null, flexDirection: "column", position: 'absolute', backgroundColor: null  }}>
+          <TouchableOpacity onPress={() => this.onSelect(0, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 0)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 0 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 1)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 1 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 2)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 2 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 3)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 3 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 4)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 4 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 5)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 5 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 6)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 6 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(0, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 0 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(1, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 1 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(2, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 2 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(3, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 3 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(4, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 4 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(5, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 5 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(6, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 6 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.onSelect(7, 7)}>
+          <View style={{ width: cellSize, height: cellSize, position: 'absolute', left: 7 * cellSize, top: 7 * cellSize, backgroundColor: null, }} />
+          </TouchableOpacity>
+          
+          </View>
 
       </View>
     )
