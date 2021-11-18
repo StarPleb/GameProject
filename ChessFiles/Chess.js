@@ -23,7 +23,6 @@ const maximumWidth = Math.min(window.width, window.height)
 const boardLength = 0.8 * maximumWidth
 const cellSize = boardLength / 8
 
-var boardArray = new BoardArray
 
 
 
@@ -43,23 +42,12 @@ export default class Chess extends Component {
     this.state = {
       playAI: true,
       running: true,
-      selectedPiece: "",
-      boardArray: boardArray
+      selectedPiece: "no piece",
     }
 
   }
 
-  toggleBGMusic = () => {
-    this.setState({
-      bgMusic: !this.state.bgMusic
-    })
-  }
 
-  toggleSoundEffects = () => {
-    this.setState({
-      soundEffects: !this.state.soundEffects
-    })
-  }
 
 
   async componentDidMount() {
@@ -100,6 +88,12 @@ export default class Chess extends Component {
     else if(e.type === "selection"){
       console.log(`${e.selection[0]}, ${e.selection[1]} piece selected`)
     }
+    else if(e.type === "selectionmade"){
+      this.state.selectedPiece = e.selection
+      this.setState({
+        playAI: !this.state.playAI
+      })    
+    }
 
   }
 
@@ -132,7 +126,7 @@ export default class Chess extends Component {
     })
     this.setState({
       running: true,
-      selectedPiece: "",
+      selectedPiece: "nothing",
       p2score: 0,
     })
   }
@@ -157,11 +151,13 @@ export default class Chess extends Component {
     return (
       <View style={styles.container}>
 
+<Text style={{ zIndex: 2, color: 'black', fontSize: 40, position: 'absolute', top: '20%' }}>{this.state.selectedPiece} selected</Text>
+
         <GameEngine
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: boardLength, height: boardLength, flex: null, position: 'absolute', backgroundColor: null }}
           entities={{
-            board: { position: [0, 0], gridArray: [[]], pieceArray: [[]], isBlacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+            board: { position: [0, 0], gridArray: [[]], selectionMade: false, isBlacksTurn: true, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
             a2pawn: {position: [0, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
             b2pawn: {position: [1, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
             c2pawn: {position: [2, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
@@ -211,6 +207,9 @@ export default class Chess extends Component {
           <Pressable style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }} onPress={this.onGoBack}>
               <Text style={{ color: 'black' }}>Go Back</Text>
           </Pressable>
+
+          <Button title="Go Back" onPress={this.onGoBack} />
+
         </View>
 
         <View style={{ zIndex: 1, width: boardLength, height: boardLength, flex: null, flexDirection: "column", position: 'absolute', backgroundColor: null  }}>
