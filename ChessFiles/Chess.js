@@ -91,7 +91,7 @@ export default class Chess extends Component {
     else if(e.type === "selectionmade"){
       this.state.selectedPiece = e.selection
       this.setState({
-        playAI: !this.state.playAI
+        selectionPiece: e.selection
       })    
     }
 
@@ -157,8 +157,8 @@ export default class Chess extends Component {
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: boardLength, height: boardLength, flex: null, position: 'absolute', backgroundColor: null }}
           entities={{
-            board: { position: [0, 0], gridArray: [[]], selectionMade: false, isBlacksTurn: true, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
-            a2pawn: {position: [0, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
+            board: { position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+            a2pawn: {position: [0, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
             b2pawn: {position: [1, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
             c2pawn: {position: [2, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
             d2pawn: {position: [3, 6], isBlack: false, isSelected: false, isPinned: false, CELL_SIZE: cellSize, renderer: <Pawn/>},
@@ -203,10 +203,6 @@ export default class Chess extends Component {
         />
 
 <View style={{ zIndex: 1, position: 'absolute', width: window.width, flexDirection: 'row', top: '90%', justifyContent: 'space-evenly' }}>
-
-          <Pressable style={{ width: 100, height: 50, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue' }} onPress={this.onGoBack}>
-              <Text style={{ color: 'black' }}>Go Back</Text>
-          </Pressable>
 
           <Button title="Go Back" onPress={this.onGoBack} />
 

@@ -198,18 +198,76 @@ export default class BoardArray{
         // });
     }
 
-    printStuff(){
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
-                // console.log(this.arr[i][j].piece);
-                // console.log(this.arr[i][j].position);
-
-            }
-        }
+    printStuff(x, y){
+        return `Piece position: (${this.arr[x][y].position[0]}, ${this.arr[x][y].position[1]})`
     }
 
     getPieceName(x, y){
         return this.arr[x][y].piece
+    }
+
+    getPosition(x, y){
+        return this.arr[x][y].position
+
+    }
+
+    isBlack(x, y){
+        return this.arr[x][y].isBlack
+
+    }
+
+    isWhite(x, y){
+        return this.arr[x][y].isWhite
+
+    }
+
+    isAlive(x, y){
+        return this.arr[x][y].isAlive
+    }
+
+    movePiece(x, y, lastPosition, blacksTurn){
+        let x1 = lastPosition[0]
+        let y1 = lastPosition[1]
+
+        let pieceMoving = this.arr[x1][y1].piece
+        let pieceIsBlack = this.arr[x1][y1].isBlack
+        let pieceIsWhite = this.arr[x1][y1].isWhite
+
+        let destinationPiece = this.arr[x][y].piece
+        let destinationIsBlack = this.arr[x][y].isBlack
+        let destinationIsWhite = this.arr[x][y].isWhite
+
+        if (blacksTurn && pieceIsBlack && !destinationIsBlack){
+            this.arr[x][y].piece = pieceMoving
+            this.arr[x][y].isBlack = pieceIsBlack
+            this.arr[x][y].isWhite = pieceIsWhite
+            this.arr[x1][y1].piece = "nothing"
+            this.arr[x1][y1].isBlack = false
+            this.arr[x1][y1].isWhite = false
+
+            
+            return[x, y]
+
+            
+
+
+        }
+        else if(!blacksTurn && pieceIsWhite && !destinationIsWhite){
+            console.log("in whites move turn")
+            this.arr[x][y].piece = pieceMoving
+            this.arr[x][y].isBlack = pieceIsBlack
+            this.arr[x][y].isWhite = pieceIsWhite
+            this.arr[x1][y1].piece = "nothing"
+            this.arr[x1][y1].isBlack = false
+            this.arr[x1][y1].isWhite = false
+    
+            return[x, y]
+
+        }
+
+
+
+
     }
 
 

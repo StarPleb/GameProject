@@ -29,6 +29,7 @@ export default class BoardArrayCell {
         this.getPieceName(xInput, yInput)
         this.isBlack = false
         this.isWhite = false
+        this.isAlive = true
 
         this.getPieceName(xInput, yInput)
 
@@ -40,149 +41,152 @@ export default class BoardArrayCell {
         yValue = y
     
         if(xValue == 0 && yValue == 0){
-            this.piece = "rook"
+            this.piece = "a8rook"
             this.isBlack = true
         }
         else if(xValue == 1 && yValue == 0){
-            this.piece = "knight"
+            this.piece = "b8knight"
             this.isBlack = true
     
         }
         else if(xValue == 2 && yValue == 0){
-            this.piece = "bishop"
+            this.piece = "c8bishop"
             this.isBlack = true
     
         }
         else if(xValue == 3 && yValue == 0){
-            this.piece = "queen"
+            this.piece = "d8queen"
             this.isBlack = true
     
         }
         else if(xValue == 4 && yValue == 0){
-            this.piece = "king"
+            this.piece = "e8king"
             this.isBlack = true
     
         }
         else if(xValue == 5 && yValue == 0){
-            this.piece = "bishop"
+            this.piece = "f8bishop"
             this.isBlack = true
     
         }
         else if(xValue == 6 && yValue == 0){
-            this.piece = "knight"
+            this.piece = "g8knight"
             this.isBlack = true
     
         }
         else if(xValue == 7 && yValue == 0){
-            this.piece = "rook"
+            this.piece = "h8rook"
             this.isBlack = true
     
         }
         else if(xValue == 0 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "a7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 1 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "b7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 2 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "c7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 3 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "d7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 4 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "e7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 5 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "f7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 6 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "g7pawn"
             this.isBlack = true
     
         }
         else if(xValue == 7 && yValue == 1){
-            this.piece = "pawn"
+            this.piece = "h7pawn"
             this.isBlack = true
     
         }
     
         else if(xValue == 0 && yValue == 7){
-            this.piece = "rook"
+            this.piece = "a1rook"
             this.isWhite = true
     
         }
         else if(xValue == 1 && yValue == 7){
-            this.piece = "knight"
+            this.piece = "b1night"
             this.isWhite = true
         }
         else if(xValue == 2 && yValue == 7){
-            this.piece = "bishop"
+            this.piece = "c1bishop"
             this.isWhite = true
         }
         else if(xValue == 3 && yValue == 7){
-            this.piece = "queen"
+            this.piece = "d1queen"
             this.isWhite = true
         }
         else if(xValue == 4 && yValue == 7){
-            this.piece = "king"
+            this.piece = "e1king"
             this.isWhite = true
         }
         else if(xValue == 5 && yValue == 7){
-            this.piece = "bishop"
+            this.piece = "f1bishop"
             this.isWhite = true
         }
         else if(xValue == 6 && yValue == 7){
-            this.piece = "knight"
+            this.piece = "g1knight"
             this.isWhite = true
         }
         else if(xValue == 7 && yValue == 7){
-            this.piece = "rook"
+            this.piece = "h1rook"
             this.isWhite = true
         }
         else if(xValue == 0 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "a2pawn"
             this.isWhite = true
         }
         else if(xValue == 1 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "b2pawn"
             this.isWhite = true
         }
         else if(xValue == 2 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "c2pawn"
             this.isWhite = true
         }
         else if(xValue == 3 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "d2pawn"
             this.isWhite = true
         }
         else if(xValue == 4 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "e2pawn"
             this.isWhite = true
         }
         else if(xValue == 5 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "f2pawn"
             this.isWhite = true
         }
         else if(xValue == 6 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "g2pawn"
             this.isWhite = true
         }
         else if(xValue == 7 && yValue == 6){
-            this.piece = "pawn"
+            this.piece = "h2pawn"
             this.isWhite = true
+        }
+        else{
+            this.piece="nothing"
         }
     
     };
