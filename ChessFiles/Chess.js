@@ -20,7 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const window = Dimensions.get("window");
 const maximumWidth = Math.min(window.width, window.height)
-const boardLength = 0.8 * maximumWidth
+const boardLength = maximumWidth
 const cellSize = boardLength / 8
 
 
@@ -30,6 +30,24 @@ function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+const soundFiles = [
+  {
+    id: '001',
+    sound: require('./chessSounds/movesound1.wav'),
+  },
+  {
+    id: '002',
+    sound: require('./chessSounds/movesound2.wav'),
+  },
+  {
+    id: '003',
+    sound: require('./chessSounds/movesound3.wav'),
+  },
+  {
+    id: '004',
+    sound: require('./chessSounds/movesound4.wav'),
+  },
+]
 
 
 export default class Chess extends Component {
@@ -63,9 +81,40 @@ export default class Chess extends Component {
       playThroughEarpieceAndroid: true,
     });
 
+    this.movesound1 = new Audio.Sound()
+    this.movesound2 = new Audio.Sound()
+    this.movesound3 = new Audio.Sound()
+    this.movesound4 = new Audio.Sound()
+
+
+
+    const status = {
+      shouldPlay: false,
+      volume: 1,
+      progressUpdateIntervalMillis: 1
+    }
+
+
+
+    try {
+
+      await this.movesound1.loadAsync(soundFiles[0].sound, status)
+      await this.movesound2.loadAsync(soundFiles[1].sound, status)
+      await this.movesound3.loadAsync(soundFiles[2].sound, status)
+      await this.movesound4.loadAsync(soundFiles[3].sound, status)
+
+
+    } catch (error) {
+      console.log("Error loading sounds")
+    }
+
   }
 
   async componentWillUnmount() {
+    await this.movesound1.unloadAsync()
+    await this.movesound2.unloadAsync()
+    await this.movesound3.unloadAsync()
+    await this.movesound4.unloadAsync()
 
 
   }
@@ -93,6 +142,26 @@ export default class Chess extends Component {
       this.setState({
         selectionPiece: e.selection
       })    
+    }
+    else if(e.type === "movemade"){
+      const randomNumber = Math.floor(
+        Math.random() * 101
+      )
+
+      try {
+        if (randomNumber > 0 && randomNumber < 25) {
+          this.playSound(this.movesound1)
+        } else if (randomNumber > 25 && randomNumber < 50) {
+          this.playSound(this.movesound2)
+        } else if (randomNumber > 50 && randomNumber < 75) {
+          this.playSound(this.movesound3)
+        } else {
+          this.playSound(this.movesound4)
+
+        }
+      } catch (error) {
+        console.log("error playing sound")
+      }
     }
 
   }
@@ -131,6 +200,8 @@ export default class Chess extends Component {
     })
   }
 
+  
+
 
 
 
@@ -157,7 +228,7 @@ export default class Chess extends Component {
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: boardLength, height: boardLength, flex: null, position: 'absolute', backgroundColor: null }}
           entities={{
-            board:  {position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+            board:  {justMounted: true, position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
             a2pawn: {piece: "a2pawn", position: [0, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
             b2pawn: {piece: "b2pawn", position: [1, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
             c2pawn: {piece: "c2pawn", position: [2, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},

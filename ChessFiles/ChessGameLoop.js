@@ -14,18 +14,24 @@ function sleep(ms) { //Useful for async functions
 
 
 
-  const boardArray = new BoardArray
+const boardArray = new BoardArray
 
 
 
 
 const ChessGameLoop = (entities, { touches, dispatch, events }) => {
-
+    
 
 
     let board = entities.board
     let blacksTurn = board.blacksTurn
+    let justMounted = board.justMounted
     let selectionMade = board.selectionMade
+
+    if(justMounted){
+        boardArray.initalize()
+        board.justMounted = false
+    }
 
     let a2pawn = entities.a2pawn
     let b2pawn = entities.b2pawn
@@ -75,18 +81,11 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                 let y = events[i].selection[1]
 
                 let pieceName = boardArray.getPieceName(x, y)
-                let selectedPiecePosition = boardArray.getPosition(x, y)
+                console.log(`Selected piece: ${pieceName}`)
                 let selectedPieceisBlack = boardArray.isBlack(x, y)
                 let selectedPieceisWhite = boardArray.isWhite(x, y)
 
-                console.log(pieceName)
-                console.log(lastPiece)
-                console.log(blacksTurn)
-                console.log(selectedPieceisBlack)
-
-
-
-                if(selectedPieceisBlack && blacksTurn && pieceName != lastPiece){
+                if(selectedPieceisBlack && blacksTurn && pieceName != lastPiece){ //Blacks turn
 
 
                     console.log("in blacksturn")
@@ -194,48 +193,34 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         board.lastPosition = [x, y]
                     }
 
-                    console.log(!selectedPieceisBlack)
-                    console.log(blacksTurn)
-                    console.log(selectionMade)
 
                 }
-                else if(!selectedPieceisBlack && blacksTurn && selectionMade){
+                else if(!selectedPieceisBlack && blacksTurn && selectionMade){ //Black made a move
                     let info = boardArray.movePiece(x, y, board.lastPosition, blacksTurn)
 
                     for(let i = 0 ; i < blackPieceArray.length; i++){
-                        console.log("in for blackpiecearray")
-                        console.log(blackPieceArray[i].position)
+
                         let x1 = blackPieceArray[i].position[0]
                         let y1 = blackPieceArray[i].position[1]
                         let x2 = board.lastPosition[0]
                         let y2 = board.lastPosition[1]
-
-                        console.log(`entity position: ${x1}, ${y1}`)
-                        console.log(`last entity selected position: ${x2}, ${y2}`)
-                        console.log(info)
                         let newx = info[0]
                         let newy = info[1]
                         let lastPiece = info[2]
-                        console.log(`new stuff: ${newx}, ${newy}`)
-
-
-
 
                         if(x1 == x2 && y1 == y2){
 
-                            console.log("in position = lastposition")
                             blackPieceArray[i].position = [newx, newy]
+                            dispatch({ type: "movemade"})
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"
-                            console.log(`last piece ${lastPiece}`)
 
 
                             if(lastPiece != "nothing"){
                                 for(let j = 0; j < whitePieceArray.length; j++){
-                                    console.log(whitePieceArray[j].piece)
                                     if(whitePieceArray[j].piece == lastPiece){
-                                        console.log("in death")
+                                        console.log(`RIP ${whitePieceArray[j].piece}`)
                                         whitePieceArray[j].isAlive = false
                                         whitePieceArray[j].position=[0, 100] //TO THE SHADOW REALM
                                         break;
@@ -253,7 +238,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
 
 
                 }
-                if(!blacksTurn && selectedPieceisWhite && pieceName != lastPiece){
+                if(!blacksTurn && selectedPieceisWhite && pieceName != lastPiece){ //White's turn
 
                     console.log("in whites turn")
                     if(a1rook.position[0] == x && a1rook.position[1] == y){
@@ -364,42 +349,30 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
 
 
                 }
-                else if(!selectedPieceisWhite && !blacksTurn && selectionMade){
+                else if(!selectedPieceisWhite && !blacksTurn && selectionMade){ //White made move
                     let info = boardArray.movePiece(x, y, board.lastPosition, blacksTurn)
-
                     for(let i = 0 ; i < whitePieceArray.length; i++){
-                        console.log("in for whitepiecearray")
-                        console.log(whitePieceArray[i].position)
                         let x1 = whitePieceArray[i].position[0]
                         let y1 = whitePieceArray[i].position[1]
                         let x2 = board.lastPosition[0]
                         let y2 = board.lastPosition[1]
-
-                        console.log(`entity position: ${x1}, ${y1}`)
-                        console.log(`last entity selected position: ${x2}, ${y2}`)
-                        console.log(info)
                         let newx = info[0]
                         let newy = info[1]
                         let lastPiece = info[2]
 
-                        console.log(`new stuff: ${newx}, ${newy}`)
-
-
-
-
                         if(x1 == x2 && y1 == y2){
 
-                            console.log("in position = lastposition")
                             whitePieceArray[i].position = [newx, newy]
+                            dispatch({ type: "movemade"})
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"
-                            console.log(`last piece ${lastPiece}`)
 
                             if(lastPiece != "nothing"){
                                 for(let j = 0; j < blackPieceArray.length; j++){
                                     console.log(whitePieceArray[j].piece)
                                     if(blackPieceArray[j].piece == lastPiece){
+                                        console.log(`RIP ${blackPieceArray[j].piece}`)
                                         blackPieceArray[j].isAlive = false
                                         blackPieceArray[j].position = [0, 100] //TO THE SHADOW REALM
                                         break;

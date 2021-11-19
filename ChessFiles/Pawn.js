@@ -7,6 +7,7 @@ export default class Pawn extends Component{
         this.size = props.CELL_SIZE
         this.isBlack = props.isBlack
         this.isAlive = props.isAlive
+
     }
 
     render() {

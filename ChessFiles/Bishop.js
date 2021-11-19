@@ -17,7 +17,7 @@ export default class Bishop extends Component{
 
             <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: null, justifyContent: 'flex-end' }}>
             <Image source={require('./chessPieces/bishop.png')}
-                style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.75, height: this.size * 0.75, tintColor: this.isBlack ? "black" : "white" }} />
+                style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.9, top: "5%", height: this.size * 0.9, tintColor: this.isBlack ? "black" : "white" }} />
         </View>
         )
     }
