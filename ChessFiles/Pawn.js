@@ -6,6 +6,7 @@ export default class Pawn extends Component{
         super(props);
         this.size = props.CELL_SIZE
         this.isBlack = props.isBlack
+        this.isAlive = props.isAlive
     }
 
     render() {
@@ -15,7 +16,7 @@ export default class Pawn extends Component{
 
         return(
 
-            <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: null, justifyContent: 'flex-end' }}>
+            <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: this.isAlive ? null : "red", justifyContent: 'flex-end' }}>
             <Image source={require('./chessPieces/pawn.png')}
                 style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.75, height: this.size * 0.75, tintColor: this.isBlack ? "black" : "white" }} />
         </View>

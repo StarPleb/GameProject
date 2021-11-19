@@ -246,7 +246,11 @@ export default class BoardArray{
             this.arr[x1][y1].isWhite = false
 
             
-            return[x, y]
+            if(destinationIsWhite){
+                return[x, y, destinationPiece]
+            } else{
+                return[x, y, "nothing"]
+            }
 
             
 
@@ -261,7 +265,13 @@ export default class BoardArray{
             this.arr[x1][y1].isBlack = false
             this.arr[x1][y1].isWhite = false
     
-            return[x, y]
+            if(destinationIsBlack){
+                return[x, y, destinationPiece]
+            }
+            else{
+                return[x, y, "nothing"]
+            }
+
 
         }
 

@@ -215,6 +215,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         console.log(info)
                         let newx = info[0]
                         let newy = info[1]
+                        let lastPiece = info[2]
                         console.log(`new stuff: ${newx}, ${newy}`)
 
 
@@ -227,6 +228,22 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"
+                            console.log(`last piece ${lastPiece}`)
+
+
+                            if(lastPiece != "nothing"){
+                                for(let j = 0; j < whitePieceArray.length; j++){
+                                    console.log(whitePieceArray[j].piece)
+                                    if(whitePieceArray[j].piece == lastPiece){
+                                        console.log("in death")
+                                        whitePieceArray[j].isAlive = false
+                                        whitePieceArray[j].position=[0, 100] //TO THE SHADOW REALM
+                                        break;
+                                    }
+                                }
+                            }
+
+                            break;
 
 
                         }
@@ -341,6 +358,8 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         console.log("selection made")
                         board.lastPiece = pieceName
                         board.lastPosition = [x, y]
+
+                        
                     }
 
 
@@ -361,6 +380,8 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         console.log(info)
                         let newx = info[0]
                         let newy = info[1]
+                        let lastPiece = info[2]
+
                         console.log(`new stuff: ${newx}, ${newy}`)
 
 
@@ -373,6 +394,20 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"
+                            console.log(`last piece ${lastPiece}`)
+
+                            if(lastPiece != "nothing"){
+                                for(let j = 0; j < blackPieceArray.length; j++){
+                                    console.log(whitePieceArray[j].piece)
+                                    if(blackPieceArray[j].piece == lastPiece){
+                                        blackPieceArray[j].isAlive = false
+                                        blackPieceArray[j].position = [0, 100] //TO THE SHADOW REALM
+                                        break;
+                                    }
+                                }
+                            }
+
+                            break;
 
                         }
 
