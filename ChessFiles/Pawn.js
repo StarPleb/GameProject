@@ -1,6 +1,17 @@
 import React, {Component} from 'react';
 import { View, Image} from 'react-native';
 
+const pictures = [
+    {
+      id: '001',
+      image: require('./chessPieces/black-pawn.png'),
+    },
+    {
+        id: '001',
+        image: require('./chessPieces/white-pawn.png'),
+    },
+]
+
 export default class Pawn extends Component{
     constructor(props){
         super(props);
@@ -10,16 +21,25 @@ export default class Pawn extends Component{
 
     }
 
+    imageSource() {
+        if(this.isBlack){
+            return pictures[0].image
+        } else{
+            return pictures[1].image
+        }
+    }
+
     render() {
 
         const x = this.props.position[0];
         const y = this.props.position[1];
 
+
         return(
 
             <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: this.isAlive ? null : "red", justifyContent: 'flex-end' }}>
-            <Image source={require('./chessPieces/pawn.png')}
-                style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.75, height: this.size * 0.75, tintColor: this.isBlack ? "black" : "white" }} />
+            <Image source={this.imageSource()}
+                style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.75, height: this.size * 0.75 }} />
         </View>
         )
     }
