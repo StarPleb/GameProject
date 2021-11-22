@@ -131,9 +131,6 @@ const HomeScreen = ({ navigation }) => {
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
           </TouchableOpacity>
 
-          <View style = {styles.backgroundContainer}>
-
-            </View>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             Check me out, mate.
           </Text>
