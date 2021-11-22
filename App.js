@@ -65,17 +65,19 @@ const HomeScreen = ({ navigation }) => {
 
 
   return (
+    <>
+    <Image source={require('./assets/Logo.png')} style={styles.logoImage} />
     <SafeAreaView style={styles.container}>
-      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic', marginBottom: 5}}>
-        Classic Collection
+
+      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic', marginBottom: 5 }}>
+        Select Game
       </Text>
       <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
-        Game Selection
+
       </Text>
       <ScrollView horizontal={true} style={styles.scrollView}>
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth, height: window.height / 2 }}>
-          <TouchableOpacity onPress={() =>
-            navigation.navigate('Snake', { Something: 'icup' })}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Snake', { Something: 'icup' })}>
             <Image source={require('./assets/snektrans.png')}
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
@@ -86,10 +88,9 @@ const HomeScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth, height: window.height / 2 }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
 
-          <TouchableOpacity onPress={() =>
-            navigation.navigate('Pong')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Pong')}>
             <Image source={require('./assets/readyforpong.jpeg')}
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
@@ -98,23 +99,21 @@ const HomeScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 2 }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
 
-        <TouchableOpacity onPress={() =>
-            navigation.navigate('TicTacToe')}>
+          <TouchableOpacity onPress={() => navigation.navigate('TicTacToe')}>
             <Image source={require('./assets/Tictactoescreenshot.png')}
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
             X's and O's
-</Text>
+          </Text>
 
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2 }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
 
-        <TouchableOpacity onPress={() =>
-            navigation.navigate('Chess')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Chess')}>
             <Image source={require('./assets/humanchess.jpeg')}
               style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
           </TouchableOpacity>
@@ -125,9 +124,9 @@ const HomeScreen = ({ navigation }) => {
 
       </ScrollView>
       <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black' }}>
-        Bottom Text
+        Ad space here
       </Text>
-    </SafeAreaView>
+    </SafeAreaView></>
 
 
   );
@@ -162,7 +161,7 @@ const Chezz = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F0E3",
+    backgroundColor: "white",
     justifyContent: 'center',
     flexDirection: 'column',
   },
@@ -177,8 +176,28 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'black',
     marginHorizontal: 0,
-    maxHeight: window.height / 2
+    maxHeight: window.height / 2,
+    borderRadius: 20,
   },
+  header: {
+    width: '100%',
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 20, 
+    color: '#333',
+    letterSpacing: 1,
+  },
+  logoImage: {
+    marginTop: 30,
+    resizeMode: 'contain',
+    width: 430,
+    height: 100,
+  }
 })
 
 AppRegistry.registerComponent("App", () => App);
