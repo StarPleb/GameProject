@@ -79,6 +79,7 @@ export default class App extends React.Component {
     onNewGamePress = () => {
         this.initializeGame();
     }
+    
     onGoBack = () => {this.navigation.goBack()}
 
 
