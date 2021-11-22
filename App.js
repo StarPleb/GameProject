@@ -69,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
     <Image source={require('./assets/Logo.png')} style={styles.logoImage} />
     <SafeAreaView style={styles.container}>
 
-      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic', marginBottom: 5 }}>
+      <Text style={{ alignSelf: 'center', fontSize: 35, color: 'black', fontStyle: 'italic', position: 'absolute', top: 100 }}>
         Select Game
       </Text>
       <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
