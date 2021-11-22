@@ -26,14 +26,14 @@ function isDarkCell(i, j) {
 }
 
 
-export default class BoardArray{
+export default class BoardArray {
 
     constructor() {
         this.arr = [[]]
         this.initalize()
     }
 
-    initalize(){
+    initalize() {
 
         this.arr = [[]]
         this.arr.shift()
@@ -199,38 +199,94 @@ export default class BoardArray{
         // });
     }
 
-    printStuff(x, y){
+    printStuff(x, y) {
         return `Piece position: (${this.arr[x][y].position[0]}, ${this.arr[x][y].position[1]})`
     }
 
-    getPieceName(x, y){
+    getPieceName(x, y) {
         return this.arr[x][y].piece
     }
 
-    getPosition(x, y){
+    getPosition(x, y) {
         return this.arr[x][y].position
 
     }
 
-    isBlack(x, y){
+    isBlack(x, y) {
         return this.arr[x][y].isBlack
 
     }
 
-    isWhite(x, y){
+    isWhite(x, y) {
         return this.arr[x][y].isWhite
 
     }
 
-    isAlive(x, y){
+    isAlive(x, y) {
         return this.arr[x][y].isAlive
     }
 
-    movePiece(x, y, lastPosition, blacksTurn){
+    legalMoveChecker(pieceType, x1, y1, x2, y2, blacksTurn) {
+
+        if(blacksTurn){
+        if (pieceType === "pawn") {
+
+                if (x2 - x1 == 1 && y2 == y2 && this.arr[x1][x2].hasMoved) {
+                    return true
+                } else if(x2-x1 == 2 && y1 == y2 && !this.arr[x1][x2].hasMoved){
+                    return true
+
+                } else if(x2 - x1 == 1 && Math.abs(y2-y1) == 1){
+                    if(this.arr[x2][y2].isWhite){
+                        return true
+
+                    } else{
+                        return false
+                    }
+                } else if(true){
+                    
+
+                }
+
+
+        } else if (pieceType === "knight" && this.arr[x2][y2].isBlack) {
+            if (Math.abs(x1 - x2) == 2 && Math.abs(y1 - y2) == 1) {
+                return true
+
+            } else if (Math.abs(y1 - y2) == 2 && Math.abs(x1 - x2) == 1) {
+                return true
+
+            }
+            else {
+                return false
+            }
+        } else if(pieceType === "bishop"){
+            if(Math.abs(x1-x2) == Math.abs(y1-y2)){
+                return true
+            } else{
+                return false
+            }
+        } else if(pieceType == "rook"){
+            if(x1 == x2 || y1 == y2){
+
+            }
+        }
+
+    } else{ //Whites turn
+
+    }
+
+
+
+    }
+
+    movePiece(x, y, lastPosition, blacksTurn) {
         let x1 = lastPosition[0]
         let y1 = lastPosition[1]
 
         let pieceMoving = this.arr[x1][y1].piece
+        let pieceType = pieceMoving.substring(2)
+        console.log(pieceType)
         let pieceIsBlack = this.arr[x1][y1].isBlack
         let pieceIsWhite = this.arr[x1][y1].isWhite
 
@@ -238,7 +294,8 @@ export default class BoardArray{
         let destinationIsBlack = this.arr[x][y].isBlack
         let destinationIsWhite = this.arr[x][y].isWhite
 
-        if (blacksTurn && pieceIsBlack && !destinationIsBlack){
+        if (blacksTurn && pieceIsBlack && !destinationIsBlack) {
+
             this.arr[x][y].piece = pieceMoving
             this.arr[x][y].isBlack = pieceIsBlack
             this.arr[x][y].isWhite = pieceIsWhite
@@ -246,18 +303,18 @@ export default class BoardArray{
             this.arr[x1][y1].isBlack = false
             this.arr[x1][y1].isWhite = false
 
-            
-            if(destinationIsWhite){
-                return[x, y, destinationPiece]
-            } else{
-                return[x, y, "nothing"]
+
+            if (destinationIsWhite) {
+                return [x, y, destinationPiece]
+            } else {
+                return [x, y, "nothing"]
             }
 
-            
+
 
 
         }
-        else if(!blacksTurn && pieceIsWhite && !destinationIsWhite){
+        else if (!blacksTurn && pieceIsWhite && !destinationIsWhite) {
             console.log("in whites move turn")
             this.arr[x][y].piece = pieceMoving
             this.arr[x][y].isBlack = pieceIsBlack
@@ -265,12 +322,12 @@ export default class BoardArray{
             this.arr[x1][y1].piece = "nothing"
             this.arr[x1][y1].isBlack = false
             this.arr[x1][y1].isWhite = false
-    
-            if(destinationIsBlack){
-                return[x, y, destinationPiece]
+
+            if (destinationIsBlack) {
+                return [x, y, destinationPiece]
             }
-            else{
-                return[x, y, "nothing"]
+            else {
+                return [x, y, "nothing"]
             }
 
 

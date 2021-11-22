@@ -75,12 +75,25 @@ const HomeScreen = ({ navigation }) => {
       <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
 
       </Text>
+      <View style = {{height: windowWidth, position: 'absolute'}}>
+          <Image source={require('./assets/wavy.jpg')}
+              style={{ resizeMode: 'stretch', width: window.width, height: window.height/2 }} />
+            </View>
       <ScrollView horizontal={true} style={styles.scrollView}>
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'blue', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
+      <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}>
+
+</View>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
+        <View style = {styles.backgroundContainer}>
+          <Image source={require('./assets/grass.jpg')}
+              style={{ resizeMode: 'stretch', borderRadius: 20, width: 0.75 * window.width, height: window.height/3 }} />
+            </View>
           <TouchableOpacity onPress={() => navigation.navigate('Snake', { Something: 'icup' })}>
             <Image source={require('./assets/snektrans.png')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+              style={{ resizeMode: 'contain', zIndex: 1, width: 0.75 * window.width, height: window.height / 4 }} />
           </TouchableOpacity>
+
+
 
 
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
@@ -88,22 +101,22 @@ const HomeScreen = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('Pong')}>
             <Image source={require('./assets/readyforpong.jpeg')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             Ready or pong... here I come.
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('TicTacToe')}>
             <Image source={require('./assets/Tictactoescreenshot.png')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
             X's and O's
@@ -111,19 +124,23 @@ const HomeScreen = ({ navigation }) => {
 
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'orange', width: windowWidth, height: window.height / 2, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('Chess')}>
             <Image source={require('./assets/humanchess.jpeg')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 3 }} />
+              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
           </TouchableOpacity>
+
+          <View style = {styles.backgroundContainer}>
+
+            </View>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             Check me out, mate.
           </Text>
         </View>
 
       </ScrollView>
-      <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black' }}>
+      <Text style={{ top: 30, alignSelf: 'center', fontSize: 20, color: 'white' }}>
         Ad space here
       </Text>
     </SafeAreaView></>
@@ -174,10 +191,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   scrollView: {
-    backgroundColor: 'black',
+    backgroundColor: null,
     marginHorizontal: 0,
-    maxHeight: window.height / 2,
+    maxHeight: window.height / 3,
     borderRadius: 20,
+    top: 10,
   },
   header: {
     width: '100%',
@@ -195,9 +213,21 @@ const styles = StyleSheet.create({
   logoImage: {
     marginTop: 30,
     resizeMode: 'contain',
-    width: 430,
+    width: windowWidth,
     height: 100,
-  }
+  },
+  backgroundContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  backdrop: {
+    flex:1,
+    flexDirection: 'row'
+  },
+
 })
 
 AppRegistry.registerComponent("App", () => App);

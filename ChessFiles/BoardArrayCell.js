@@ -30,6 +30,7 @@ export default class BoardArrayCell {
         this.isBlack = false
         this.isWhite = false
         this.isAlive = true
+        this.hasMoved = false
 
         this.getPieceName(xInput, yInput)
 
