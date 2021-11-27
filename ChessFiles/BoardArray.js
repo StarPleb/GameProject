@@ -322,6 +322,9 @@ export default class BoardArray {
             }
             else if(pieceIsBlack && pieceHasMoved && x == x1 && y - y1 == 1){
                 legalMove = true
+            }
+            else if(pieceIsBlack && destinationIsWhite && Math.abs(x - x1) == 1 && y - y1 == 1){
+                legalMove = true
             } 
             else if(pieceIsWhite && !pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1)){
                 legalMove = true
@@ -329,6 +332,9 @@ export default class BoardArray {
             else if(pieceIsWhite && pieceHasMoved && x == x1 && y1 - y == 1){
                 legalMove = true
             }
+            else if(pieceIsWhite && destinationIsBlack && Math.abs(x - x1) == 1 && y1 - y == 1){
+                legalMove = true
+            } 
              else{
                 legalMove = false
                 console.log("in pawn else")
