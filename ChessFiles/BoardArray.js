@@ -261,7 +261,7 @@ export default class BoardArray {
                 return false
             }
         } else if(pieceType === "bishop"){
-            if(Math.abs(x1-x2) == Math.abs(y1-y2)){
+            if(Math.abs(x1-y1) == Math.abs(x2-y2)){
                 return true
             } else{
                 return false
@@ -281,6 +281,8 @@ export default class BoardArray {
     }
 
     movePiece(x, y, lastPosition, blacksTurn) {
+
+        let legalMove = false
         let x1 = lastPosition[0]
         let y1 = lastPosition[1]
 
@@ -289,48 +291,121 @@ export default class BoardArray {
         console.log(pieceType)
         let pieceIsBlack = this.arr[x1][y1].isBlack
         let pieceIsWhite = this.arr[x1][y1].isWhite
+        let pieceHasMoved = this.arr[x1][y1].hasMoved
+
 
         let destinationPiece = this.arr[x][y].piece
         let destinationIsBlack = this.arr[x][y].isBlack
         let destinationIsWhite = this.arr[x][y].isWhite
 
-        if (blacksTurn && pieceIsBlack && !destinationIsBlack) {
+        if(pieceType == "knight"){
+            if(Math.abs(x - x1) == 2 && Math.abs(y - y1) == 1){
+                legalMove = true
+            } else if(Math.abs(y-y1) == 2 && Math.abs(x-x1) == 1){
+                legalMove = true
+            }
+            else{
+                legalMove = false
+            }
+
+        } else if(pieceType == "bishop"){
+
+            if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
+                legalMove = true
+            } else{
+                legalMove = false
+            }
+
+        } else if(pieceType == "pawn"){
+            if(pieceIsBlack &&  !pieceHasMoved && x == x1 && (y - y1 == 2 || y - y1 == 1)){
+                legalMove = true
+            }
+            else if(pieceIsBlack && pieceHasMoved && x == x1 && y - y1 == 1){
+                legalMove = true
+            } 
+            else if(pieceIsWhite && !pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1)){
+                legalMove = true
+            }
+            else if(pieceIsWhite && pieceHasMoved && x == x1 && y1 - y == 1){
+                legalMove = true
+            }
+             else{
+                legalMove = false
+                console.log("in pawn else")
+
+            }
+        } else if(pieceType == "rook"){
+            if(x == x1 || y == y1){
+                legalMove = true
+            } else{
+                legalMove = false
+            }
+        } else if(pieceType == "queen"){
+            if(x == x1 || y == y1){
+                legalMove = true
+            } else if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
+                legalMove = true
+            }
+            else{
+                legalMove = false
+            }
+
+        } else if(pieceType == "king"){
+            if(Math.abs(x - x1) <= 1 && Math.abs(y - y1) <= 1){
+                legalMove = true
+
+            } else{
+                legalMove = false
+            }
+        }
+
+        if (blacksTurn && pieceIsBlack && !destinationIsBlack && legalMove) {
 
             this.arr[x][y].piece = pieceMoving
             this.arr[x][y].isBlack = pieceIsBlack
             this.arr[x][y].isWhite = pieceIsWhite
+            this.arr[x][y].hasMoved = true
             this.arr[x1][y1].piece = "nothing"
             this.arr[x1][y1].isBlack = false
             this.arr[x1][y1].isWhite = false
+            this.arr[x1][y1].hasMoved = false
+
+
 
 
             if (destinationIsWhite) {
-                return [x, y, destinationPiece]
+                return [x, y, destinationPiece, legalMove]
             } else {
-                return [x, y, "nothing"]
+                return [x, y, "nothing", legalMove]
             }
 
 
 
 
         }
-        else if (!blacksTurn && pieceIsWhite && !destinationIsWhite) {
+        else if (!blacksTurn && pieceIsWhite && !destinationIsWhite && legalMove) {
             console.log("in whites move turn")
             this.arr[x][y].piece = pieceMoving
             this.arr[x][y].isBlack = pieceIsBlack
             this.arr[x][y].isWhite = pieceIsWhite
+            this.arr[x][y].hasMoved = true
             this.arr[x1][y1].piece = "nothing"
             this.arr[x1][y1].isBlack = false
             this.arr[x1][y1].isWhite = false
+            this.arr[x1][y1].hasMoved = false
+
 
             if (destinationIsBlack) {
-                return [x, y, destinationPiece]
+                return [x, y, destinationPiece, legalMove]
             }
             else {
-                return [x, y, "nothing"]
+                return [x, y, "nothing", legalMove]
             }
 
 
+        }
+        else{
+            return [x, y, "nothing", legalMove]
         }
 
 

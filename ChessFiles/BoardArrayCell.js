@@ -131,7 +131,7 @@ export default class BoardArrayCell {
     
         }
         else if(xValue == 1 && yValue == 7){
-            this.piece = "b1night"
+            this.piece = "b1knight"
             this.isWhite = true
         }
         else if(xValue == 2 && yValue == 7){

@@ -124,8 +124,9 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         let newx = info[0]
                         let newy = info[1]
                         let lastPiece = info[2]
+                        let legalMoveMade = info[3]
 
-                        if(x1 == x2 && y1 == y2){
+                        if(legalMoveMade && x1 == x2 && y1 == y2){
 
                             blackPieceArray[i].position = [newx, newy]
                             dispatch({ type: "movemade"})
@@ -193,8 +194,10 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         let newx = info[0]
                         let newy = info[1]
                         let lastPiece = info[2]
+                        let legalMoveMade = info[3]
 
-                        if(x1 == x2 && y1 == y2){
+
+                        if(legalMoveMade && x1 == x2 && y1 == y2){
 
                             whitePieceArray[i].position = [newx, newy]
                             dispatch({ type: "movemade"})
