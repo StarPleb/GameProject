@@ -36,6 +36,10 @@ export default class BoardArrayCell {
 
     }
 
+    getPosition(){
+        return this.position
+    }
+
     getPieceName(x, y){
 
         xValue = x
