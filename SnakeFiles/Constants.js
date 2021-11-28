@@ -6,4 +6,4 @@ export default Constants = {
     CELL_SIZE: 20,
     SNAKE_SPEED: 0.05,
     ENEMY_SPEED: 0.025
-}
+};

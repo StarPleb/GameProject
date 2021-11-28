@@ -1,29 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable, CameraRoll } from 'react-native';
-
 import BoardArrayCell from './BoardArrayCell';
-
-function isDarkCell(i, j) {
-
-
-    if (i % 2 == 0) {
-        if (j % 2 == 0) {
-            return false
-        }
-        else
-            return true
-    }
-    else {
-        if (j % 2 == 0) {
-            return true
-        }
-        else
-            return false
-
-    }
-
-
-}
 
 
 export default class BoardArray {
@@ -46,157 +23,6 @@ export default class BoardArray {
             }
             this.arr.push(tempArray)
         }
-
-        // this.arr.forEach((col) => {
-        //     col.forEach((item) => { //Column
-        //         if(item.xValue == 0 && item.yValue == 0){
-        //             item.piece = "rook"
-        //             item.isBlack = true
-        //         }
-        //         else if(item.xValue == 1 && item.yValue == 0){
-        //             item.piece = "knight"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 2 && item.yValue == 0){
-        //             item.piece = "bishop"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 3 && item.yValue == 0){
-        //             item.piece = "queen"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 4 && item.yValue == 0){
-        //             item.piece = "king"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 5 && item.yValue == 0){
-        //             item.piece = "bishop"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 6 && item.yValue == 0){
-        //             item.piece = "knight"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 7 && item.yValue == 0){
-        //             item.piece = "rook"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 0 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 1 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 2 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 3 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 4 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 5 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 6 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-        //         else if(item.xValue == 7 && item.yValue == 1){
-        //             item.piece = "pawn"
-        //             item.isBlack = true
-
-        //         }
-
-        //         else if(item.xValue == 0 && item.yValue == 7){
-        //             item.piece = "rook"
-        //             item.isWhite = true
-
-        //         }
-        //         else if(item.xValue == 1 && item.yValue == 7){
-        //             item.piece = "knight"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 2 && item.yValue == 7){
-        //             item.piece = "bishop"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 3 && item.yValue == 7){
-        //             item.piece = "queen"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 4 && item.yValue == 7){
-        //             item.piece = "king"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 5 && item.yValue == 7){
-        //             item.piece = "bishop"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 6 && item.yValue == 7){
-        //             item.piece = "knight"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 7 && item.yValue == 7){
-        //             item.piece = "rook"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 0 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 1 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 2 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 3 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 4 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 5 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 6 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-        //         else if(item.xValue == 7 && item.yValue == 6){
-        //             item.piece = "pawn"
-        //             item.isWhite = true
-        //         }
-
-        //     });
-        // });
     }
 
     printStuff(x, y) {
@@ -226,53 +52,983 @@ export default class BoardArray {
         return this.arr[x][y].isAlive
     }
 
-    legalMoveChecker(pieceType, x1, y1, x2, y2, blacksTurn) {
+    legalMoveChecker(x, y, piecePosition, blacksTurn) {
+
+        let x1 = piecePosition[0]
+        let y1 = piecePosition[1]
+        let pieceMoving = this.arr[x1][y1].piece
+        let pieceType = pieceMoving.substring(2)
+        let pieceIsBlack = this.arr[x1][y1].isBlack
+        let pieceIsWhite = this.arr[x1][y1].isWhite
+        let pieceHasMoved = this.arr[x1][y1].hasMoved
+
+
+        let destinationPiece = this.arr[x][y].piece
+        let destinationIsBlack = this.arr[x][y].isBlack
+        let destinationIsWhite = this.arr[x][y].isWhite
 
         if(blacksTurn){
-        if (pieceType === "pawn") {
-
-                if (x2 - x1 == 1 && y2 == y2 && this.arr[x1][x2].hasMoved) {
+            if(pieceType == "knight"){
+                if(Math.abs(x - x1) == 2 && Math.abs(y - y1) == 1){
                     return true
-                } else if(x2-x1 == 2 && y1 == y2 && !this.arr[x1][x2].hasMoved){
+                } else if(Math.abs(y-y1) == 2 && Math.abs(x-x1) == 1){
                     return true
+                }
+                else{
+                    return false
+                }
+    
+            } else if(pieceType == "bishop"){
+    
+                if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
+                    // first is if x1, y1 < x, y
+                    // second is if x1, y1 > x, y
 
-                } else if(x2 - x1 == 1 && Math.abs(y2-y1) == 1){
-                    if(this.arr[x2][y2].isWhite){
-                        return true
+                        if(x > x1 && y < y1){ //Moving right and up the board (y = 0 is top of board)
 
-                    } else{
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x > x1 && y > y1){ //Moving right and down the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x < x1 && y < y1){ //Moving left and up the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x< x1 && y > y1){ //Moving left and down the board
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        }       
+
+                } else{
+                    return false
+                }
+    
+            } else if(pieceType == "pawn"){
+                if(!pieceHasMoved && x == x1 && (y - y1 == 2 || y - y1 == 1) && !destinationIsWhite){
+                    return true
+                }
+                else if(pieceHasMoved && x == x1 && y - y1 == 1 && !destinationIsWhite){
+                    return true
+                }
+                else if(destinationIsWhite && Math.abs(x - x1) == 1 && y - y1 == 1){
+                    return true
+                }  
+                 else{
+                    return false
+                    console.log("in pawn else")
+    
+                }
+            } else if(pieceType == "rook"){
+                console.log(`in rook`)
+                if(x == x1 && y != y1){ // Moving along column
+                    if(y > y1){
+                        console.log(`in y > y1`)
+
+                        let count = 0
+                        let goal = y - y1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[x][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[x][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+                    }
+                    else if (y < y1){
+                        console.log(`in y < y1`)
+
+
+                        let count = 0
+                        let goal = y1 - y
+                        for(let i = y1 - 1; i >= y; i--){
+                            if(this.arr[x][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[x][i].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+
+                        }
+
+                        console.log(`count : ${count} goal" ${goal}`)
+
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                    }
+                }
+                else if(y == y1 && x != x1){ // Moving along row
+                    if(x > x1){
+                        console.log(`in x > x1`)
+
+                        let count = 0
+                        let goal = x - x1
+                        for(let i = x1 + 1; i <= x; i++){
+                            if(this.arr[i][y].piece == "nothing"){
+                                count += 1
+                            } else if(i == x && this.arr[i][y].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+                    }
+                    else if (x < x1){
+                        console.log(`in x < x1`)
+
+
+                        let count = 0
+                        let goal = x1 - x
+                        for(let i = x1 - 1; i >= x; i--){
+                            if(this.arr[i][y].piece == "nothing"){
+                                count += 1
+                            } else if(i == x && this.arr[i][y].isWhite){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                    }
+                    
+                }
+                 else{
+                    return false
+                }
+            } else if(pieceType == "queen"){
+                if(x == x1 || y == y1){ // Queen's "rook" movements
+                    if(x == x1 && y != y1){ // Moving along column
+                        if(y > y1){
+                            console.log(`in y > y1`)
+                            let count = 0
+                            let goal = y - y1
+                            for(let i = y1 + 1; i <= y; i++){
+                                console.log(`${i}`)
+                                if(this.arr[x][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[x][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+        
+                            }
+        
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+                        }
+                        else if (y < y1){
+                            console.log(`in y < y1`)
+        
+        
+                            let count = 0
+                            let goal = y1 - y
+                            for(let i = y1 - 1; i >= y; i--){
+                                if(this.arr[x][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[x][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+        
+                            }
+        
+                            console.log(`count : ${count} goal" ${goal}`)
+        
+        
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+        
+                        }
+                    }
+                    else if(y == y1 && x != x1){ // Moving along row
+                        if(x > x1){
+                            console.log(`in x > x1`)
+        
+                            let count = 0
+                            let goal = x - x1
+                            for(let i = x1 + 1; i <= x; i++){
+                                if(this.arr[i][y].piece == "nothing"){
+                                    count += 1
+                                } else if(i == x && this.arr[i][y].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+        
+                            }
+        
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+                        }
+                        else if (x < x1){
+                            console.log(`in x < x1`)
+        
+        
+                            let count = 0
+                            let goal = x1 - x
+                            for(let i = x1 - 1; i >= x; i--){
+                                if(this.arr[i][y].piece == "nothing"){
+                                    count += 1
+                                } else if(i == x && this.arr[i][y].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+        
+                            }
+        
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+        
+                        }
+                        
+                    }
+                     else{
                         return false
                     }
-                } else if(true){
-                    
-
+                } //Rook movement 
+                 else if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){ //Queen's "bishop" movements 
+                     
+                            if(x > x1 && y < y1){ //Moving right and up the board (y = 0 is top of board)
+    
+    
+                            let count = 0
+                            let goal = Math.abs(y - y1)
+                            let tempX = x1 + 1
+                            for(let i = y1 - 1; i >= y; i--){
+                                console.log(`${i}`)
+                                if(this.arr[tempX][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[tempX][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+                                tempX += 1
+    
+                            }
+    
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+    
+                            } else if(x > x1 && y > y1){ //Moving right and down the board
+    
+    
+                            let count = 0
+                            let goal = Math.abs(y - y1)
+                            let tempX = x1 + 1
+                            for(let i = y1 + 1; i <= y; i++){
+                                console.log(`${i}`)
+                                if(this.arr[tempX][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[tempX][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+                                tempX += 1
+    
+                            }
+    
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+    
+                            } else if(x < x1 && y < y1){ //Moving left and up the board
+    
+    
+                            let count = 0
+                            let goal = Math.abs(y - y1)
+                            let tempX = x1 - 1
+                            for(let i = y1 - 1; i >= y; i--){
+                                console.log(`${i}`)
+                                if(this.arr[tempX][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[tempX][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+                                tempX -= 1
+    
+                            }
+    
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+    
+                            } else if(x< x1 && y > y1){ //Moving left and down the board
+    
+                            let count = 0
+                            let goal = Math.abs(y - y1)
+                            let tempX = x1 - 1
+                            for(let i = y1 + 1; i <= y; i++){
+                                console.log(`${i}`)
+                                if(this.arr[tempX][i].piece == "nothing"){
+                                    count += 1
+                                } else if(i == y && this.arr[tempX][i].isWhite){
+                                    count += 1
+                                }
+                                else{
+                                    break
+                                }
+                                tempX -= 1
+    
+                            }
+    
+                            if(count == goal){
+                                return true
+                            } else{
+                                return false
+                            }
+    
+                            }
                 }
-
-
-        } else if (pieceType === "knight" && this.arr[x2][y2].isBlack) {
-            if (Math.abs(x1 - x2) == 2 && Math.abs(y1 - y2) == 1) {
-                return true
-
-            } else if (Math.abs(y1 - y2) == 2 && Math.abs(x1 - x2) == 1) {
-                return true
-
-            }
-            else {
-                return false
-            }
-        } else if(pieceType === "bishop"){
-            if(Math.abs(x1-y1) == Math.abs(x2-y2)){
-                return true
+                else{
+                    return false
+                }
+    
+            } else if(pieceType == "king"){
+                if(Math.abs(x - x1) <= 1 && Math.abs(y - y1) <= 1){
+                    return true
+    
+                } else{
+                    return false
+                }
             } else{
                 return false
             }
-        } else if(pieceType == "rook"){
-            if(x1 == x2 || y1 == y2){
-
-            }
-        }
 
     } else{ //Whites turn
+
+        if(pieceType == "knight"){
+            if(Math.abs(x - x1) == 2 && Math.abs(y - y1) == 1){
+                return true
+            } else if(Math.abs(y-y1) == 2 && Math.abs(x-x1) == 1){
+                return true
+            }
+            else{
+                return false
+            }
+
+        } else if(pieceType == "bishop"){
+
+            if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
+                    // first is if x1, y1 < x, y
+                    // second is if x1, y1 > x, y
+
+                    if(x > x1 && y < y1){ //Moving right and up the board (y = 0 is top of board)
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x > x1 && y > y1){ //Moving right and down the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x < x1 && y < y1){ //Moving left and up the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x< x1 && y > y1){ //Moving left and down the board
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        }       
+            } else{
+                return false
+            }
+
+        } else if(pieceType == "pawn"){
+            if(!pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1) && !destinationIsBlack){
+                return true
+            }
+            else if(pieceHasMoved && x == x1 && y1 - y == 1 && !destinationIsBlack){
+                return true
+            }
+            else if(destinationIsBlack && Math.abs(x - x1) == 1 && y1 - y == 1){
+                return true
+            } 
+             else{
+                return false
+            }
+        } else if(pieceType == "rook"){
+            if(x == x1 && y != y1){ // Moving along column
+                if(y > y1){
+                    console.log(`in y > y1`)
+                    let count = 0
+                    let goal = y - y1
+                    for(let i = y1 + 1; i <= y; i++){
+                        console.log(`${i}`)
+                        if(this.arr[x][i].piece == "nothing"){
+                            count += 1
+                        } else if(i == y && this.arr[x][i].isBlack){
+                            count += 1
+                        }
+                        else{
+                            break
+                        }
+
+                    }
+
+                    if(count == goal){
+                        return true
+                    } else{
+                        return false
+                    }
+                }
+                else if (y < y1){
+                    console.log(`in y < y1`)
+
+
+                    let count = 0
+                    let goal = y1 - y
+                    for(let i = y1 - 1; i >= y; i--){
+                        if(this.arr[x][i].piece == "nothing"){
+                            count += 1
+                        } else if(i == y && this.arr[x][i].isBlack){
+                            count += 1
+                        }
+                        else{
+                            break
+                        }
+
+                    }
+
+                    console.log(`count : ${count} goal" ${goal}`)
+
+
+                    if(count == goal){
+                        return true
+                    } else{
+                        return false
+                    }
+
+                }
+            }
+            else if(y == y1 && x != x1){ // Moving along row
+                if(x > x1){
+                    console.log(`in x > x1`)
+
+                    let count = 0
+                    let goal = x - x1
+                    for(let i = x1 + 1; i <= x; i++){
+                        if(this.arr[i][y].piece == "nothing"){
+                            count += 1
+                        } else if(i == x && this.arr[i][y].isBlack){
+                            count += 1
+                        }
+                        else{
+                            break
+                        }
+
+                    }
+
+                    if(count == goal){
+                        return true
+                    } else{
+                        return false
+                    }
+                }
+                else if (x < x1){
+                    console.log(`in x < x1`)
+
+
+                    let count = 0
+                    let goal = x1 - x
+                    for(let i = x1 - 1; i >= x; i--){
+                        if(this.arr[i][y].piece == "nothing"){
+                            count += 1
+                        } else if(i == x && this.arr[i][y].isBlack){
+                            count += 1
+                        }
+                        else{
+                            break
+                        }
+
+                    }
+
+                    if(count == goal){
+                        return true
+                    } else{
+                        return false
+                    }
+
+                }
+                
+            }
+             else{
+                return false
+            }
+        } else if(pieceType == "queen"){
+            if(x == x1 || y == y1){ // Queen's "rook" movements
+                if(x == x1 && y != y1){ // Moving along column
+                    if(y > y1){
+                        console.log(`in y > y1`)
+                        let count = 0
+                        let goal = y - y1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[x][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[x][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+    
+                        }
+    
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+                    }
+                    else if (y < y1){
+                        console.log(`in y < y1`)
+    
+    
+                        let count = 0
+                        let goal = y1 - y
+                        for(let i = y1 - 1; i >= y; i--){
+                            if(this.arr[x][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[x][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+    
+                        }
+    
+                        console.log(`count : ${count} goal" ${goal}`)
+    
+    
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+    
+                    }
+                }
+                else if(y == y1 && x != x1){ // Moving along row
+                    if(x > x1){
+                        console.log(`in x > x1`)
+    
+                        let count = 0
+                        let goal = x - x1
+                        for(let i = x1 + 1; i <= x; i++){
+                            if(this.arr[i][y].piece == "nothing"){
+                                count += 1
+                            } else if(i == x && this.arr[i][y].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+    
+                        }
+    
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+                    }
+                    else if (x < x1){
+                        console.log(`in x < x1`)
+    
+    
+                        let count = 0
+                        let goal = x1 - x
+                        for(let i = x1 - 1; i >= x; i--){
+                            if(this.arr[i][y].piece == "nothing"){
+                                count += 1
+                            } else if(i == x && this.arr[i][y].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+    
+                        }
+    
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+    
+                    }
+                    
+                }
+                 else{
+                    return false
+                }
+            } //Rook movement 
+             else if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){ //Queen's "bishop" movements 
+                 
+                        if(x > x1 && y < y1){ //Moving right and up the board (y = 0 is top of board)
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x > x1 && y > y1){ //Moving right and down the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 + 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX += 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x < x1 && y < y1){ //Moving left and up the board
+
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 - 1; i >= y; i--){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        } else if(x< x1 && y > y1){ //Moving left and down the board
+
+                        let count = 0
+                        let goal = Math.abs(y - y1)
+                        let tempX = x1 - 1
+                        for(let i = y1 + 1; i <= y; i++){
+                            console.log(`${i}`)
+                            if(this.arr[tempX][i].piece == "nothing"){
+                                count += 1
+                            } else if(i == y && this.arr[tempX][i].isBlack){
+                                count += 1
+                            }
+                            else{
+                                break
+                            }
+                            tempX -= 1
+
+                        }
+
+                        if(count == goal){
+                            return true
+                        } else{
+                            return false
+                        }
+
+                        }
+            }
+            else{
+                return false
+            }
+
+        } else if(pieceType == "king"){
+            if(Math.abs(x - x1) <= 1 && Math.abs(y - y1) <= 1){
+                return  true
+
+            } else{
+                return false
+            }
+        }
+        else{
+            return false
+        }
 
     }
 
@@ -282,9 +1038,10 @@ export default class BoardArray {
 
     movePiece(x, y, lastPosition, blacksTurn) {
 
-        let legalMove = false
+        let legalMove = this.legalMoveChecker(x, y, lastPosition, blacksTurn)
         let x1 = lastPosition[0]
         let y1 = lastPosition[1]
+
 
         let pieceMoving = this.arr[x1][y1].piece
         let pieceType = pieceMoving.substring(2)
@@ -298,72 +1055,6 @@ export default class BoardArray {
         let destinationIsBlack = this.arr[x][y].isBlack
         let destinationIsWhite = this.arr[x][y].isWhite
 
-        if(pieceType == "knight"){
-            if(Math.abs(x - x1) == 2 && Math.abs(y - y1) == 1){
-                legalMove = true
-            } else if(Math.abs(y-y1) == 2 && Math.abs(x-x1) == 1){
-                legalMove = true
-            }
-            else{
-                legalMove = false
-            }
-
-        } else if(pieceType == "bishop"){
-
-            if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
-                legalMove = true
-            } else{
-                legalMove = false
-            }
-
-        } else if(pieceType == "pawn"){
-            if(pieceIsBlack &&  !pieceHasMoved && x == x1 && (y - y1 == 2 || y - y1 == 1)){
-                legalMove = true
-            }
-            else if(pieceIsBlack && pieceHasMoved && x == x1 && y - y1 == 1){
-                legalMove = true
-            }
-            else if(pieceIsBlack && destinationIsWhite && Math.abs(x - x1) == 1 && y - y1 == 1){
-                legalMove = true
-            } 
-            else if(pieceIsWhite && !pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1)){
-                legalMove = true
-            }
-            else if(pieceIsWhite && pieceHasMoved && x == x1 && y1 - y == 1){
-                legalMove = true
-            }
-            else if(pieceIsWhite && destinationIsBlack && Math.abs(x - x1) == 1 && y1 - y == 1){
-                legalMove = true
-            } 
-             else{
-                legalMove = false
-                console.log("in pawn else")
-
-            }
-        } else if(pieceType == "rook"){
-            if(x == x1 || y == y1){
-                legalMove = true
-            } else{
-                legalMove = false
-            }
-        } else if(pieceType == "queen"){
-            if(x == x1 || y == y1){
-                legalMove = true
-            } else if(Math.abs(x1-y1) == Math.abs(x-y) || Math.abs(x1 + y1) == Math.abs(x + y)){
-                legalMove = true
-            }
-            else{
-                legalMove = false
-            }
-
-        } else if(pieceType == "king"){
-            if(Math.abs(x - x1) <= 1 && Math.abs(y - y1) <= 1){
-                legalMove = true
-
-            } else{
-                legalMove = false
-            }
-        }
 
         if (blacksTurn && pieceIsBlack && !destinationIsBlack && legalMove) {
 

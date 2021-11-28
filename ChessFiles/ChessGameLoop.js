@@ -228,9 +228,9 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                 }
                 
 
-
-
-            } else if (events[i].type === "move-left") {
+            } // end of selection event
+             else if (events[i].type === "move-left") {
+                 
             } 
         }
     }
