@@ -22,8 +22,6 @@ import { useNavigation } from '@react-navigation/native';
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 
-var GridThing = new Grid
-
 const soundFiles = [
   {
     id: '001',
@@ -96,14 +94,6 @@ export default class Snake extends Component {
 
   }
 
-  toggleBGMusic = () => { this.setState({
-    bgMusic: !this.state.bgMusic
-  }) }
-
-  toggleSoundEffects = () => { this.setState({
-    soundEffects: !this.state.soundEffects
-  }) }
-
 
   async componentDidMount() {
     //For setting up audio playback and loading all sound files.
@@ -117,6 +107,7 @@ export default class Snake extends Component {
       staysActiveInBackground: false,
       playThroughEarpieceAndroid: true,
     });
+    
     this.eatSound = new Audio.Sound()
     this.dieSound = new Audio.Sound()
     this.gameMusic = new Audio.Sound()
@@ -150,7 +141,6 @@ export default class Snake extends Component {
     } catch (error) {
       console.log("Error loading sounds")
     }
-
 
 
   }
