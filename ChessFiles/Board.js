@@ -1,6 +1,4 @@
 import BoardCell from './BoardCell';
-import GamePiece from './GamePiece';
-
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, Dimensions, View, Button, Image, TouchableHighlight, SafeAreaView, ScrollView, useWindowDimensions, Modal, TouchableOpacity, Pressable, CameraRoll } from 'react-native';
 
@@ -73,6 +71,13 @@ export default class Board extends Component {
 
 
     render() {
+
+        if(this.props.selectedPiecePosition){
+            let tempX = this.props.selectedPiecePosition[0]
+            let tempY = this.props.selectedPiecePosition[1]
+    
+    
+        }
 
 
 

@@ -24,6 +24,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
 
 
     let board = entities.board
+    let selectedPiece = entities.selectedSquare
     let blacksTurn = board.blacksTurn
     let justMounted = board.justMounted
     let selectionMade = board.selectionMade
@@ -94,6 +95,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         if(blackPieceArray[j].position[0] == x && blackPieceArray[j].position[1] == y){
                             blackPieceArray[j].isSelected = true
                             board.selectedPiece = blackPieceArray[j].piece
+                            selectedPiece.position = [x, y]
                             dispatch({ type: "selectionmade", selection: boardArray.getPieceName(x, y)})
 
                         } else{
@@ -130,6 +132,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
 
                             blackPieceArray[i].position = [newx, newy]
                             dispatch({ type: "movemade"})
+                            selectedPiece.position = [0, 100]
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"
@@ -167,6 +170,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                         if(whitePieceArray[j].position[0] == x && whitePieceArray[j].position[1] == y){
                             whitePieceArray[j].isSelected = true
                             board.selectedPiece = whitePieceArray[j].piece
+                            selectedPiece.position = [x, y]
                             dispatch({ type: "selectionmade", selection: boardArray.getPieceName(x, y)})
 
                         } else{
@@ -204,6 +208,7 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
 
                             whitePieceArray[i].position = [newx, newy]
                             dispatch({ type: "movemade"})
+                            selectedPiece.position = [0, 100]
                             board.blacksTurn = !board.blacksTurn
                             board.selectionMade = false
                             board.lastPiece= "nothing"

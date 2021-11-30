@@ -66,6 +66,7 @@ export default class BoardArray {
         let destinationIsBlack = this.arr[x][y].isBlack
         let destinationIsWhite = this.arr[x][y].isWhite
 
+
         if(blacksTurn){
             if(pieceType == "knight"){
                 if(Math.abs(x - x1) == 2 && Math.abs(y - y1) == 1){
@@ -193,7 +194,7 @@ export default class BoardArray {
                 }
     
             } else if(pieceType == "pawn"){
-                if(!pieceHasMoved && x == x1 && (y - y1 == 2 || y - y1 == 1) && !destinationIsWhite){
+                if(!pieceHasMoved && x == x1 && (y - y1 == 2 || y - y1 == 1) && !destinationIsWhite && !this.arr[x][y1+1].isBlack){
                     return true
                 }
                 else if(pieceHasMoved && x == x1 && y - y1 == 1 && !destinationIsWhite){
@@ -676,7 +677,7 @@ export default class BoardArray {
             }
 
         } else if(pieceType == "pawn"){
-            if(!pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1) && !destinationIsBlack){
+            if(!pieceHasMoved && x == x1 && (y1 - y == 2 || y1 - y == 1) && !destinationIsBlack && !this.arr[x][y1-1].isWhite){
                 return true
             }
             else if(pieceHasMoved && x == x1 && y1 - y == 1 && !destinationIsBlack){

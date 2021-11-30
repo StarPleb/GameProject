@@ -80,6 +80,11 @@ export default class Snake extends Component {
     this.boardSize = Constants.GRID_SIZE * Constants.CELL_SIZE;
     this.engine = null;
     this.navigation = props.navigation
+    this.eatSound = new Audio.Sound()
+    this.dieSound = new Audio.Sound()
+    this.gameMusic = new Audio.Sound()
+    this.pauseSound = new Audio.Sound()
+    this.resumeSound = new Audio.Sound()
 
 
     this.state = {
@@ -107,15 +112,6 @@ export default class Snake extends Component {
       staysActiveInBackground: false,
       playThroughEarpieceAndroid: true,
     });
-    
-    this.eatSound = new Audio.Sound()
-    this.dieSound = new Audio.Sound()
-    this.gameMusic = new Audio.Sound()
-    this.pauseSound = new Audio.Sound()
-    this.resumeSound = new Audio.Sound()
-
-
-
 
 
     const status = {
@@ -135,6 +131,7 @@ export default class Snake extends Component {
 
 
     try {
+
       await this.gameMusic.loadAsync(soundFiles[0].sound, status2)
       await this.dieSound.loadAsync(soundFiles[1].sound, status)
       await this.eatSound.loadAsync(soundFiles[2].sound, status)

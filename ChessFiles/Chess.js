@@ -11,6 +11,8 @@ import Bishop from './Bishop.js'
 import Queen from './Queen.js'
 import King from './King.js'
 import BoardArray from './BoardArray.js';
+import SelectedSquare from './SelecteSquare';
+
 
 import { ChessGameLoop } from './ChessGameLoop.js'
 import { Audio } from 'expo-av';
@@ -188,6 +190,7 @@ export default class Chess extends Component {
 
     this.engine.swap({
       board:  {justMounted: true, position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+      selectedSquare: {position: [0, 100], CELL_SIZE: cellSize, renderer: <SelectedSquare/>},
       a2pawn: {piece: "a2pawn", position: [0, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
       b2pawn: {piece: "b2pawn", position: [1, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
       c2pawn: {piece: "c2pawn", position: [2, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
@@ -253,13 +256,12 @@ export default class Chess extends Component {
     return (
       <View style={styles.container}>
 
-<Text style={{ zIndex: 2, color: 'black', fontSize: 40, position: 'absolute', top: '20%' }}>{this.state.selectedPiece} selected</Text>
-
         <GameEngine
           ref={(ref) => { this.engine = ref }}
           style={{ zIndex: 0, width: boardLength, height: boardLength, flex: null, position: 'absolute', backgroundColor: null }}
           entities={{
             board:  {justMounted: true, position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+            selectedSquare: {position: [0, 100], CELL_SIZE: cellSize, renderer: <SelectedSquare/>},
             a2pawn: {piece: "a2pawn", position: [0, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
             b2pawn: {piece: "b2pawn", position: [1, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
             c2pawn: {piece: "c2pawn", position: [2, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
@@ -515,7 +517,7 @@ export default class Chess extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FAF9F6",
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column'

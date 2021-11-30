@@ -18,6 +18,8 @@ export default class Pawn extends Component{
         this.size = props.CELL_SIZE
         this.isBlack = props.isBlack
         this.isAlive = props.isAlive
+        this.isSelected = props.isSelected
+        this.color = ""
 
     }
 
@@ -35,9 +37,10 @@ export default class Pawn extends Component{
         const y = this.props.position[1];
 
 
+
         return(
 
-            <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: this.isAlive ? null : "red", justifyContent: 'flex-end' }}>
+            <View style={{ width: this.size, height: this.size, position: 'absolute', left: x * this.size, top: y * this.size, backgroundColor: this.props.isAlive ? null : "red", justifyContent: 'flex-end' }}>
             <Image source={this.imageSource()}
                 style={{ resizeMode: 'contain', alignSelf: 'center', width: this.size * 0.75, height: this.size * 0.75 }} />
         </View>
