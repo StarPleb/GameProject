@@ -115,17 +115,25 @@ export default class App extends React.Component {
         return (
             <View style={styles.container}>
 
+                <Text style={{ alignSelf: 'center', fontSize: 30, color: 'white', fontStyle: 'italic', position: 'absolute', top: 100 }}>
+                    Player 1 goes first with X
+                </Text>
+
+                <Text style={{ alignSelf: 'center', fontSize: 30, color: 'white', fontStyle: 'italic', position: 'absolute', top: 140 }}>
+                    Player 2 follows with O
+                </Text>
+
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(0, 0)} style={[styles.tile, { borderLeftWidth: 0, borderTopWidth: 0 }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(0, 0)} style={[styles.tile, { borderLeftWidth: 0, borderTopWidth: 0, borderColor: 'white' }]} >
                         {this.renderIcon(0, 0)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(0, 1)} style={[styles.tile, { borderTopWidth: 0 }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(0, 1)} style={[styles.tile, { borderTopWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(0, 1)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(0, 2)} style={[styles.tile, { borderTopWidth: 0, borderRightWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(0, 2)} style={[styles.tile, { borderTopWidth: 0, borderRightWidth: 0, borderColor: 'white' }]} >
                         {this.renderIcon(0, 2)}
                     </TouchableOpacity>
 
@@ -133,36 +141,36 @@ export default class App extends React.Component {
 
                 <View style={{flexDirection: "row"}}>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(1, 0)} style={[styles.tile, { borderLeftWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(1, 0)} style={[styles.tile, { borderLeftWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(1, 0)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(1, 1)} style={[styles.tile, { }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(1, 1)} style={[styles.tile, { borderColor: 'white'  }]} >
                         {this.renderIcon(1, 1)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(1, 2)} style={[styles.tile, { borderRightWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(1, 2)} style={[styles.tile, { borderRightWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(1, 2)}
                     </TouchableOpacity>
 
                 </View>
 
                 <View style={{flexDirection: "row"}}>
-                    <TouchableOpacity onPress={() => this.onTilePress(2, 0)} style={[styles.tile, { borderBottomWidth: 0, borderLeftWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(2, 0)} style={[styles.tile, { borderBottomWidth: 0, borderLeftWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(2, 0)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(2, 1)} style={[styles.tile, { borderBottomWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(2, 1)} style={[styles.tile, { borderBottomWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(2, 1)}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.onTilePress(2, 2)} style={[styles.tile, { borderBottomWidth: 0, borderRightWidth: 0, }]} >
+                    <TouchableOpacity onPress={() => this.onTilePress(2, 2)} style={[styles.tile, { borderBottomWidth: 0, borderRightWidth: 0, borderColor: 'white'  }]} >
                         {this.renderIcon(2, 2)}
                     </TouchableOpacity>
 
                 </View>
 
-                <View style={{paddingTop:50}} />
+                <View style={{paddingTop:90}} />
                 <Button title="New Game" onPress={this.onNewGamePress} />
                 <Button title="Go Back" onPress={this.onGoBack} />
 
@@ -175,19 +183,21 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: 90,
     },
 
     tile: {
-        borderWidth: 10, 
-        width: 100,
-        height: 100, 
+        borderWidth: 12.5, 
+        width: 125,
+        height: 125, 
+        color: 'red',
     },
 
     tileX: {
-        color: "red",
+        color: 'red',
         fontSize: 60, 
         alignSelf: 'center'
     },
