@@ -26,13 +26,11 @@ export default class BoardArrayCell {
         this.yValue = yInput
         this.position=[xInput, yInput]
         this.piece = "nothing"
-        this.getPieceName(xInput, yInput)
         this.isBlack = false
         this.isWhite = false
+        this.setPieceNameAndColor(xInput, yInput)
         this.isAlive = true
         this.hasMoved = false
-
-        this.getPieceName(xInput, yInput)
 
     }
 
@@ -40,7 +38,7 @@ export default class BoardArrayCell {
         return this.position
     }
 
-    getPieceName(x, y){
+    setPieceNameAndColor(x, y){
 
         xValue = x
         yValue = y
@@ -192,6 +190,7 @@ export default class BoardArrayCell {
         }
         else{
             this.piece="nothing"
+            this.isAlive = false
         }
     
     };

@@ -19,7 +19,6 @@ export default class BoardArray {
             for (let j = 0; j < 8; j++) {
                 let a = new BoardArrayCell(i, j)
                 tempArray.push(a)
-                console.log('[' + i + ',' + j + '] in here');
             }
             this.arr.push(tempArray)
         }

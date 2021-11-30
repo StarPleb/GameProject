@@ -4,7 +4,6 @@ import { View } from 'react-native';
 export default class Ball extends Component{
     constructor(props){
         super(props);
-        this.gridXLength = props.windowWidth
     }
 
     render() {

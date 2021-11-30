@@ -149,6 +149,9 @@ const HomeScreen = ({ navigation }) => {
             Check me out, mate.
           </Text>
         </View>
+        
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
+        {/* Divider View ^ */}
 
       </ScrollView>
       <Text style={{ top: 30, alignSelf: 'center', fontSize: 20, color: 'white' }}>

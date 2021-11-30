@@ -141,6 +141,9 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                                         console.log(`RIP ${whitePieceArray[j].piece}`)
                                         whitePieceArray[j].isAlive = false
                                         whitePieceArray[j].position=[0, 100] //TO THE SHADOW REALM
+                                        if(whitePieceArray[j].piece === "e1king"){
+                                            dispatch({ type: "checkmate"})
+                                        }
                                         break;
                                     }
                                 }
@@ -212,6 +215,9 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                                         console.log(`RIP ${blackPieceArray[j].piece}`)
                                         blackPieceArray[j].isAlive = false
                                         blackPieceArray[j].position = [0, 100] //TO THE SHADOW REALM
+                                        if(blackPieceArray[j].piece === "e8king"){
+                                            dispatch({ type: "checkmate"})
+                                        }
                                         break;
                                     }
                                 }
@@ -229,7 +235,8 @@ const ChessGameLoop = (entities, { touches, dispatch, events }) => {
                 
 
             } // end of selection event
-             else if (events[i].type === "move-left") {
+             else if (events[i].type === "checkmate") {
+                boardArray.initalize()
                  
             } 
         }

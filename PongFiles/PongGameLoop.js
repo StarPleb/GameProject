@@ -31,7 +31,19 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
     const mediumDistance = yBoundary/4
     const impossibleDistance = yBoundary/6
     const playerSpeed = paddle.playerSpeed
-    // console.log(`${PongConstants.BALL_SPEED2} and ${PongConstants.PLAYER_SPEED2}`)
+
+
+    var ballOut;
+
+    if(ball.position[1] > paddle.position[1]){
+        ballOut = true
+    } else if(AIPaddle.isPlaying && ball.position[1] < AIPaddle.position[1]){
+        ballOut = true
+    } else if(!AIPaddle.isPlaying && ball.position[1] < enemyPaddle.position[1]){
+        ballOut = true
+    } else{
+        ballOut = false
+    }
 
     if(timer.tick < timer.tickCount){
         timer.tick += 1
@@ -62,18 +74,6 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
 
     
 
-
-    var ballOut;
-
-    if(ball.position[1] > paddle.position[1]){
-        ballOut = true
-    } else if(AIPaddle.isPlaying && ball.position[1] < AIPaddle.position[1]){
-        ballOut = true
-    } else if(!AIPaddle.isPlaying && ball.position[1] < enemyPaddle.position[1]){
-        ballOut = true
-    } else{
-        ballOut = false
-    }
 
 
     if (events.length) { //Event handler for entities

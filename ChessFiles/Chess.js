@@ -47,6 +47,10 @@ const soundFiles = [
     id: '004',
     sound: require('./chessSounds/movesound4.wav'),
   },
+  {
+    id: '005',
+    sound: require('./chessSounds/kingscream.wav'),
+  },
 ]
 
 
@@ -85,6 +89,7 @@ export default class Chess extends Component {
     this.movesound2 = new Audio.Sound()
     this.movesound3 = new Audio.Sound()
     this.movesound4 = new Audio.Sound()
+    this.kingdeathsound = new Audio.Sound()
 
 
 
@@ -102,6 +107,8 @@ export default class Chess extends Component {
       await this.movesound2.loadAsync(soundFiles[1].sound, status)
       await this.movesound3.loadAsync(soundFiles[2].sound, status)
       await this.movesound4.loadAsync(soundFiles[3].sound, status)
+      await this.kingdeathsound.loadAsync(soundFiles[4].sound, status)
+
 
 
     } catch (error) {
@@ -115,6 +122,8 @@ export default class Chess extends Component {
     await this.movesound2.unloadAsync()
     await this.movesound3.unloadAsync()
     await this.movesound4.unloadAsync()
+    await this.kingdeathsound.unloadAsync()
+
 
 
   }
@@ -162,36 +171,58 @@ export default class Chess extends Component {
       } catch (error) {
         console.log("error playing sound")
       }
+    } else if(e.type === "checkmate"){
+      this.playSound(this.kingdeathsound)
+      this.reset()
+
     }
 
   }
 
   async reset() { //Resets game to initial state
 
+    await this.sleep(500)
     this.setState({
-      playAI: !this.state.playAI
+      selectedPiece: "no piece",
     })
 
-    if (this.state.AIStatus === "Off") {
-      this.setState({
-        AIStatus: "On"
-      })
-    } else {
-      this.setState({
-        AIStatus: "Off"
-      })
-    }
-
-    await this.sleep(200)
-
     this.engine.swap({
-      player1: { position: [this.gridWidth / 2, 0.85 * this.gridHeight], xspeed: 0.0, playerSpeed: PongConstants.PLAYER_SPEED2, isServing: false, yspeed: 0.0, gridWidth: this.gridWidth, gridHeight: this.gridHeight, width: paddleWidth, height: paddleHeight, renderer: <Paddle /> },
-      player2: { position: [this.gridWidth / 2, 0.15 * this.gridHeight], xspeed: 0.0, yspeed: 0.0, isServing: false, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'black'} /> },
-      ball: {
-        position: [this.gridWidth / 4, 0.2 * this.gridHeight], xspeed: PongConstants.BALL_SPEED2, ballSpeed: PongConstants.BALL_SPEED2, yspeed: PongConstants.BALL_SPEED2, windowWidth: window.width, color: 'white', width: ballSize, height: ballSize, renderer: <Ball />
-      },
-      AI: { position: [this.gridWidth / 2, 0.15 * this.gridHeight], tick: 0, tickCount: 20, xspeed: 0.0, yspeed: 0.0, isServing: false, isPlaying: this.state.playAI, windowWidth: window.width, width: paddleWidth, height: paddleHeight, renderer: <Paddle color={'red'} /> },
-      timer: { position: [0, 0], tick: 0, tickCount: 60, width: ballSize * 10, height: ballSize * 2, renderer: <MyTimer /> },
+      board:  {justMounted: true, position: [0, 0], gridArray: [[]], lastSelected: [], lastSelected: "nothing", selectionMade: false, blacksTurn: false, selectedPiece: "nothing", length: boardLength, CELL_SIZE: cellSize, engine: this.engine, initialized: false, renderer: <Board /> },
+      a2pawn: {piece: "a2pawn", position: [0, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      b2pawn: {piece: "b2pawn", position: [1, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      c2pawn: {piece: "c2pawn", position: [2, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      d2pawn: {piece: "d2pawn", position: [3, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      e2pawn: {piece: "e2pawn", position: [4, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      f2pawn: {piece: "f2pawn", position: [5, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      g2pawn: {piece: "g2pawn", position: [6, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+      h2pawn: {piece: "h2pawn", position: [7, 6], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Pawn/>},
+
+      a1rook: {piece: "a1rook", position: [0, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Rook/>},
+      b1knight: {piece: "b1knight", position: [1, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Knight/>},
+      c1bishop: {piece: "c1bishop", position: [2, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true, CELL_SIZE: cellSize, renderer: <Bishop/>},
+      d1queen: {piece: "d1queen", position: [3, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Queen/>},
+      e1king: {piece: "e1king", position: [4, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <King/>},
+      f1bishop: {piece: "f1bishop", position: [5, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Bishop/>},
+      g1knight: {piece: "g1knight", position: [6, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Knight/>},
+      h1rook: {piece: "h1rook", position: [7, 7], isBlack: false, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Rook/>},
+
+      a7pawn: {piece: "a7pawn", position: [0, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      b7pawn: {piece: "b7pawn", position: [1, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      c7pawn: {piece: "c7pawn", position: [2, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      d7pawn: {piece: "d7pawn", position: [3, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      e7pawn: {piece: "e7pawn", position: [4, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      f7pawn: {piece: "f7pawn", position: [5, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      g7pawn: {piece: "g7pawn", position: [6, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+      h7pawn: {piece: "h7pawn", position: [7, 1], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Pawn/>},
+
+      a8rook: {piece: "a8rook", position: [0, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Rook/>},
+      b8knight: {piece: "b8knight", position: [1, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Knight/>},
+      c8bishop: {piece: "c8bishop", position: [2, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Bishop/>},
+      d8queen: {piece: "d8queen", position: [3, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Queen/>},
+      e8king: {piece: "e8king", position: [4, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <King/>},
+      f8bishop: {piece: "f8bishop", position: [5, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Bishop/>},
+      g8knight: {piece: "g8knight", position: [6, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Knight/>},
+      h8rook: {piece: "h8rook", position: [7, 0], isBlack: true, isSelected: false, isPinned: false, isAlive: true,  CELL_SIZE: cellSize, renderer: <Rook/>},
     })
     this.setState({
       running: true,
