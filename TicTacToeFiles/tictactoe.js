@@ -198,13 +198,13 @@ const styles = StyleSheet.create({
 
     tileX: {
         color: 'red',
-        fontSize: 60, 
+        fontSize: 100, 
         alignSelf: 'center'
     },
 
     tileO: {
         color: "green",
-        fontSize: 60, 
+        fontSize: 100, 
         alignSelf: 'center'
     }
 });

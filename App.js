@@ -121,13 +121,13 @@ const HomeScreen = ({ navigation }) => {
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
         {/* Divider View ^ */}
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'black', width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('TicTacToe')}>
-            <Image source={require('./assets/Tictactoescreenshot.png')}
+            <Image source={require('./assets/Tictactoescreenshot.jpeg')}
               style={{ resizeMode: 'contain', width: 0.75 * window.width, height: window.height / 4 }} />
           </TouchableOpacity>
-          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             X's and O's
           </Text>
 
