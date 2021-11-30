@@ -154,7 +154,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Divider View ^ */}
 
       </ScrollView>
-      <Text style={{ top: 30, alignSelf: 'center', fontSize: 20, color: 'white' }}>
+      <Text style={{ top: 30, alignSelf: 'center', fontSize: 20, color: 'white', marginTop: 140, }}>
         Ad space here
       </Text>
     </SafeAreaView></>
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
     maxHeight: window.height / 3,
     borderRadius: 20,
     top: 10,
+    marginTop: 140,
   },
   header: {
     width: '100%',
