@@ -75,14 +75,15 @@ const HomeScreen = ({ navigation }) => {
       <Text style={{ alignSelf: 'flex-start', fontSize: 20, color: 'black' }}>
 
       </Text>
-      <View style = {{height: windowWidth, position: 'absolute'}}>
+      <View style = {{height: window.height, position: 'absolute'}}>
           <Image source={require('./assets/wavy.jpg')}
-              style={{ resizeMode: 'stretch', width: window.width, height: window.height/2 }} />
+              style={{ resizeMode: 'stretch', width: window.width, height: window.height }} />
             </View>
       <ScrollView horizontal={true} style={styles.scrollView}>
-      <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}>
 
-</View>
+      <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
+      {/* Divider View ^ */}
+
         <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
         <View style = {styles.backgroundContainer}>
           <Image source={require('./assets/grass.jpg')}
@@ -96,27 +97,35 @@ const HomeScreen = ({ navigation }) => {
 
 
 
-          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
-            Eat apples and not yourself...
+          <Text style={{ alignSelf: 'center', fontSize: 18, color: 'white', fontStyle: 'italic' }}>
+            Sir Pent and his quest for apples.
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
+        {/* Divider View ^ */}
+
+
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: "black",  width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('Pong')}>
             <Image source={require('./assets/readyforpong.jpeg')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
+              style={{ resizeMode: 'contain', width: 0.75 * window.width, height: window.height / 4 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
             Ready or pong... here I come.
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
+        {/* Divider View ^ */}
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('TicTacToe')}>
             <Image source={require('./assets/Tictactoescreenshot.png')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
+              style={{ resizeMode: 'contain', width: 0.75 * window.width, height: window.height / 4 }} />
           </TouchableOpacity>
           <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
             X's and O's
@@ -124,14 +133,19 @@ const HomeScreen = ({ navigation }) => {
 
         </View>
 
-        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: windowWidth, height: window.height / 3, borderRadius: 20, }}>
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: null, width: 0.12 * window.width, height: window.height / 3, borderRadius: 20, }}/>
+        {/* Divider View ^ */}
+
+
+
+        <View style={{ flexDirection: 'column', justifyContent: 'center', backgroundColor: 'white', width: 0.75 * window.width, height: window.height / 3, borderRadius: 20, }}>
 
           <TouchableOpacity onPress={() => navigation.navigate('Chess')}>
             <Image source={require('./assets/humanchess.jpeg')}
-              style={{ resizeMode: 'contain', width: window.width, height: window.height / 4 }} />
+              style={{ resizeMode: 'contain', width: 0.75 * window.width, height: window.height / 4 }} />
           </TouchableOpacity>
 
-          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white', fontStyle: 'italic' }}>
+          <Text style={{ alignSelf: 'center', fontSize: 20, color: 'black', fontStyle: 'italic' }}>
             Check me out, mate.
           </Text>
         </View>
@@ -212,6 +226,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: windowWidth,
     height: 100,
+    zIndex: 1,
+    backgroundColor: "#ffff"
   },
   backgroundContainer: {
     position: 'absolute',
