@@ -120,13 +120,17 @@ export default class Snake extends Component {
 
     const status = {
       shouldPlay: false,
-      volume: 0.6
+      volume: 0.6,
+      progressUpdateIntervalMillis: 1
+
     }
 
     const status2 = {
       shouldPlay: true,
       volume: 0.7,
-      isLooping: true
+      isLooping: true,
+      progressUpdateIntervalMillis: 1
+
     }
 
 
