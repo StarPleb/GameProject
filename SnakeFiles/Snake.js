@@ -47,30 +47,6 @@ const soundFiles = [
   },
 ]
 
-const getImageSource = (serviceName) => {
-  if (serviceName === "AC") {
-    return img[0].image
-  } else if (serviceName === "Doctors") {
-    return img[1].image
-  } else if (serviceName === "Sales") {
-    return img[2].image
-  } else if (serviceName === "Beauty") {
-    return img[3].image
-  } else if (serviceName === "Loans") {
-    return img[4].image
-  } else if (serviceName === "Repair") {
-    return img[5].image
-  } else if (serviceName === "Contractors") {
-    return img[6].image
-  } else if (serviceName === "Fitness") {
-    return img[7].image
-  } else if (serviceName === "Hotels") {
-    return img[8].image
-  } else {
-    return img[0].image
-  }
-
-}
 
 function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
