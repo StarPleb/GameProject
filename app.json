@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Classic Collection",
-    "slug": "gamecollection",
+    "slug": "classiccollection",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Random games (NOT FINISHED, publishing for testing)"
+    "description": "Collection of games"
   }
 }
