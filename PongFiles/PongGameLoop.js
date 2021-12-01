@@ -199,9 +199,7 @@ const PongGameLoop = (entities, { touches, dispatch, events }) => {
         if(Math.abs(ball.position[1] - paddle.position[1]) < 1 && !ballOut){
             ball.position[1] -= ball.yspeed
 
-            ball.yspeed = -ball.yspeed
-            console.log(`COLLISION`)
-            
+            ball.yspeed = -ball.yspeed            
             paddle.lastHit = true
             enemyPaddle.lastHit = false
             dispatch({ type: "collision" })

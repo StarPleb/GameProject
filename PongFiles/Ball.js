@@ -13,12 +13,12 @@ export default class Ball extends Component{
 
         return(
 
-            <View style = {{width: this.props.width, 
-                height: this.props.height,
+            <View style = {{width: this.props.size, 
+                height: this.props.size,
                 backgroundColor: 'white', 
                 position: 'absolute', 
-                left: x * this.props.width, 
-                top: y*this.props.height}}/>
+                left: x * this.props.size, 
+                top: y * this.props.size}}/>
         )
     }
 }
